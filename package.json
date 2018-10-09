@@ -1,0 +1,9 @@
+{
+  "name": "tax-ca",
+  "version": "1.0.0",
+  "description": "JavaScript library with (hopefully) up-to-date Canadian tax data and calculation functions.",
+  "main": "index.js",
+  "author": "Christian Roy <croy@kronostechnologies.com>",
+  "license": "See LICENSE file for details.",
+  "private": true
+}

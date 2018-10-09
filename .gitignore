@@ -1,0 +1,8 @@
+# ignore PHPStorm configs.
+.idea/
+
+# ignore VSCode configs.
+.vscode/
+
+# build
+node_modules/
