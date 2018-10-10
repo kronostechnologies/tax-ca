@@ -5,5 +5,9 @@
   "main": "index.js",
   "author": "Christian Roy <croy@kronostechnologies.com>",
   "license": "See LICENSE file for details.",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-config-kronos": "https://github.com/kronostechnologies/eslint-config-kronos.git"
+  }
 }
