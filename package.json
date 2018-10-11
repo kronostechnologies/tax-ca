@@ -1,11 +1,14 @@
 {
   "name": "tax-ca",
-  "version": "1.0.0",
+  "version": "2018.0.0",
   "description": "JavaScript library with (hopefully) up-to-date Canadian tax data and calculation functions.",
   "main": "index.js",
   "author": "Christian Roy <croy@kronostechnologies.com>",
   "license": "See LICENSE file for details.",
   "private": true,
+  "dependencies": {
+    "lodash": "^4.17.10"
+  },
   "devDependencies": {
     "eslint": "^5.2.0",
     "eslint-config-kronos": "https://github.com/kronostechnologies/eslint-config-kronos.git"

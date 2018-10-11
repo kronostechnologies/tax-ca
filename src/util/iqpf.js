@@ -1,3 +1,9 @@
+/*
+Sources:
+	http://fpsc.ca/docs/default-source/FPSC/news-publications/2017-projection-assumption-guidelines.pdf
+	http://app.iqpf.org/guidelines
+*/
+
 export default {
 	inflation: 2.0,
 	return_rates: {

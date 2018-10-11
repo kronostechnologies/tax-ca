@@ -1,6 +1,11 @@
+/*
+Sources:
+	http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
+	http://www.rrq.gouv.qc.ca/SiteCollectionDocuments/www.rrq.gouv.qc/Francais/pdf/rcr/annexe06.pdf
+*/
+
 export default {
-	// http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
-	rrif_minimal_setback: {
+	rrif_min_withdrawal_pct: {
 		50: 2.50,
 		51: 2.56,
 		52: 2.63,
@@ -48,7 +53,6 @@ export default {
 		94: 18.79,
 		95: 20,
 	},
-	// http://www.rrq.gouv.qc.ca/SiteCollectionDocuments/www.rrq.gouv.qc/Francais/pdf/rcr/annexe06.pdf
 	lif_max_withdrawal_pct: {
 		54: 0.061,
 		55: 0.064,
@@ -87,5 +91,4 @@ export default {
 		88: 0.200,
 	},
 	max_registered: 26230,
-	reference_year: 2018,
 };
