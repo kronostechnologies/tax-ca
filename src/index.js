@@ -10,7 +10,7 @@ import cpi from './util/cpi';
 import iqpf from './util/iqpf';
 import life from './util/life';
 
-export default {
+module.exports = {
 	investments: {
 		tfsa,
 		rrsp,
