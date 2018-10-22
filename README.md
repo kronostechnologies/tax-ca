@@ -22,13 +22,15 @@ yarn add @equisoft/tax-ca
 
 ## Versions
 
-The `major` portion of the library version is named according to the year of the dataset it contains.
+The `major` portion of the library version is named according to the year of the dataset it contains. There could be breaking changes (such as modifications to the data structure) in both `major` and `minor` updates.
 
-For example, the version `2018.0.4` would contain 2018 tax data.  We suggest you lock the library dependency to the major version and exectue exhaustive testing before migrating to the next year dataset to avoid unintentional regression.
+Updates at the `patch` level are reserved for bug fixes, non-breaking changes and minor improvements.
+
+We suggest you lock the library dependency to the minor version and exectue exhaustive testing before migrating to a new version to avoid unintentional regression.
 
 ```javascript
   "dependencies": {
-    "@equisoft/tax-ca": "^2018.0.4",
+    "@equisoft/tax-ca": "~2018.0.4",
   },
 ```
 
