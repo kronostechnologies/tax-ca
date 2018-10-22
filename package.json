@@ -3,8 +3,15 @@
   "version": "2018.0.4",
   "description": "Canadian tax data and calculation functions.",
   "main": "lib/index.js",
-  "author": "Christian Roy <croy@kronostechnologies.com>",
-  "license": "See LICENSE file",
+  "contributors": [{
+    "name": "Christian Roy",
+    "email": "croy@kronostechnologies.com"
+  }],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kronostechnologies/tax-ca"
+  },
+  "license": "UNLICENSED",
   "scripts": {
     "prepublishOnly": "babel src --out-dir lib"
   },
