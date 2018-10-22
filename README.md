@@ -94,7 +94,7 @@ Complementary data useful in a tax calculation context.
 misc
   |--cpi
   |--iqpf
-  |--life
+  |--life_expectancy
 ```
 
 
