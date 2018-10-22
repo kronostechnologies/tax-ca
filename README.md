@@ -32,7 +32,6 @@ For example, the version `2018.0.4` would contain 2018 tax data.  We suggest you
   },
 ```
 
-We suggest to lock the major version
 
 ## Usage
 
@@ -80,16 +79,17 @@ Data relating to federal and provincial income taxes and social charges.
 
 ```
 taxes
+  |--ei
   |--income_tax
   |--qpip
 ```
 
-### `util`
+### `misc`
 
 Complementary data useful in a tax calculation context.
 
 ```
-taxes
+misc
   |--cpi
   |--iqpf
   |--life
