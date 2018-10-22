@@ -1,12 +1,14 @@
 {
   "name": "@equisoft/tax-ca",
-  "version": "2018.0.4",
+  "version": "2018.0.5",
   "description": "Canadian tax data and calculation functions.",
   "main": "lib/index.js",
-  "contributors": [{
-    "name": "Christian Roy",
-    "email": "croy@kronostechnologies.com"
-  }],
+  "contributors": [
+    {
+      "name": "Christian Roy",
+      "email": "croy@kronostechnologies.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kronostechnologies/tax-ca"
