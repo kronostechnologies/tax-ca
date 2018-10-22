@@ -1,6 +1,6 @@
 {
   "name": "@equisoft/tax-ca",
-  "version": "2018.0.5",
+  "version": "2018.0.6",
   "description": "Canadian tax data and calculation functions.",
   "main": "lib/index.js",
   "contributors": [
@@ -14,7 +14,11 @@
     "url": "https://github.com/kronostechnologies/tax-ca"
   },
   "license": "UNLICENSED",
-  "keywords": ["tax", "canada", "data"],
+  "keywords": [
+    "tax",
+    "canada",
+    "data"
+  ],
   "scripts": {
     "prepublishOnly": "babel src --out-dir lib"
   },
