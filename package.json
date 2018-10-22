@@ -14,6 +14,7 @@
     "url": "https://github.com/kronostechnologies/tax-ca"
   },
   "license": "UNLICENSED",
+  "keywords": ["tax", "canada", "data"],
   "scripts": {
     "prepublishOnly": "babel src --out-dir lib"
   },
