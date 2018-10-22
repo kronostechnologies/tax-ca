@@ -5,7 +5,7 @@ Sources:
 
 export default {
 	max_insurable_earnings: 74000,
-	rate: {
+	premium_rates: {
 		self_employed: 0.00973,
 		salaried: 0.00548,
 	},

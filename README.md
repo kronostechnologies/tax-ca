@@ -57,6 +57,8 @@ Data relating to registered investments accounts.
 
 ```
 investments
+  |--lif
+  |--rrif
   |--tfsa
   |--rrsp
 ```

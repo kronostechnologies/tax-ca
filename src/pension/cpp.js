@@ -21,7 +21,7 @@ export default {
 	contributions: {
 		max_pensionable_earnings: 55900,
 		min_pensionable_earnings: 3500,
-		rate: {
+		rates: {
 			self_employed: 0.099,
 			salaried: 0.0495,
 		},
@@ -48,11 +48,11 @@ export default {
 			return 1;
 		}
 		if(age < 65) {
-			return (1 - (65 - Math.max(60, age)) * 12 * lower);
+			return (1 - ((65 - Math.max(60, age)) * 12 * lower));
 		}
-		return (1 + (Math.min(70, age) - 65) * 12 * higher);
+		return (1 + ((Math.min(70, age) - 65) * 12 * higher));
 	},
-	getIndexationRate() {
+	getAverageIndexationRate() {
 		let sum = 0;
 
 		for(let i = 0; i < this.indexation_rate_references.length; i++) {
@@ -146,7 +146,7 @@ export default {
 	max_request_age: 70,
 	min_request_age: 60,
 	replacement_factor: 0.25,
-	survivor_rate: {
+	survivor_rates: {
 		over_64: 0.6,
 		under_65: 0.375,
 	},

@@ -1,3 +1,5 @@
+import lif from './investments/lif';
+import rrif from './investments/rrif';
 import tfsa from './investments/tfsa';
 import rrsp from './investments/rrsp';
 import cpp from './pension/cpp';
@@ -9,10 +11,12 @@ import ei from './taxes/ei';
 import income_tax from './taxes/income_tax';
 import cpi from './misc/cpi';
 import iqpf from './misc/iqpf';
-import life from './misc/life';
+import life_expectancy from './misc/life_expectancy';
 
 module.exports = {
 	investments: {
+		lif,
+		rrif,
 		tfsa,
 		rrsp,
 	},
@@ -30,6 +34,6 @@ module.exports = {
 	misc: {
 		cpi,
 		iqpf,
-		life
+		life_expectancy,
 	}
 };

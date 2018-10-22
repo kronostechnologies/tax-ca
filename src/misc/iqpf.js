@@ -5,14 +5,14 @@ Sources:
 */
 
 export default {
-	inflation: 2.0,
+	inflation: 0.02,
 	return_rates: {
-		short_term: 2.9,
-		fixed_income: 3.9,
-		canadian_equities: 6.5,
-		conservative_portfolio_rate: 3.20,
-		balanced_portfolio_rate: 3.90,
-		dynamic_portfolio_rate: 4.75,
+		short_term: 0.029,
+		fixed_income: 0.039,
+		canadian_equities: 0.065,
+		conservative_portfolio: 0.032,
+		balanced_portfolio: 0.0390,
+		dynamic_portfolio: 0.0475,
 	},
-	borrowing_rate: 4.9,
+	borrowing_rate: 0.049,
 };
