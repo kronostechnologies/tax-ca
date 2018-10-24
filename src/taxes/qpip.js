@@ -4,9 +4,9 @@ Sources:
 */
 
 export default {
-	max_insurable_earnings: 74000,
-	premium_rates: {
-		self_employed: 0.00973,
-		salaried: 0.00548,
+	MAX_INSURABLE_EARNINGS: 74000,
+	PREMIUM_RATES: {
+		SELF_EMPLOYED: 0.00973,
+		SALARIED: 0.00548,
 	},
 };

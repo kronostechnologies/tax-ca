@@ -1,5 +1,5 @@
 export default {
-	max_withdrawal_pct: {
+	MAX_WITHDRAWAL_PCT: {
 		54: 0.061,
 		55: 0.064,
 		56: 0.065,

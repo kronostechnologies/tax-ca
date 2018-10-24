@@ -18,24 +18,24 @@ Sources:
 import _ from 'lodash';
 
 export default {
-	contributions: {
-		max_pensionable_earnings: 55900,
-		min_pensionable_earnings: 3500,
-		rates: {
-			self_employed: 0.099,
-			salaried: 0.0495,
+	CONTRIBUTIONS: {
+		MAX_PENSIONABLE_EARNINGS: 55900,
+		MIN_PENSIONABLE_EARNINGS: 3500,
+		RATES: {
+			SELF_EMPLOYED: 0.099,
+			SALARIED: 0.0495,
 		},
 	},
-	death_benefit: { rate: 0.5 },
-	default_reference_age: 65,
-	flat_benefit: {
-		orphan: 2935.68,
-		disability: 5822.40,
-		under_45: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
-		under_45_with_child: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		under_45_disabled: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		from_45_to_64: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		over_64_without_pension: 0, // 60 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+	DEATH_BENEFIT: { RATE: 0.5 },
+	DEFAULT_REFERENCE_AGE: 65,
+	FLAT_BENEFIT: {
+		ORPHAN: 2935.68,
+		DISABILITY: 5822.40,
+		UNDER_45: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
+		UNDER_45_WITH_CHILD: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		UNDER_45_DISABLED: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		FROM_45TO_64: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		OVER_64_WITHOUT_PENSION: 0, // 60 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
 	},
 	getAAF(age) {
 		const lower = 0.0060; const
@@ -55,19 +55,19 @@ export default {
 	getAverageIndexationRate() {
 		let sum = 0;
 
-		for(let i = 0; i < this.indexation_rate_references.length; i++) {
-			sum += this.indexation_rate_references[i][1];
+		for(let i = 0; i < this.INDEXATION_RATES_REFERENCES.length; i++) {
+			sum += this.INDEXATION_RATES_REFERENCES[i][1];
 		}
 
-		return _.round(sum / this.indexation_rate_references.length, 2);
+		return _.round(sum / this.INDEXATION_RATES_REFERENCES.length, 2);
 	},
 	getMPEA(year) {
-		return (this.max_income[year - 4] + this.max_income[year - 3] + this.max_income[year - 2] + this.max_income[year - 1] + this.max_income[year]) / 5;
+		return (this.MAX_INCOME[year - 4] + this.MAX_INCOME[year - 3] + this.MAX_INCOME[year - 2] + this.MAX_INCOME[year - 1] + this.MAX_INCOME[year]) / 5;
 	},
 	getPostRetirementBenefit(pensionnable_earning, ympe, mpea, aaf) {
 		return (pensionnable_earning / ympe) * 0.00625 * mpea * aaf / 12;
 	},
-	indexation_rate_references: [ // Previous year inflation used as indexation
+	INDEXATION_RATES_REFERENCES: [ // Previous year inflation used as indexation
 		[2007, 2.0],
 		[2008, 2.2],
 		[2009, 2.3],
@@ -81,14 +81,14 @@ export default {
 		[2017, 1.4],
 		[2018, 1.6]
 	],
-	max_pension: {
-		retirement: 13610.04,
-		combined_retirement_survivor: 13610.04,
-		survivor_over_64: 8166,
-		survivor_under_65: 7375.44,
-		death_benefit: 2500,
+	MAX_PESION: {
+		RETIREMENT: 13610.04,
+		COMBINED_RETIREMENT_SURVIVOR: 13610.04,
+		SURVIVOR_OVER_46: 8166,
+		SURVIVOR_UNDER_65: 7375.44,
+		DEATH_BENEFIT: 2500,
 	},
-	max_income: {
+	MAX_INCOME: {
 		1966: 5000,
 		1967: 5000,
 		1968: 5100,
@@ -143,11 +143,11 @@ export default {
 		2017: 55300,
 		2018: 55900
 	},
-	max_request_age: 70,
-	min_request_age: 60,
-	replacement_factor: 0.25,
-	survivor_rates: {
-		over_64: 0.6,
-		under_65: 0.375,
+	MAX_REQUEST_AGE: 70,
+	MIN_REQUEST_AGE: 60,
+	REPLACEMENT_FACTOR: 0.25,
+	SURVIVOR_RATES: {
+		OVER_64: 0.6,
+		UNDER_65: 0.375,
 	},
 };

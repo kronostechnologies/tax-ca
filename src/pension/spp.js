@@ -1,4 +1,4 @@
 export default {
-	max_bridge_benefit_age: 65,
-	min_age: 55
+	MAX_BRIDGE_BENEFIT_AGE: 65,
+	MIN_AGE: 55
 };

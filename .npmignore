@@ -1,2 +1,7 @@
+/node_modules/
 /src/
 /test/
+.eslintrc
+.gitignore
+.npmignore
+yarn.lock

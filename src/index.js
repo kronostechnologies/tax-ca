@@ -1,39 +1,39 @@
-import lif from './investments/lif';
-import rrif from './investments/rrif';
-import tfsa from './investments/tfsa';
-import rrsp from './investments/rrsp';
-import cpp from './pension/cpp';
-import oas from './pension/oas';
-import qpp from './pension/qpp';
-import spp from './pension/spp';
-import qpip from './taxes/qpip';
-import ei from './taxes/ei';
-import income_tax from './taxes/income_tax';
-import cpi from './misc/cpi';
-import iqpf from './misc/iqpf';
-import life_expectancy from './misc/life_expectancy';
+import LIF from './investments/lif';
+import RRIF from './investments/rrif';
+import TFSA from './investments/tfsa';
+import RRSP from './investments/rrsp';
+import CPP from './pension/cpp';
+import OAS from './pension/oas';
+import QPP from './pension/qpp';
+import SPP from './pension/spp';
+import QPIP from './taxes/qpip';
+import EI from './taxes/ei';
+import INCOME_TAX from './taxes/income_tax';
+import CPI from './misc/cpi';
+import IQPF from './misc/iqpf';
+import LIFE_EXPECTANCY from './misc/life_expectancy';
 
 module.exports = {
-	investments: {
-		lif,
-		rrif,
-		tfsa,
-		rrsp,
+	INVESTMENTS: {
+		LIF,
+		RRIF,
+		TFSA,
+		RRSP,
 	},
-	pension: {
-		cpp,
-		oas,
-		qpp,
-		spp,
+	PENSION: {
+		CPP,
+		OAS,
+		QPP,
+		SPP,
 	},
-	taxes: {
-		ei,
-		income_tax,
-		qpip,
+	TAXES: {
+		EI,
+		INCOME_TAX,
+		QPIP,
 	},
-	misc: {
-		cpi,
-		iqpf,
-		life_expectancy,
+	MISC: {
+		CPI,
+		IQPF,
+		LIFE_EXPECTANCY,
 	}
 };

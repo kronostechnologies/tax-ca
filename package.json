@@ -20,7 +20,7 @@
     "data"
   ],
   "scripts": {
-    "prepublishOnly": "babel src --out-dir lib"
+    "prepublishOnly": "rm -rf lib/ && babel src --out-dir lib"
   },
   "babel": {
     "presets": [

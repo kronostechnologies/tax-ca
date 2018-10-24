@@ -10,24 +10,24 @@ Sources:
 */
 
 export default {
-	contributions: {
-		max_pensionable_earnings: 55900,
-		min_pensionable_earnings: 3500,
-		rates: {
-			self_employed: 0.108,
-			salaried: 0.054,
+	CONTRIBUTIONS: {
+		MAX_PENSIONABLE_EARNINGS: 55900,
+		MIN_PENSIONABLE_EARNINGS: 3500,
+		RATES: {
+			SELF_EMPLOYED: 0.108,
+			SALARIED: 0.054,
 		},
 	},
-	death_benefit: { rate: 0.5 },
-	default_reference_age: 65,
-	flat_benefit: {
-		disability: 5822.04,
-		less_than_45: 1491.12,
-		less_than_45_with_child: 5405.88,
-		less_than_45_disabled: 5822.04,
-		from_45_to_64: 5822.04,
-		over_64_without_pension: 0,
-		orphan: 2935.68,
+	DEATH_BENEFIT: { RATE: 0.5 },
+	DEFAULT_REFERENCE_AGE: 65,
+	FLAT_BENEFIT: {
+		DISABILITY: 5822.04,
+		LESS_THAN_45: 1491.12,
+		LESS_THAN_45_WITH_CHILD: 5405.88,
+		LESS_THAN_45_DISABLED: 5822.04,
+		FROM_45_TO_64: 5822.04,
+		OVER_64_WITHOUT_PENSION: 0,
+		ORPHAN: 2935.68,
 	},
 	getAAF(age) {
 		const lower = 0.0060; const
@@ -47,13 +47,13 @@ export default {
 	getAverageIndexationRate() {
 		let sum = 0;
 
-		for(let i = 0; i < this.indexation_rates.length; i++) {
-			sum += this.indexation_rate_references[i][1];
+		for(let i = 0; i < this.INDEXATION_RATE_REFERENCES.length; i++) {
+			sum += this.INDEXATION_RATE_REFERENCES[i][1];
 		}
 
-		return _.round(sum / this.indexation_rates.length, 2);
+		return _.round(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
 	},
-	indexation_rates: [
+	INDEXATION_RATE_REFERENCES: [
 		[2007, 2.1],
 		[2008, 2.0],
 		[2009, 2.5],
@@ -67,7 +67,7 @@ export default {
 		[2017, 2.0],
 		[2018, 1.5]
 	],
-	max_income: {
+	MAX_INCOME: {
 		1966: 5000,
 		1967: 5000,
 		1968: 5100,
@@ -122,19 +122,19 @@ export default {
 		2017: 55300,
 		2018: 55900
 	},
-	max_pension: {
-		retirement: 13610.04,
-		combined_retirement_survivor: 13610.04,
-		survivor_over_64: 8166,
-		survivor_from_45_to_64: 10925.76,
-		survivor_under_45: 6594.84,
-		death_benefit: 2500,
+	MAX_PENSION: {
+		RETIREMENT: 13610.04,
+		COMBINED_RETIREMENT_SURVIVOR: 13610.04,
+		SURVIVOR_OVER_64: 8166,
+		SURVIVOR_FROM_45_TO_64: 10925.76,
+		SURVIVOR_UNDER_45: 6594.84,
+		DEATH_BENEFIT: 2500,
 	},
-	max_request_age: 70,
-	min_request_age: 60,
-	replacement_factor: 0.25,
-	survivor_rates: {
-		over_64: 0.6,
-		under_65: 0.375,
+	MAX_REQUEST_AGE: 70,
+	MIN_REQUEST_AGE: 60,
+	REPLACEMENT_FACTOR: 0.25,
+	SURVIVOR_RATES: {
+		OVER_64: 0.6,
+		UNDER_65: 0.375,
 	},
 };

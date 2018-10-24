@@ -5,16 +5,16 @@ Sources:
 */
 
 export default {
-	get_aaf(request_age) {
-		return request_age < this.min_age ? 0 : 1 + ((request_age - this.min_age) * this.monthly_delay_bonus * 12);
+	getAAF(request_age) {
+		return request_age < this.MIN_AGE ? 0 : 1 + ((request_age - this.MIN_AGE) * this.MONTHLY_DELAY_BONUS * 12);
 	},
-	max_age: 70,
-	min_age: 65,
-	monthly_payment_max: 589.59,
-	monthly_delay_bonus: 0.006,
-	repayment: {
-		max: 123019,
-		min: 75910,
-		ratio: 0.15,
+	MAX_AGE: 70,
+	MIN_AGE: 65,
+	MONTHLY_PAYMENT_BONUS: 589.59,
+	MONTHLY_DELAY_BONUS: 0.006,
+	REPAYMENT: {
+		MAX: 123019,
+		MIN: 75910,
+		RATIO: 0.15,
 	},
 };

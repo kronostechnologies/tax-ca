@@ -53,50 +53,50 @@ console.log("CPP AAF for age 67: ", cpp.getAAF(67)); // 1.168
 
 ## Modules
 
-### `investements`
+### `INVESTMENTS`
 
 Data relating to registered investments accounts.
 
 ```
-investments
-  |--lif
-  |--rrif
-  |--tfsa
-  |--rrsp
+INVESTMENTS
+  |--LIF
+  |--RRIF
+  |--TFSA
+  |--RRSP
 ```
 
-### `pension`
+### `PENSION`
 
 Data relating to federal and provincial pension plans.
 
 ```
-pension
-  |--cpp
-  |--oas
-  |--qpp
-  |--spp
+PENSION
+  |--CPP
+  |--OAS
+  |--QPP
+  |--SPP
 ```
 
-### `taxes`
+### `TAXES`
 
 Data relating to federal and provincial income taxes and social charges.
 
 ```
-taxes
-  |--ei
-  |--income_tax
-  |--qpip
+TAXES
+  |--EI
+  |--INCOME_TAX
+  |--QPIP
 ```
 
-### `misc`
+### `MISC`
 
 Complementary data useful in a tax calculation context.
 
 ```
-misc
-  |--cpi
-  |--iqpf
-  |--life_expectancy
+MISC
+  |--CPI
+  |--QIFP
+  |--LIFE_EXPECTANCY
 ```
 
 

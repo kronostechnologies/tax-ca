@@ -4,7 +4,7 @@ Sources:
 */
 
 export default {
-	min_withdrawal_pct: {
+	MIN_WITHDRAWAL_PCT: {
 		50: 0.0250,
 		51: 0.0256,
 		52: 0.0263,

@@ -4,8 +4,8 @@ Sources:
 */
 
 export default {
-	max_insurable_earnings: 51700,
-	premium_rates: {
+	MAX_INSURABLE_EARNINGS: 51700,
+	PREMIUM_RATES: {
 		CA: 0.0166,
 		QC: 0.0130,
 	},

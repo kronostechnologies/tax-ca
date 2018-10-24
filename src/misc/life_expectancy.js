@@ -4,7 +4,7 @@ Sources:
 */
 
 export default {
-	male: {
+	MALE: {
 		0: 95,
 		5: 95,
 		10: 95,
@@ -27,7 +27,7 @@ export default {
 		95: 99,
 		100: 102
 	},
-	female: {
+	FEMALE: {
 		0: 97,
 		5: 97,
 		10: 97,

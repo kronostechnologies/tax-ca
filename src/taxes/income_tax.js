@@ -6,7 +6,7 @@ Sources:
 export default {
 	getFederalCode: () => 'CA',
 	getProvincialCodes: () => ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'PE', 'ON', 'QC', 'SK', 'NT', 'NU', 'YT'],
-	tax_brackets: {
+	TAX_BRACKETS: {
 		CA: {
 			abatment: 0,
 			tax_credit_rate: 0.15,

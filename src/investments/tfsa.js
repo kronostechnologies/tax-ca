@@ -1,1 +1,1 @@
-export default { max_contribution: 5500 };
+export default { MAX_CONTRIBUTION: 5500 };
