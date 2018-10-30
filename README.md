@@ -26,7 +26,7 @@ The `major` portion of the library version is named according to the year of the
 
 Updates at the `patch` level are reserved for bug fixes, non-breaking changes and minor improvements.
 
-We suggest you lock the library dependency to the minor version and exectue exhaustive testing before migrating to a new version to avoid unintentional regression.
+We suggest you lock the library dependency to the `minor` version and execute exhaustive testing before migrating to a new version to avoid unintentional regression.
 
 ```javascript
   "dependencies": {
