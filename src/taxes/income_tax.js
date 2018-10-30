@@ -4,8 +4,99 @@ Sources:
 */
 
 export default {
-	getFederalCode: () => 'CA',
-	getProvincialCodes: () => ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'PE', 'ON', 'QC', 'SK', 'NT', 'NU', 'YT'],
+	FEDERAL_CODE: 'CA',
+	getFederalMarginalRate: (gross_income, inflation_rate, years_to_inflate) => {
+		let marginal_rate = 0;
+		this.TAX_BRACKETS.CA.RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < gross_income) {
+				marginal_rate = bracket.RATE;
+			}
+		});
+		return marginal_rate;
+	},
+	getFederalTaxAmount(gross_income, inflation_rate, years_to_inflate) {
+		let fed_tax = 0;
+		this.INCOME_TAX.CA.RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < gross_income) {
+				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
+				fed_tax += (Math.min(gross_income, bracket_to) - bracket_from) * bracket.RATE;
+			}
+		});
+		return fed_tax;
+	},
+	getProvincialTaxAmount: (provincial_code, gross_income, inflation_rate, years_to_inflate) => {
+		let prov_tax = 0;
+		this.INCOME_TAX[provincial_code].RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < gross_income) {
+				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
+				prov_tax += (Math.min(gross_income, bracket_to) - bracket_from) * bracket.RATE;
+			}
+		});
+		return prov_tax;
+	},
+	getProvincialSurtaxAmount: (province, base_tax_amount, inflation_rate, years_to_inflate) => {
+		let surtax_amount = 0;
+		this.INCOME_TAX[province].SURTAX_RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < base_tax_amount) {
+				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
+				surtax_amount += (Math.min(base_tax_amount, bracket_to) - bracket_from) * (bracket.RATE);
+			}
+		});
+		return surtax_amount;
+	},
+	getProvincialMarginalRate: (provincial_code, gross_income, inflation_rate, years_to_inflate) => {
+		let marginal_rate = 0;
+		const base_tax_amount = this.getProvincialTaxAmount(provincial_code, gross_income, inflation_rate, years_to_inflate);
+
+		this.TAX_BRACKETS[provincial_code].RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < gross_income) {
+				marginal_rate = bracket.RATE;
+			}
+		});
+
+		let surtax_rate = 0;
+		this.TAX_BRACKETS[provincial_code].SURTAX_RATES.forEach((bracket) => {
+			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
+			if (bracket_from < base_tax_amount) {
+				surtax_rate = bracket.RATE;
+			}
+		});
+
+		return marginal_rate * (1 + (surtax_rate / 100));
+	},
+	getTotalMarginalRate: (provincial_code, gross_income, inflation_rate, years_to_inflate) => {
+		const prov_rate = this.getProvincialMarginalRate(provincial_code, gross_income, inflation_rate, years_to_inflate);
+		const fed_rate = this.getFederalMarginalRate(gross_income, inflation_rate, years_to_inflate);
+
+		return prov_rate + fed_rate;
+	},
+	getTotalTaxAmount: (provincial_code, gross_income, inflation_rate, years_to_inflate) => {
+		const prov_tax = this.getProvincialTaxAmount(provincial_code, gross_income, inflation_rate, years_to_inflate);
+		const prov_surtax = this.getProvincialSurtaxAmount(provincial_code, prov_tax, inflation_rate, years_to_inflate);
+		const fed_tax = this.getFederalTaxAmount(gross_income, inflation_rate, years_to_inflate);
+
+		return prov_tax + prov_surtax + fed_tax;
+	},
+	PROVINCIAL_CODES: {
+		ALBERTA: 'AB',
+		BRITISH_COLUMBA: 'BC',
+		MANITOBA: 'MB',
+		NEW_BRUNSWICK: 'NB',
+		NEWFOUNDLAND: 'NL',
+		NOVA_SCOTIA: 'NS',
+		PRINCE_EDWARD_ISLAND: 'PE',
+		ONTARIO: 'ON',
+		QUEBEC: 'QC',
+		SASKATCHEWAN: 'SK',
+		NORTHWEST_TERRITORIES: 'NT',
+		NUNAVUT: 'NU',
+		YUKON: 'YT'
+	},
 	TAX_BRACKETS: {
 		CA: {
 			ABATMENT: 0,
