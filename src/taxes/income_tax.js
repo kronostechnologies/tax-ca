@@ -1,10 +1,27 @@
 /*
 Sources:
 	http://www.taxtips.ca/marginaltaxrates.htm
+	https://home.kpmg.com/content/dam/kpmg/pdf/2016/07/Federal-and-Provincial-Non-Refundable-Tax-Credit-Rates-and-Amounts-for-2016.pdf
 */
 
 export default {
 	FEDERAL_CODE: 'CA',
+	calculateEffectiveTaxRate(income, province) {
+		if (income <= 0) {
+			return 0;
+		}
+
+		const prov_tax = this.getProvincialTaxAmount(province, income, 0, 0);
+		const prov_base_credit = this.getProvincialBaseCredit(province, 0, 0);
+
+		const fed_tax = this.getFederalTaxAmount(income, 0, 0);
+		const fed_base_credit = this.getFederalBaseCredit(0, 0);
+		const fed_prov_abatment = this.getProvincialAbatment(province, fed_tax - fed_base_credit);
+
+		const taxes_to_pay = Math.max(fed_tax - fed_base_credit - fed_prov_abatment, 0) + Math.max(prov_tax - prov_base_credit, 0);
+
+		return taxes_to_pay / income;
+	},
 	getFederalMarginalRate: (gross_income, inflation_rate = 0, years_to_inflate = 0) => {
 		let marginal_rate = 0;
 		this.TAX_BRACKETS.CA.RATES.forEach((bracket) => {
@@ -17,7 +34,7 @@ export default {
 	},
 	getFederalTaxAmount(gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		let fed_tax = 0;
-		this.INCOME_TAX.CA.RATES.forEach((bracket) => {
+		this.TAX_BRACKETS.CA.RATES.forEach((bracket) => {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -26,9 +43,15 @@ export default {
 		});
 		return fed_tax;
 	},
+	getFederalBaseCredit(inflation_rate, years_to_inflate) {
+		return this.TAX_BRACKETS.CA.BASE_TAX_CREDIT * this.TAX_BRACKETS.CA.TAX_CREDIT_RATE * ((1 + inflation_rate) ** years_to_inflate);
+	},
+	getProvincialAbatement(province, federal_tax_amount) {
+		return this.TAX_BRACKETS[province].ABATEMENT * federal_tax_amount;
+	},
 	getProvincialTaxAmount: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
 		let prov_tax = 0;
-		this.INCOME_TAX[provincial_code].RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[provincial_code].RATES.forEach((bracket) => {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -39,7 +62,7 @@ export default {
 	},
 	getProvincialSurtaxAmount: (province, base_tax_amount, inflation_rate = 0, years_to_inflate = 0) => {
 		let surtax_amount = 0;
-		this.INCOME_TAX[province].SURTAX_RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[province].SURTAX_RATES.forEach((bracket) => {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < base_tax_amount) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -68,6 +91,9 @@ export default {
 		});
 
 		return marginal_rate * (1 + (surtax_rate / 100));
+	},
+	getProvincialBaseCredit(province, inflation_rate, years_to_inflate) {
+		return this.TAX_BRACKETS[province].BASE_TAX_CREDIT * this.TAX_BRACKETS[province].RATES[0].RATE * ((1 + inflation_rate) ** years_to_inflate);
 	},
 	getTotalMarginalRate: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
 		const prov_rate = this.getProvincialMarginalRate(provincial_code, gross_income, inflation_rate, years_to_inflate);
@@ -99,7 +125,7 @@ export default {
 	},
 	TAX_BRACKETS: {
 		CA: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.15,
 			BASE_TAX_CREDIT: 11809,
 			RATES: [{
@@ -130,7 +156,7 @@ export default {
 			}],
 		},
 		AB: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.10,
 			BASE_TAX_CREDIT: 18915,
 			RATES: [{
@@ -161,7 +187,7 @@ export default {
 			}],
 		},
 		BC: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.0506,
 			BASE_TAX_CREDIT: 10412,
 			RATES: [{
@@ -196,7 +222,7 @@ export default {
 			}],
 		},
 		MB: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.108,
 			BASE_TAX_CREDIT: 9382,
 			RATES: [{
@@ -219,7 +245,7 @@ export default {
 			}],
 		},
 		NB: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.0968,
 			BASE_TAX_CREDIT: 10043,
 			RATES: [{
@@ -250,7 +276,7 @@ export default {
 			}],
 		},
 		NL: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.087,
 			BASE_TAX_CREDIT: 9247,
 			RATES: [{
@@ -281,7 +307,7 @@ export default {
 			}],
 		},
 		NS: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.0879,
 			BASE_TAX_CREDIT: 8481,
 			RATES: [{
@@ -312,7 +338,7 @@ export default {
 			}],
 		},
 		PE: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.098,
 			BASE_TAX_CREDIT: 8160,
 			RATES: [{
@@ -339,7 +365,7 @@ export default {
 			}],
 		},
 		ON: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.0505,
 			BASE_TAX_CREDIT: 10354,
 			RATES: [{
@@ -378,7 +404,7 @@ export default {
 			}],
 		},
 		QC: {
-			ABATMENT: 0.165, // http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
+			ABATEMENT: 0.165, // http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
 			TAX_CREDIT_RATE: 0.20,
 			BASE_TAX_CREDIT: 15012,
 			RATES: [{
@@ -405,7 +431,7 @@ export default {
 			}],
 		},
 		SK: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.11,
 			BASE_TAX_CREDIT: 16065,
 			RATES: [{
@@ -428,7 +454,7 @@ export default {
 			}],
 		},
 		NT: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.059,
 			BASE_TAX_CREDIT: 14492,
 			RATES: [{
@@ -455,7 +481,7 @@ export default {
 			}],
 		},
 		NU: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.04,
 			BASE_TAX_CREDIT: 13325,
 			RATES: [{
@@ -482,7 +508,7 @@ export default {
 			}],
 		},
 		YT: {
-			ABATMENT: 0,
+			ABATEMENT: 0,
 			TAX_CREDIT_RATE: 0.064,
 			BASE_TAX_CREDIT: 11809,
 			RATES: [{
