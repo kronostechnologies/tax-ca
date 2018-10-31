@@ -22,9 +22,9 @@ export default {
 
 		return taxes_to_pay / income;
 	},
-	getFederalMarginalRate: (gross_income, inflation_rate = 0, years_to_inflate = 0) => {
+	getFederalMarginalRate(gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		let marginal_rate = 0;
-		this.TAX_BRACKETS.CA.RATES.forEach((bracket) => {
+		this.TAX_BRACKETS.CA.RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				marginal_rate = bracket.RATE;
@@ -34,7 +34,7 @@ export default {
 	},
 	getFederalTaxAmount(gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		let fed_tax = 0;
-		this.TAX_BRACKETS.CA.RATES.forEach((bracket) => {
+		this.TAX_BRACKETS.CA.RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -49,9 +49,9 @@ export default {
 	getProvincialAbatement(province, federal_tax_amount) {
 		return this.TAX_BRACKETS[province].ABATEMENT * federal_tax_amount;
 	},
-	getProvincialTaxAmount: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
+	getProvincialTaxAmount(provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		let prov_tax = 0;
-		this.TAX_BRACKETS[provincial_code].RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[provincial_code].RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -60,9 +60,9 @@ export default {
 		});
 		return prov_tax;
 	},
-	getProvincialSurtaxAmount: (province, base_tax_amount, inflation_rate = 0, years_to_inflate = 0) => {
+	getProvincialSurtaxAmount(province, base_tax_amount, inflation_rate = 0, years_to_inflate = 0) {
 		let surtax_amount = 0;
-		this.TAX_BRACKETS[province].SURTAX_RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[province].SURTAX_RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < base_tax_amount) {
 				const bracket_to = bracket.TO * ((1 + inflation_rate) ** years_to_inflate);
@@ -71,11 +71,11 @@ export default {
 		});
 		return surtax_amount;
 	},
-	getProvincialMarginalRate: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
+	getProvincialMarginalRate(provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		let marginal_rate = 0;
 		const base_tax_amount = this.getProvincialTaxAmount(provincial_code, gross_income, inflation_rate, years_to_inflate);
 
-		this.TAX_BRACKETS[provincial_code].RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[provincial_code].RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < gross_income) {
 				marginal_rate = bracket.RATE;
@@ -83,7 +83,7 @@ export default {
 		});
 
 		let surtax_rate = 0;
-		this.TAX_BRACKETS[provincial_code].SURTAX_RATES.forEach((bracket) => {
+		this.TAX_BRACKETS[provincial_code].SURTAX_RATES.forEach(function(bracket) {
 			const bracket_from = bracket.FROM * ((1 + inflation_rate) ** years_to_inflate);
 			if (bracket_from < base_tax_amount) {
 				surtax_rate = bracket.RATE;
@@ -95,13 +95,13 @@ export default {
 	getProvincialBaseCredit(province, inflation_rate, years_to_inflate) {
 		return this.TAX_BRACKETS[province].BASE_TAX_CREDIT * this.TAX_BRACKETS[province].RATES[0].RATE * ((1 + inflation_rate) ** years_to_inflate);
 	},
-	getTotalMarginalRate: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
+	getTotalMarginalRate(provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		const prov_rate = this.getProvincialMarginalRate(provincial_code, gross_income, inflation_rate, years_to_inflate);
 		const fed_rate = this.getFederalMarginalRate(gross_income, inflation_rate, years_to_inflate);
 
 		return prov_rate + fed_rate;
 	},
-	getTotalTaxAmount: (provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) => {
+	getTotalTaxAmount(provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) {
 		const prov_tax = this.getProvincialTaxAmount(provincial_code, gross_income, inflation_rate, years_to_inflate);
 		const prov_surtax = this.getProvincialSurtaxAmount(provincial_code, prov_tax, inflation_rate, years_to_inflate);
 		const fed_tax = this.getFederalTaxAmount(gross_income, inflation_rate, years_to_inflate);
