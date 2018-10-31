@@ -15,8 +15,6 @@ Sources:
 	http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 */
 
-import _ from 'lodash';
-
 export default {
 	CONTRIBUTIONS: {
 		MAX_PENSIONABLE_EARNINGS: 55900,
@@ -59,7 +57,7 @@ export default {
 			sum += this.INDEXATION_RATES_REFERENCES[i][1];
 		}
 
-		return _.round(sum / this.INDEXATION_RATES_REFERENCES.length, 2);
+		return Number.parseFloat(sum / this.INDEXATION_RATES_REFERENCES.length).toPrecision(3);
 	},
 	getMPEA(year) {
 		return (this.MAX_INCOME[year - 4] + this.MAX_INCOME[year - 3] + this.MAX_INCOME[year - 2] + this.MAX_INCOME[year - 1] + this.MAX_INCOME[year]) / 5;
