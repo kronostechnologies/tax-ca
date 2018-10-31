@@ -42,12 +42,12 @@ To use the library, we recommend you start by going through the **Modules** list
 Once you know where your target data or function is located, simply import the module then access it directly in the code.
 
 ```javascript
-import { pension } from '@equisoft/tax-ca';
+import { PENSION } from '@equisoft/tax-ca';
 
-const { oas, cpp } = pension;
+const { OAS, CPP } = PENSION;
 
-console.log("OAS maximum age: ", oas.max_age); // 70
-console.log("CPP AAF for age 67: ", cpp.getAAF(67)); // 1.168
+console.log("OAS maximum age: ", OAS.MAX_AGE); // 70
+console.log("CPP AAF for age 67: ", CPP.getAAF(67)); // 1.168
 ```
 
 
@@ -104,4 +104,4 @@ MISC
 
 This library is maintained by the _Kronos FNA_ team in Quebec City.
 
-We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull request to the repository. 
+We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull requests to the repository. 
