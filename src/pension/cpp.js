@@ -28,12 +28,12 @@ export default {
 	DEFAULT_REFERENCE_AGE: 65,
 	FLAT_BENEFIT: {
 		ORPHAN: 2935.68,
-		DISABILITY: 5822.40,
-		UNDER_45: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
-		UNDER_45_WITH_CHILD: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		UNDER_45_DISABLED: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		FROM_45_TO_64: 2271.72, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-		OVER_64_WITHOUT_PENSION: 0, // 60 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		DISABILITY: 16029.96,
+		UNDER_45: 7375.44, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
+		UNDER_45_WITH_CHILD: 7375.44, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		UNDER_45_DISABLED: 16029.6, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		FROM_45_TO_64: 7375.44, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
+		OVER_64_WITHOUT_PENSION: 8166.00, // 60 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
 	},
 	getAAF(age) {
 		const lower = 0.0060; const
