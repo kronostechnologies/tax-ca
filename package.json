@@ -31,7 +31,10 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
-    "eslint": "^5.2.0",
-    "eslint-config-kronos": "https://github.com/kronostechnologies/eslint-config-kronos.git"
+    "@equisoft/eslint-config": "^0.0.2",
+    "eslint": "^5.9.0",
+    "eslint-plugin-import": "^2.14.0",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0"
   }
 }

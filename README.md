@@ -30,7 +30,7 @@ We suggest you lock the library dependency to the `minor` version and execute ex
 
 ```javascript
   "dependencies": {
-    "@equisoft/tax-ca": "~2018.0.4",
+    "@equisoft/tax-ca": "^2018.0.4",
   },
 ```
 
