@@ -1,1 +1,4 @@
-export default { MAX_CONTRIBUTION: 5500 };
+export default {
+	MAX_CONTRIBUTION: 5500,
+	ROUNDING_FACTOR: 500
+};
