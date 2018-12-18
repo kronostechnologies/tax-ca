@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/kronostechnologies/tax-ca"
   },
-  "license": "UNLICENSED",
+  "license": "GNU LGPL v3",
   "keywords": [
     "tax",
     "canada",
