@@ -1,7 +1,8 @@
 /*
 Sources:
   http://www.taxtips.ca/marginaltaxrates.htm
-  https://home.kpmg.com/content/dam/kpmg/pdf/2016/07/Federal-and-Provincial-Non-Refundable-Tax-Credit-Rates-and-Amounts-for-2016.pdf
+  
+Revised 2018-12-21
 */
 
 export default {
@@ -124,25 +125,25 @@ export default {
     CA: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.15,
-      BASE_TAX_CREDIT: 11809,
+      BASE_TAX_CREDIT: 12069,
       RATES: [{
         FROM: 0,
-        TO: 46605,
+        TO: 47630,
         RATE: 0.15,
       }, {
-        FROM: 46605,
-        TO: 93208,
+        FROM: 47630,
+        TO: 95259,
         RATE: 0.205,
       }, {
-        FROM: 93208,
-        TO: 144489,
+        FROM: 95259,
+        TO: 147667,
         RATE: 0.26,
       }, {
-        FROM: 144489,
-        TO: 205842,
+        FROM: 147667,
+        TO: 210371,
         RATE: 0.29,
       }, {
-        FROM: 205842,
+        FROM: 210371,
         TO: 999999999,
         RATE: 0.33,
       }],
@@ -155,25 +156,25 @@ export default {
     AB: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.10,
-      BASE_TAX_CREDIT: 18915,
+      BASE_TAX_CREDIT: 19369,
       RATES: [{
         FROM: 0,
-        TO: 128145,
+        TO: 131220,
         RATE: 0.10,
       }, {
-        FROM: 128145,
-        TO: 153773,
+        FROM: 131220,
+        TO: 157464,
         RATE: 0.12,
       }, {
-        FROM: 153773,
-        TO: 205031,
+        FROM: 157464,
+        TO: 209952,
         RATE: 0.13,
       }, {
-        FROM: 205031,
-        TO: 307547,
+        FROM: 209952,
+        TO: 314928,
         RATE: 0.14,
       }, {
-        FROM: 307547,
+        FROM: 314928,
         TO: 999999999,
         RATE: 0.15,
       }],
@@ -186,29 +187,29 @@ export default {
     BC: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.0506,
-      BASE_TAX_CREDIT: 10412,
+      BASE_TAX_CREDIT: 10682,
       RATES: [{
         FROM: 0,
-        TO: 39676,
+        TO: 40707,
         RATE: 0.0506,
       }, {
-        FROM: 39676,
-        TO: 79353,
+        FROM: 40707,
+        TO: 81416,
         RATE: 0.077,
       }, {
-        FROM: 79353,
-        TO: 91107,
-        RATE: 0.0105,
+        FROM: 81416,
+        TO: 93476,
+        RATE: 0.105,
       }, {
-        FROM: 91107,
-        TO: 110630,
+        FROM: 93476,
+        TO: 113506,
         RATE: 0.1229,
       }, {
-        FROM: 110630,
-        TO: 150000,
+        FROM: 113506,
+        TO: 153900,
         RATE: 0.147,
       }, {
-        FROM: 150000,
+        FROM: 153900,
         TO: 999999999,
         RATE: 0.168,
       }],
@@ -221,17 +222,17 @@ export default {
     MB: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.108,
-      BASE_TAX_CREDIT: 9382,
+      BASE_TAX_CREDIT: 9626,
       RATES: [{
         FROM: 0,
-        TO: 31843,
+        TO: 32670,
         RATE: 0.108,
       }, {
-        FROM: 31843,
-        TO: 68821,
+        FROM: 32670,
+        TO: 70610,
         RATE: 0.1275,
       }, {
-        FROM: 68821,
+        FROM: 70610,
         TO: 999999999,
         RATE: 0.174,
       }],
@@ -244,25 +245,25 @@ export default {
     NB: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.0968,
-      BASE_TAX_CREDIT: 10043,
+      BASE_TAX_CREDIT: 10264,
       RATES: [{
         FROM: 0,
-        TO: 41675,
+        TO: 42592,
         RATE: 0.0968,
       }, {
-        FROM: 41675,
-        TO: 83351,
+        FROM: 42592,
+        TO: 85184,
         RATE: 0.1482,
       }, {
-        FROM: 83351,
-        TO: 135510,
+        FROM: 85184,
+        TO: 138491,
         RATE: 0.1652,
       }, {
-        FROM: 133510,
-        TO: 154382,
+        FROM: 138491,
+        TO: 157778,
         RATE: 0.1784,
       }, {
-        FROM: 154382,
+        FROM: 157778,
         TO: 999999999,
         RATE: 0.2030,
       }],
@@ -275,25 +276,25 @@ export default {
     NL: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.087,
-      BASE_TAX_CREDIT: 9247,
+      BASE_TAX_CREDIT: 9414,
       RATES: [{
         FROM: 0,
-        TO: 36926,
+        TO: 37591,
         RATE: 0.087,
       }, {
-        FROM: 36926,
-        TO: 73852,
+        FROM: 37591,
+        TO: 75181,
         RATE: 0.145,
       }, {
-        FROM: 73852,
-        TO: 131850,
+        FROM: 75181,
+        TO: 134224,
         RATE: 0.158,
       }, {
-        FROM: 131850,
-        TO: 184590,
+        FROM: 134224,
+        TO: 187913,
         RATE: 0.173,
       }, {
-        FROM: 184590,
+        FROM: 187913,
         TO: 999999999,
         RATE: 0.183,
       }],
@@ -337,7 +338,7 @@ export default {
     PE: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.098,
-      BASE_TAX_CREDIT: 8160,
+      BASE_TAX_CREDIT: 9160,
       RATES: [{
         FROM: 0,
         TO: 31984,
@@ -364,17 +365,17 @@ export default {
     ON: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.0505,
-      BASE_TAX_CREDIT: 10354,
+      BASE_TAX_CREDIT: 10582,
       RATES: [{
         FROM: 0,
-        TO: 42960,
+        TO: 43906,
         RATE: 0.0505,
       }, {
-        FROM: 42960,
-        TO: 85923,
+        FROM: 43906,
+        TO: 87813,
         RATE: 0.0915,
       }, {
-        FROM: 85923,
+        FROM: 87813,
         TO: 150000,
         RATE: 0.1116,
       }, {
@@ -388,36 +389,36 @@ export default {
       }],
       SURTAX_RATES: [{
         FROM: 0,
-        TO: 4638,
+        TO: 4740,
         RATE: 0,
       }, {
-        FROM: 4638,
-        TO: 5936,
+        FROM: 4740,
+        TO: 6067,
         RATE: 0.20,
       }, {
-        FROM: 5936,
+        FROM: 6067,
         TO: 999999999,
         RATE: 0.56, // 0.20 + 0.36
       }],
     },
     QC: {
       ABATEMENT: 0.165, // http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
-      TAX_CREDIT_RATE: 0.20,
-      BASE_TAX_CREDIT: 15012,
+      TAX_CREDIT_RATE: 0.15,
+      BASE_TAX_CREDIT: 15269,
       RATES: [{
         FROM: 0,
-        TO: 43055,
+        TO: 43790,
         RATE: 0.15,
       }, {
-        FROM: 43055,
-        TO: 86105,
+        FROM: 43790,
+        TO: 87575,
         RATE: 0.20,
       }, {
-        FROM: 86105,
-        TO: 104765,
+        FROM: 87575,
+        TO: 106555,
         RATE: 0.24,
       }, {
-        FROM: 104765,
+        FROM: 106555,
         TO: 999999999,
         RATE: 0.2575,
       }],
@@ -429,20 +430,20 @@ export default {
     },
     SK: {
       ABATEMENT: 0,
-      TAX_CREDIT_RATE: 0.11,
+      TAX_CREDIT_RATE: 0.105,
       BASE_TAX_CREDIT: 16065,
       RATES: [{
         FROM: 0,
         TO: 45225,
-        RATE: 0.11,
+        RATE: 0.105,
       }, {
         FROM: 45225,
         TO: 129214,
-        RATE: 0.13,
+        RATE: 0.125,
       }, {
         FROM: 129214,
         TO: 999999999,
-        RATE: 0.15,
+        RATE: 0.145,
       }],
       SURTAX_RATES: [{
         FROM: 0,
@@ -453,21 +454,21 @@ export default {
     NT: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.059,
-      BASE_TAX_CREDIT: 14492,
+      BASE_TAX_CREDIT: 14811,
       RATES: [{
         FROM: 0,
-        TO: 42209,
+        TO: 43137,
         RATE: 0.059,
       }, {
-        FROM: 42209,
-        TO: 84420,
+        FROM: 43137,
+        TO: 86277,
         RATE: 0.086,
       }, {
-        FROM: 84420,
-        TO: 137248,
+        FROM: 86277,
+        TO: 140267,
         RATE: 0.122,
       }, {
-        FROM: 137248,
+        FROM: 140267,
         TO: 999999999,
         RATE: 0.1405,
       }],
@@ -480,21 +481,21 @@ export default {
     NU: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.04,
-      BASE_TAX_CREDIT: 13325,
+      BASE_TAX_CREDIT: 13618,
       RATES: [{
         FROM: 0,
-        TO: 44437,
+        TO: 45414,
         RATE: 0.04,
       }, {
-        FROM: 44437,
-        TO: 88874,
+        FROM: 45414,
+        TO: 90829,
         RATE: 0.07,
       }, {
-        FROM: 88874,
-        TO: 144488,
+        FROM: 90829,
+        TO: 147667,
         RATE: 0.09,
       }, {
-        FROM: 144488,
+        FROM: 147667,
         TO: 999999999,
         RATE: 0.115,
       }],
@@ -507,21 +508,21 @@ export default {
     YT: {
       ABATEMENT: 0,
       TAX_CREDIT_RATE: 0.064,
-      BASE_TAX_CREDIT: 11809,
+      BASE_TAX_CREDIT: 12069,
       RATES: [{
         FROM: 0,
-        TO: 46605,
-        RATE: 0.0640,
+        TO: 47630,
+        RATE: 0.064,
       }, {
-        FROM: 46605,
-        TO: 93208,
+        FROM: 47630,
+        TO: 95259,
         RATE: 0.09,
       }, {
-        FROM: 93208,
-        TO: 144489,
+        FROM: 95259,
+        TO: 147667,
         RATE: 0.109,
       }, {
-        FROM: 144489,
+        FROM: 147667,
         TO: 500000,
         RATE: 0.128,
       }, {
