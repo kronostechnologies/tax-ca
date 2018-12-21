@@ -1,5 +1,6 @@
 /*
-Source : http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+Source : 
+	http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
 
 We currently only support LIF that are under the federal jurisdiction.
 Maximum withdrawal are more conservative than those under provincial regulations.
