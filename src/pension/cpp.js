@@ -1,9 +1,10 @@
 /*
 Sources:
-	https://www.ceridian.ca/en/resources/compliance-centre/canada-pension-plan-cpp-qpp/index.html
-	https://www.payworks.ca/payroll-legislation/CPPEI.asp
 	http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
 	http://www.esdc.gc.ca/en/cpp/benefit_amount.page
+	---
+	https://www.ceridian.ca/en/resources/compliance-centre/canada-pension-plan-cpp-qpp/index.html
+	https://www.payworks.ca/payroll-legislation/CPPEI.asp
 	http://drpensions.ca/cpp-rate-table.html
 	http://drpensions.ca/cpp-rate-table.html
 	http://www.esdc.gc.ca/en/cpp/survivor_pension.page
@@ -17,11 +18,11 @@ Sources:
 
 export default {
 	CONTRIBUTIONS: {
-		MAX_PENSIONABLE_EARNINGS: 55900,
+		MAX_PENSIONABLE_EARNINGS: 57400,
 		MIN_PENSIONABLE_EARNINGS: 3500,
 		RATES: {
-			SELF_EMPLOYED: 0.099,
-			SALARIED: 0.0495,
+			SELF_EMPLOYED: 0.102,
+			SALARIED: 0.051,
 		},
 	},
 	DEATH_BENEFIT: { RATE: 0.5 },
@@ -139,7 +140,8 @@ export default {
 		2015: 53600,
 		2016: 54900,
 		2017: 55300,
-		2018: 55900
+		2018: 55900,
+		2019: 57400
 	},
 	MAX_REQUEST_AGE: 70,
 	MIN_REQUEST_AGE: 60,
