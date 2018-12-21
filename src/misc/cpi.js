@@ -2,7 +2,7 @@
 Sources:
 	http://www.banqueducanada.ca/taux/indices-des-prix/ipc/ (IPC Global)
 	
-Updated for January 1, 2019
+Revised 2018-12-21
 */
 
 export default {
