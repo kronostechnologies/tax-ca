@@ -3,17 +3,14 @@ Sources:
 	http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
 	http://www.esdc.gc.ca/en/cpp/benefit_amount.page
 	---
-	https://www.ceridian.ca/en/resources/compliance-centre/canada-pension-plan-cpp-qpp/index.html
-	https://www.payworks.ca/payroll-legislation/CPPEI.asp
-	http://drpensions.ca/cpp-rate-table.html
-	http://drpensions.ca/cpp-rate-table.html
 	http://www.esdc.gc.ca/en/cpp/survivor_pension.page
 	http://www.esdc.gc.ca/en/cpp/death_benefit.page
-	http://retirehappy.ca/calculate-cpp-post-retirement-benefit-prb/
 	http://www.esdc.gc.ca/en/reports/pension/cpp_technical_amendments.page
 	http://www.parl.gc.ca/content/lop/researchpublications/2011-54-e.htm
 	http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
 	http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
+	
+Revised 2018-12-21
 */
 
 export default {
