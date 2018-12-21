@@ -3,7 +3,7 @@ Sources:
 	http://fpsc.ca/docs/default-source/FPSC/news-publications/2017-projection-assumption-guidelines.pdf
 	http://app.iqpf.org/guidelines
 	
-Updated for January 1, 2019
+Revised 2018-12-21
 */
 
 export default {
