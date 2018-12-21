@@ -2,6 +2,8 @@
 Sources:
 	https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
 	https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
+
+Revised 2018-12-21
 */
 
 export default {
