@@ -2,7 +2,7 @@
 Sources: 
 	http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
 
-No change, still applicable for January 1, 2019	
+Revised 2018-12-21
 */
 
 export default {
