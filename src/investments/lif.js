@@ -5,7 +5,7 @@ Source :
 We currently only support LIF that are under the federal jurisdiction.
 Maximum withdrawal are more conservative than those under provincial regulations.
 
-Updated for January 1, 2019
+Revised 2018-12-21
 */
 
 export default {
