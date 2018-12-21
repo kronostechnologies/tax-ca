@@ -2,7 +2,7 @@
 Sources:
 	https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
 	
-Updated for January 1, 2019
+Revised 2018-12-21
 */
 
 export default {
