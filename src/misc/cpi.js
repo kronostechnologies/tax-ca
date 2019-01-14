@@ -131,7 +131,7 @@ export default {
 		OCT: 130.9,
 		NOV: 131.3,
 		DEC: 130.8
-	}
+	},
 	2018: {
 		JAN: 131.7,
 		FEB: 132.5,
