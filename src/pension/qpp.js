@@ -8,7 +8,7 @@ Sources:
 	https://www.canada.ca/en/employment-social-development/programs/pensions/pension/statistics/2018-quarterly-january-march.html
 	http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
 	
-Revised 2018-12-21
+Revised 2019-01-17
 */
 
 export default {
@@ -23,13 +23,13 @@ export default {
 	DEATH_BENEFIT: { RATE: 0.5 },
 	DEFAULT_REFERENCE_AGE: 65,
 	FLAT_BENEFIT: {
-		ORPHAN: 2935.68,
-		DISABILITY: 16029.60,
-		UNDER_45: 6594.84,
-		UNDER_45_WITH_CHILD: 10509.60,
-		UNDER_45_DISABLED: 10925.76,
-		FROM_45_TO_64: 10925.76,
-		OVER_64_WITHOUT_PENSION: 8166.00,
+		ORPHAN: 3003.24,
+		DISABILITY: 16347.24,
+		UNDER_45: 6746.64,
+		UNDER_45_WITH_CHILD: 10751.4,
+		UNDER_45_DISABLED: 11177.16,
+		FROM_45_TO_64: 11177.16,
+		OVER_64_WITHOUT_PENSION: 8353.8,
 	},
 	getAAF(age) {
 		const lower = 0.0060; const
@@ -126,11 +126,11 @@ export default {
 		2019: 57400
 	},
 	MAX_PENSION: {
-		RETIREMENT: 13610.04,
-		COMBINED_RETIREMENT_SURVIVOR: 13610.04,
-		SURVIVOR_OVER_64: 8166,
-		SURVIVOR_FROM_45_TO_64: 10925.76,
-		SURVIVOR_UNDER_45: 6594.84,
+		RETIREMENT: 13854.96,
+		COMBINED_RETIREMENT_SURVIVOR: 19810.92,
+		SURVIVOR_OVER_64: 8353.8,
+		SURVIVOR_FROM_45_TO_64: 11177.16,
+		SURVIVOR_UNDER_45: 6746.64,
 		DEATH_BENEFIT: 2500,
 	},
 	MAX_REQUEST_AGE: 70,

@@ -3,7 +3,7 @@ Sources:
 	https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
 	https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
 
-Revised 2018-12-21
+Revised 2019-01-17
 */
 
 export default {
@@ -15,8 +15,8 @@ export default {
 	MONTHLY_PAYMENT_MAX: 600.85,
 	MONTHLY_DELAY_BONUS: 0.006,
 	REPAYMENT: {
-		MAX: 123386,
-		MIN: 75910,
+		MAX: 125696,
+		MIN: 77580,
 		RATIO: 0.15,
 	},
 };

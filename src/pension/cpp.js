@@ -10,7 +10,7 @@ Sources:
 	http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
 	http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 	
-Revised 2018-12-21
+Revised 2019-01-17
 */
 
 export default {
@@ -25,7 +25,7 @@ export default {
 	DEATH_BENEFIT: { RATE: 0.5 },
 	DEFAULT_REFERENCE_AGE: 65,
 	FLAT_BENEFIT: {
-		ORPHAN: 2935.68,
+		ORPHAN: 3003.24,
 		DISABILITY: 16029.96,
 		UNDER_45: 7375.44, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
 		UNDER_45_WITH_CHILD: 7375.44, // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
@@ -78,10 +78,10 @@ export default {
 		[2018, 0.016]
 	],
 	MAX_PENSION: {
-		RETIREMENT: 13610.04,
-		COMBINED_RETIREMENT_SURVIVOR: 13610.04,
+		RETIREMENT: 13854.96,
+		COMBINED_RETIREMENT_SURVIVOR: 13854.96,
 		SURVIVOR_OVER_46: 8166,
-		SURVIVOR_UNDER_65: 7375.44,
+		SURVIVOR_UNDER_65: 7519.56,
 		DEATH_BENEFIT: 2500,
 	},
 	MAX_INCOME: {
