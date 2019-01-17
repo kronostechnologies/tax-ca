@@ -600,10 +600,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@equisoft/eslint-config@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@equisoft/eslint-config/-/eslint-config-0.0.3.tgz#5a3e8e8f1e60c88b2ef917c3ca46b1302dfef865"
-  integrity sha512-ADcxTTBvltkHM8V2nBItD4a5+lgYPnEQlcK64f0U+Xi+wvdZF82RQYWGckuUqhYkiRcrJqCMMSHX++5vjY6xrw==
+"@equisoft/eslint-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@equisoft/eslint-config/-/eslint-config-0.0.4.tgz#b61c89cad2201f57bcea987d35df04b34bdb84d0"
+  integrity sha512-jUZsf6N6vXfY8oZjbCU8AYTCzbh0VMnEvuTK+jEsdHvoiEkEh6Q2c6AmFSUQS3sp08mIPfyJ2zl0OaFik2nr0g==
 
 "@iamstarkov/listr-update-renderer@0.4.1":
   version "0.4.1"

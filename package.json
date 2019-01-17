@@ -7,6 +7,10 @@
     {
       "name": "Christian Roy",
       "email": "croy@kronostechnologies.com"
+    },
+    {
+      "name": "Toby Daigle",
+      "email": "toby.daigle@equisoft.com"
     }
   ],
   "repository": {
@@ -31,7 +35,7 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
-    "@equisoft/eslint-config": "^0.0.3",
+    "@equisoft/eslint-config": "^0.0.4",
     "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
     "husky": "^1.2.0",
