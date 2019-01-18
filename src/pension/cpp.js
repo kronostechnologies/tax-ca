@@ -27,17 +27,11 @@ export default {
     FLAT_BENEFIT: {
         ORPHAN: 3003.24,
         DISABILITY: 16029.96,
-        // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-        // minus 1/120 for each month the spouse or common-law partner is under the age of 45 at the time of the contributor's death
-        UNDER_45: 7375.44,
-        // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-        UNDER_45_WITH_CHILD: 7375.44,
-        // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-        UNDER_45_DISABLED: 16029.6,
-        // a flat rate portion plus 37.5 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-        FROM_45_TO_64: 7375.44,
-        // 60 per cent of the contributor's retirement pension, if the surviving spouse or common-law partner is not receiving other CPP benefits
-        OVER_64_WITHOUT_PENSION: 8166.00,
+        UNDER_45: 7519.56,
+        UNDER_45_WITH_CHILD: 7519.56,
+        UNDER_45_DISABLED: 7519.56,
+        FROM_45_TO_64: 7519.56,
+        OVER_64_WITHOUT_PENSION: 8313,
     },
     getAAF(age) {
         const lower = 0.0060; const
