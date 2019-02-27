@@ -15,6 +15,8 @@ export default {
     CONTRIBUTIONS: {
         MAX_PENSIONABLE_EARNINGS: 57400,
         MIN_PENSIONABLE_EARNINGS: 3500,
+        AVG_MAX_PENSIONABLE_EARNINGS: 55420,
+        SUP_MAX_PENSIONABLE_EARNINGS: 63178.80,
         RATES: {
             SELF_EMPLOYED: 0.111,
             SALARIED: 0.0555,
@@ -140,4 +142,5 @@ export default {
         OVER_64: 0.6,
         UNDER_65: 0.375,
     },
+    YEARS_TO_FULL_PENSION: 40,
 };
