@@ -4,6 +4,7 @@ Sources:
   
 Revised 2018-12-21
 */
+import { maxBy } from 'lodash';
 
 export default {
   FEDERAL_CODE: 'CA',
@@ -98,6 +99,19 @@ export default {
     const fed_rate = this.getFederalMarginalRate(provincial_code, gross_income, inflation_rate, years_to_inflate);
 
     return prov_rate + fed_rate;
+  },
+  getMaxProvincialMarginalRate(provincial_code) {
+      return maxBy(this.TAX_BRACKETS[provincial_code].RATES, bracket => bracket.TO).RATE;
+  },
+  getMaxFederalMarginalRate(provincial_code) {
+      const maxRate = maxBy(this.TAX_BRACKETS[this.FEDERAL_CODE].RATES, bracket => bracket.TO).RATE;
+      return maxRate * (1 - this.TAX_BRACKETS[provincial_code].ABATEMENT);
+  },
+  getTotalMaxMarginalRate(provincial_code) {
+      const prov_rate = this.getMaxProvincialMarginalRate(provincial_code);
+      const fed_rate = this.getMaxFederalMarginalRate(provincial_code);
+
+      return (prov_rate + fed_rate).toPrecision(4);
   },
   getTotalTaxAmount(provincial_code, gross_income, inflation_rate = 0, years_to_inflate = 0) {
     const prov_tax = this.getProvincialTaxAmount(provincial_code, gross_income, inflation_rate, years_to_inflate);

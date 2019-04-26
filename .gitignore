@@ -1,8 +1,9 @@
-# ignore PHPStorm configs.
+# ignore IDEs configs.
 .idea/
-
-# ignore VSCode configs.
 .vscode/
+
+# ignore log files.
+.log
 
 # build
 node_modules/
