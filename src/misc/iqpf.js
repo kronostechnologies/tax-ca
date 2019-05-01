@@ -1,20 +1,20 @@
 /*
 Sources:
-	http://fpsc.ca/docs/default-source/FPSC/news-publications/2017-projection-assumption-guidelines.pdf
+	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2019.pdf
 	http://app.iqpf.org/guidelines
-	
-Revised 2018-12-21
+
+Revised 2019-05-01
 */
 
 export default {
-	INFLATION: 0.02,
+	INFLATION: 0.021,
 	RETURN_RATES: {
-		SHORT_TERM: 0.029,
+		SHORT_TERM: 0.03,
 		FIXED_INCOME: 0.039,
-		CANADIAN_EQUITIES: 0.064,
+		CANADIAN_EQUITIES: 0.061,
 		CONSERVATIVE_PORTFOLIO: 0.032,
-		BALANCED_PORTFOLIO: 0.039,
-		DYNAMIC_PORTFOLIO: 0.047,
+		BALANCED_PORTFOLIO: 0.037,
+		DYNAMIC_PORTFOLIO: 0.045,
 	},
-	BORROWING_RATE: 0.049,
+	BORROWING_RATE: 0.05,
 };
