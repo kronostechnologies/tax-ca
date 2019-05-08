@@ -3,7 +3,7 @@
 .vscode/
 
 # ignore log files.
-.log
+*.log
 
 # build
 node_modules/

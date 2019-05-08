@@ -101,7 +101,10 @@ export default {
         return provRate + fedRate;
     },
     getMaxProvincialMarginalRate(provincialCode) {
-        return maxBy(this.TAX_BRACKETS[provincialCode].RATES, bracket => bracket.TO).RATE;
+        const marginalRate = maxBy(this.TAX_BRACKETS[provincialCode].RATES, bracket => bracket.TO).RATE;
+        const surtaxRate = maxBy(this.TAX_BRACKETS[provincialCode].SURTAX_RATES, bracket => bracket.TO).RATE;
+
+        return marginalRate * (1 + surtaxRate);
     },
     getMaxFederalMarginalRate(provincialCode) {
         const maxRate = maxBy(this.TAX_BRACKETS[this.FEDERAL_CODE].RATES, bracket => bracket.TO).RATE;
