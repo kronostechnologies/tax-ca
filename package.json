@@ -17,14 +17,18 @@
     "type": "git",
     "url": "https://github.com/kronostechnologies/tax-ca"
   },
-  "license": "GNU LGPL v3",
+  "license": "LGPL-3.0-only",
   "keywords": [
     "tax",
     "canada",
     "data"
   ],
   "scripts": {
-    "prepublishOnly": "rm -rf lib/ && babel src --out-dir lib"
+    "prepublishOnly": "rm -rf lib/ && babel src --out-dir lib",
+    "build": "webpack",
+    "watch": "webpack --watch --env.dev=true",
+    "lint": "tslint -p tsconfig.json \"src/**/*.ts\"",
+    "lint:ci": "yarn lint --format junit -o build/tests/tslint/junit.xml"
   },
   "babel": {
     "presets": [
@@ -32,16 +36,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@equisoft/eslint-config": "^0.0.4",
-    "eslint": "^5.9.0",
-    "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.2.0",
-    "lint-staged": "^8.1.0"
+    "@equisoft/tslint-config": "~0.0.8",
+    "awesome-typescript-loader": "~5.2.1",
+    "tsconfig-paths-webpack-plugin": "~3.2.0",
+    "tslint": "~5.20.0",
+    "typescript": "~3.6.4",
+    "webpack": "~4.41.2",
+    "webpack-cli": "~3.3.9"
   },
-  "dependencies": {
-    "lodash": "^4.17.11"
-  }
+  "dependencies": {}
 }

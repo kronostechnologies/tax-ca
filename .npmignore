@@ -1,7 +1,11 @@
 /node_modules/
 /src/
 /test/
-.eslintrc
+/build/
+.editorconfig
 .gitignore
 .npmignore
+tsconfig.json
+tslint.json
+webpack.config.js
 yarn.lock

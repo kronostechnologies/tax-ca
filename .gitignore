@@ -1,10 +1,12 @@
 # ignore IDEs configs.
 .idea/
 .vscode/
+*.iml
 
 # ignore log files.
 *.log
 
 # build
+build/
 node_modules/
 lib/
