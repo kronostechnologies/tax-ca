@@ -8,7 +8,7 @@ Maximum withdrawal are more conservative than those under provincial regulations
 Revised 2018-12-21
 */
 
-export default {
+export = {
     MAX_WITHDRAWAL_PCT: {
         54: 0.046,
         55: 0.046,

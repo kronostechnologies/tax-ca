@@ -1,3 +1,4 @@
+// tslint:disable:max-line-length
 /*
 Sources:
     https://www.revenuquebec.ca/fr/salle-de-presse/nouvelles-fiscales/details/161100/2018-12-17/
@@ -10,8 +11,11 @@ Sources:
 
 Revised 2019-01-17
 */
+// tslint:enable:max-line-length
 
-export default {
+import { roundToPrecision } from '../utils/math';
+
+export = {
     CONTRIBUTIONS: {
         MAX_PENSIONABLE_EARNINGS: 57400,
         MIN_PENSIONABLE_EARNINGS: 3500,
@@ -33,9 +37,9 @@ export default {
         FROM_45_TO_64: 11177.16,
         OVER_64_WITHOUT_PENSION: 8353.8,
     },
-    getAAF(age) {
-        const lower = 0.0060; const
-            higher = 0.0070;
+    getAAF(age: number): number {
+        const lower = 0.0060;
+        const higher = 0.0070;
 
         if (age < 60) {
             return 0;
@@ -48,14 +52,10 @@ export default {
         }
         return (1 + ((Math.min(70, age) - 65) * 12 * higher));
     },
-    getAverageIndexationRate() {
-        let sum = 0;
+    getAverageIndexationRate(): number {
+        const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
 
-        for (let i = 0; i < this.INDEXATION_RATE_REFERENCES.length; i++) {
-            sum += this.INDEXATION_RATE_REFERENCES[i][1];
-        }
-
-        return _.round(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
+        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
     },
     INDEXATION_RATE_REFERENCES: [
         [2007, 0.021],

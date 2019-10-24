@@ -6,8 +6,8 @@ Sources:
 Revised 2019-01-17
 */
 
-export default {
-    getAAF(requestAge) {
+export = {
+    getAAF(requestAge: number): number {
         return requestAge < this.MIN_AGE ? 0 : 1 + ((requestAge - this.MIN_AGE) * this.MONTHLY_DELAY_BONUS * 12);
     },
     MAX_AGE: 70,
