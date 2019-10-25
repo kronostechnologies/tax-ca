@@ -87,8 +87,18 @@ jobs:
     steps:
       - attach_project_directory
       - restore_node_cache
-      - run: 'mkdir -p build/tests/lint/'
+      - run: 'mkdir -p build/tests/tslint/'
       - run: 'yarn lint:ci'
+      - store_test_results:
+          path: 'build/tests'
+
+  tests:
+    executor: node
+    working_directory: *working_directory
+    steps:
+      - attach_project_directory
+      - restore_node_cache
+      - run: 'yarn test:ci'
       - store_test_results:
           path: 'build/tests'
 
@@ -110,6 +120,9 @@ workflows:
           requires:
             - checkout
       - lint:
+          requires:
+            - yarn_install
+      - tests:
           requires:
             - yarn_install
       - build:
