@@ -27,15 +27,10 @@
     "build": "webpack",
     "lint": "tslint -p ./test/tsconfig.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint:ci": "yarn lint --format junit -o build/tests/tslint/junit.xml",
-    "prepublishOnly": "rm -rf lib/ && babel src --out-dir lib",
+    "prepublishOnly": "rm -rf lib/ && yarn build",
     "test": "jest --config=test/jest.config.js",
     "test:ci": "JEST_JUNIT_OUTPUT_DIR='build/tests/jest/' yarn test --maxWorkers=2 --ci --reporters=default --reporters=jest-junit",
     "watch": "webpack --watch --env.dev=true"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
   },
   "devDependencies": {
     "@equisoft/tslint-config": "~0.0.8",
