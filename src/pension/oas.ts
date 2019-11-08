@@ -12,10 +12,10 @@ export = {
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
-    MONTHLY_PAYMENT_MAX: 600.85,
+    MONTHLY_PAYMENT_MAX: 613.53,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
-        MAX: 125696,
+        MAX: 126058,
         MIN: 77580,
         RATIO: 0.15,
     },
