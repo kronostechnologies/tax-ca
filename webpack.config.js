@@ -12,7 +12,8 @@ module.exports = (env = {}) => {
         output: {
             filename: 'index.js',
             path: path.resolve(__dirname, './lib/'),
-            libraryTarget: 'umd'
+            libraryTarget: 'umd',
+            globalObject: 'this'
         },
 
         resolve: {
