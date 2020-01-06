@@ -1,5 +1,5 @@
 /*
-Revised 2018-12-21
+Revised 2019-12-23
 */
 
 export = {

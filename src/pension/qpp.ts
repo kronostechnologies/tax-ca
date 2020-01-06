@@ -1,15 +1,11 @@
 // tslint:disable:max-line-length
 /*
 Sources:
-    https://www.revenuquebec.ca/fr/salle-de-presse/nouvelles-fiscales/details/161100/2018-12-17/
+    https://www.revenuquebec.ca/fr/salle-de-presse/nouvelles-fiscales/details/166564/2019-12-03/
     https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
     http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
-    http://www.rrq.gouv.qc.ca/fra/porrq/Content/110_Calculs/117/PO117-10.htm
-    http://www.rrq.gouv.qc.ca/fra/porrq/Content/110_Calculs/117/PO117-15.htm
-    https://www.canada.ca/en/employment-social-development/programs/pensions/pension/statistics/2018-quarterly-january-march.html
-    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
 
-Revised 2019-01-17
+Revised 2019-12-23
 */
 // tslint:enable:max-line-length
 
@@ -17,13 +13,13 @@ import { roundToPrecision } from '../utils/math';
 
 export = {
     CONTRIBUTIONS: {
-        MAX_PENSIONABLE_EARNINGS: 57400,
+        MAX_PENSIONABLE_EARNINGS: 58700,
         MIN_PENSIONABLE_EARNINGS: 3500,
-        AVG_MAX_PENSIONABLE_EARNINGS: 55420,
-        SUP_MAX_PENSIONABLE_EARNINGS: 63178.80,
+        AVG_MAX_PENSIONABLE_EARNINGS: 56440,
+        SUP_MAX_PENSIONABLE_EARNINGS: 64300,
         RATES: {
-            SELF_EMPLOYED: 0.111,
-            SALARIED: 0.0555,
+            SELF_EMPLOYED: 0.114,
+            SALARIED: 0.057,
         },
     },
     DEATH_BENEFIT: { RATE: 0.5 },
@@ -70,6 +66,7 @@ export = {
         [2016, 0.012],
         [2017, 0.020],
         [2018, 0.015],
+        [2019, 0.023],
     ],
     MAX_INCOME: {
         1966: 5000,
@@ -126,6 +123,7 @@ export = {
         2017: 55300,
         2018: 55900,
         2019: 57400,
+        2020: 58700,
     },
     MAX_PENSION: {
         RETIREMENT: 13854.96,

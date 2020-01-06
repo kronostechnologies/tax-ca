@@ -1,16 +1,15 @@
 /*
 Sources:
     http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
-    http://www.esdc.gc.ca/en/cpp/benefit_amount.page
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/payment-amounts.html
     ---
     http://www.esdc.gc.ca/en/cpp/survivor_pension.page
     http://www.esdc.gc.ca/en/cpp/death_benefit.page
     http://www.esdc.gc.ca/en/reports/pension/cpp_technical_amendments.page
-    http://www.parl.gc.ca/content/lop/researchpublications/2011-54-e.htm
     http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
     http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 
-Revised 2019-01-17
+Revised 2019-12-23
 */
 
 const MAX_INCOME: { [K: number]: number } = {
@@ -68,26 +67,27 @@ const MAX_INCOME: { [K: number]: number } = {
     2017: 55300,
     2018: 55900,
     2019: 57400,
+    2020: 58700,
 };
 
 type MaxIncomeByYear = keyof typeof MAX_INCOME;
 
 export = {
     CONTRIBUTIONS: {
-        MAX_PENSIONABLE_EARNINGS: 57400,
+        MAX_PENSIONABLE_EARNINGS: 58700,
         MIN_PENSIONABLE_EARNINGS: 3500,
-        AVG_MAX_PENSIONABLE_EARNINGS: 55420,
-        SUP_MAX_PENSIONABLE_EARNINGS: 63178.80,
+        AVG_MAX_PENSIONABLE_EARNINGS: 56440,
+        SUP_MAX_PENSIONABLE_EARNINGS: 64300,
         RATES: {
-            SELF_EMPLOYED: 0.102,
-            SALARIED: 0.051,
+            SELF_EMPLOYED: 0.114,
+            SALARIED: 0.057,
         },
     },
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         ORPHAN: 3003.24,
-        DISABILITY: 16029.96,
+        DISABILITY: 16347.60,
         UNDER_45: 7519.56,
         UNDER_45_WITH_CHILD: 7519.56,
         UNDER_45_DISABLED: 7519.56,
@@ -140,6 +140,7 @@ export = {
         [2016, 0.011],
         [2017, 0.014],
         [2018, 0.016],
+        [2019, 0.023],
     ],
     MAX_PENSION: {
         RETIREMENT: 13854.96,

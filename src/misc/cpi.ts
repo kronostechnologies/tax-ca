@@ -2,7 +2,7 @@
 Sources:
 	http://www.banqueducanada.ca/taux/indices-des-prix/ipc/ (IPC Global)
 
-Revised 2018-12-21
+Revised 2019-12-23
 */
 
 export = {
@@ -144,6 +144,20 @@ export = {
         SEP: 134.3,
         OCT: 134.1,
         NOV: 133.5,
-        DEC: 133.5,
+        DEC: 133.4,
+    },
+    2019: {
+        JAN: 133.6,
+        FEB: 134.5,
+        MAR: 135.4,
+        APR: 136.0,
+        MAY: 136.6,
+        JUN: 136.3,
+        JUL: 137.0,
+        AUG: 136.8,
+        SEP: 136.2,
+        OCT: 136.6,
+        NOV: 136.4,
+        DEC: 136.4,
     },
 };
