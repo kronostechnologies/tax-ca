@@ -1,15 +1,14 @@
 /*
 Sources:
-	https://www.revenuquebec.ca/en/press-room/tax-news/details/161040/2018-12-13/
-	http://www.rqap.gouv.qc.ca/a_propos_regime/information_generale/cotisations_en.asp
+  https://www.rqap.gouv.qc.ca/fr/a-propos-du-regime/information-generale/cotisations-et-revenu-maximal-assurable
 
-Revised 2018-12-21
+Revised 2019-12-23
 */
 
 export = {
-    MAX_INSURABLE_EARNINGS: 76500,
+    MAX_INSURABLE_EARNINGS: 78500,
     PREMIUM_RATES: {
-        SELF_EMPLOYED: 0.00934,
-        SALARIED: 0.00526,
+        SELF_EMPLOYED: 0.00878,
+        SALARIED: 0.00494,
     },
 };

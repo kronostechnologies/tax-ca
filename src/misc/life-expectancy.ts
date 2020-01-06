@@ -2,7 +2,7 @@
 Sources:
 	http://app.iqpf.org/guidelines/life-expectancy
 
-Revised 2018-12-21
+Revised 2019-12-23
 */
 
 export = {

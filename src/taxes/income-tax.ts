@@ -58,25 +58,25 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     CA: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.15,
-        BASE_TAX_CREDIT: 12069,
+        BASE_TAX_CREDIT: 12298,
         RATES: [{
             FROM: 0,
-            TO: 47630,
+            TO: 48535,
             RATE: 0.15,
         }, {
-            FROM: 47630,
-            TO: 95259,
+            FROM: 48535,
+            TO: 97069,
             RATE: 0.205,
         }, {
-            FROM: 95259,
-            TO: 147667,
+            FROM: 97069,
+            TO: 150473,
             RATE: 0.26,
         }, {
-            FROM: 147667,
-            TO: 210371,
+            FROM: 150473,
+            TO: 214368,
             RATE: 0.29,
         }, {
-            FROM: 210371,
+            FROM: 214368,
             TO: 999999999,
             RATE: 0.33,
         }],
@@ -120,29 +120,29 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     BC: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0506,
-        BASE_TAX_CREDIT: 10682,
+        BASE_TAX_CREDIT: 10949,
         RATES: [{
             FROM: 0,
-            TO: 40707,
+            TO: 41725,
             RATE: 0.0506,
         }, {
-            FROM: 40707,
-            TO: 81416,
+            FROM: 41725,
+            TO: 83451,
             RATE: 0.077,
         }, {
-            FROM: 81416,
-            TO: 93476,
+            FROM: 83451,
+            TO: 95812,
             RATE: 0.105,
         }, {
-            FROM: 93476,
-            TO: 113506,
+            FROM: 95812,
+            TO: 116344,
             RATE: 0.1229,
         }, {
-            FROM: 113506,
-            TO: 153900,
+            FROM: 116344,
+            TO: 157748,
             RATE: 0.147,
         }, {
-            FROM: 153900,
+            FROM: 157748,
             TO: 999999999,
             RATE: 0.168,
         }],
@@ -155,17 +155,17 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     MB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.108,
-        BASE_TAX_CREDIT: 9626,
+        BASE_TAX_CREDIT: 9838,
         RATES: [{
             FROM: 0,
-            TO: 32670,
+            TO: 33389,
             RATE: 0.108,
         }, {
-            FROM: 32670,
-            TO: 70610,
+            FROM: 33389,
+            TO: 72164,
             RATE: 0.1275,
         }, {
-            FROM: 70610,
+            FROM: 72164,
             TO: 999999999,
             RATE: 0.174,
         }],
@@ -178,25 +178,25 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     NB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0968,
-        BASE_TAX_CREDIT: 10264,
+        BASE_TAX_CREDIT: 10459,
         RATES: [{
             FROM: 0,
-            TO: 42592,
+            TO: 43401,
             RATE: 0.0968,
         }, {
-            FROM: 42592,
-            TO: 85184,
+            FROM: 43401,
+            TO: 86803,
             RATE: 0.1482,
         }, {
-            FROM: 85184,
-            TO: 138491,
+            FROM: 86803,
+            TO: 141122,
             RATE: 0.1652,
         }, {
-            FROM: 138491,
-            TO: 157778,
+            FROM: 141122,
+            TO: 160776,
             RATE: 0.1784,
         }, {
-            FROM: 157778,
+            FROM: 160776,
             TO: 999999999,
             RATE: 0.2030,
         }],
@@ -209,25 +209,25 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     NL: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.087,
-        BASE_TAX_CREDIT: 9414,
+        BASE_TAX_CREDIT: 9498,
         RATES: [{
             FROM: 0,
-            TO: 37591,
+            TO: 37929,
             RATE: 0.087,
         }, {
-            FROM: 37591,
-            TO: 75181,
+            FROM: 37929,
+            TO: 75858,
             RATE: 0.145,
         }, {
-            FROM: 75181,
-            TO: 134224,
+            FROM: 75858,
+            TO: 135432,
             RATE: 0.158,
         }, {
-            FROM: 134224,
-            TO: 187913,
+            FROM: 135432,
+            TO: 189604,
             RATE: 0.173,
         }, {
-            FROM: 187913,
+            FROM: 189604,
             TO: 999999999,
             RATE: 0.183,
         }],
@@ -271,7 +271,7 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     PE: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.098,
-        BASE_TAX_CREDIT: 9160,
+        BASE_TAX_CREDIT: 10000,
         RATES: [{
             FROM: 0,
             TO: 31984,
@@ -298,17 +298,17 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     ON: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0505,
-        BASE_TAX_CREDIT: 10582,
+        BASE_TAX_CREDIT: 10783,
         RATES: [{
             FROM: 0,
-            TO: 43906,
+            TO: 44740,
             RATE: 0.0505,
         }, {
-            FROM: 43906,
-            TO: 87813,
+            FROM: 44740,
+            TO: 89482,
             RATE: 0.0915,
         }, {
-            FROM: 87813,
+            FROM: 89482,
             TO: 150000,
             RATE: 0.1116,
         }, {
@@ -322,14 +322,14 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
         }],
         SURTAX_RATES: [{
             FROM: 0,
-            TO: 4740,
+            TO: 4830,
             RATE: 0,
         }, {
-            FROM: 4740,
-            TO: 6067,
+            FROM: 4830,
+            TO: 6182,
             RATE: 0.20,
         }, {
-            FROM: 6067,
+            FROM: 6182,
             TO: 999999999,
             RATE: 0.56, // 0.20 + 0.36
         }],
@@ -337,21 +337,21 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     QC: {
         ABATEMENT: 0.165, // http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
         TAX_CREDIT_RATE: 0.15,
-        BASE_TAX_CREDIT: 15269,
+        BASE_TAX_CREDIT: 15532,
         RATES: [{
             FROM: 0,
-            TO: 43790,
+            TO: 44545,
             RATE: 0.15,
         }, {
-            FROM: 43790,
-            TO: 87575,
+            FROM: 44545,
+            TO: 89080,
             RATE: 0.20,
         }, {
             FROM: 87575,
-            TO: 106555,
+            TO: 108390,
             RATE: 0.24,
         }, {
-            FROM: 106555,
+            FROM: 108390,
             TO: 999999999,
             RATE: 0.2575,
         }],
@@ -387,21 +387,21 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     NT: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.059,
-        BASE_TAX_CREDIT: 14811,
+        BASE_TAX_CREDIT: 15093,
         RATES: [{
             FROM: 0,
-            TO: 43137,
+            TO: 43957,
             RATE: 0.059,
         }, {
-            FROM: 43137,
-            TO: 86277,
+            FROM: 43957,
+            TO: 87916,
             RATE: 0.086,
         }, {
-            FROM: 86277,
-            TO: 140267,
+            FROM: 87916,
+            TO: 142932,
             RATE: 0.122,
         }, {
-            FROM: 140267,
+            FROM: 142932,
             TO: 999999999,
             RATE: 0.1405,
         }],
@@ -414,21 +414,21 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     NU: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.04,
-        BASE_TAX_CREDIT: 13618,
+        BASE_TAX_CREDIT: 16304,
         RATES: [{
             FROM: 0,
-            TO: 45414,
+            TO: 46277,
             RATE: 0.04,
         }, {
-            FROM: 45414,
-            TO: 90829,
+            FROM: 46277,
+            TO: 92555,
             RATE: 0.07,
         }, {
-            FROM: 90829,
-            TO: 147667,
+            FROM: 92555,
+            TO: 150473,
             RATE: 0.09,
         }, {
-            FROM: 147667,
+            FROM: 150473,
             TO: 999999999,
             RATE: 0.115,
         }],
@@ -441,21 +441,21 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
     YT: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.064,
-        BASE_TAX_CREDIT: 12069,
+        BASE_TAX_CREDIT: 12298,
         RATES: [{
             FROM: 0,
-            TO: 47630,
+            TO: 48535,
             RATE: 0.064,
         }, {
-            FROM: 47630,
-            TO: 95259,
+            FROM: 48535,
+            TO: 97069,
             RATE: 0.09,
         }, {
-            FROM: 95259,
-            TO: 147667,
+            FROM: 97069,
+            TO: 150473,
             RATE: 0.109,
         }, {
-            FROM: 147667,
+            FROM: 150473,
             TO: 500000,
             RATE: 0.128,
         }, {

@@ -1,9 +1,8 @@
 /*
 Sources:
 	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2019.pdf
-	http://app.iqpf.org/guidelines
 
-Revised 2019-05-01
+Revised 2019-12-23
 */
 
 export = {
