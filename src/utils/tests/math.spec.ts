@@ -1,4 +1,4 @@
-import { roundToPrecision } from '../../src/utils/math';
+import { roundToPrecision } from '../math';
 
 describe('roundToPrecision', () => {
     it('should round to integer by default', () => {

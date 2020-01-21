@@ -1,4 +1,4 @@
-import { maxBy } from '../../src/utils/collections';
+import { maxBy } from '../collections';
 
 describe('maxBy', () => {
     it('should return maximum value by mapping function', () => {

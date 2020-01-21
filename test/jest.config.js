@@ -17,7 +17,7 @@ module.exports = {
     ],
     rootDir: '../',
     collectCoverageFrom: ['src/**/*.ts'],
-    testMatch: ['**/*.test.{ts,tsx}'],
+    testMatch: ['**/*.spec.ts'],
     moduleNameMapper: {
         ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' })
     }
