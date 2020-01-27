@@ -9,9 +9,9 @@ describe('roundToPrecision', () => {
 
     it.each`
         value       | precision | expected
-        ${1.56789}   | ${1}      | ${1.6}
-        ${1.56789}   | ${2}      | ${1.57}
-        ${1.56789}   | ${3}      | ${1.568}
+        ${1.56789}  | ${1}      | ${1.6}
+        ${1.56789}  | ${2}      | ${1.57}
+        ${1.56789}  | ${3}      | ${1.568}
     `('should round $value with a precision of $precision digits', ({ value, precision, expected }) => {
         const roundedValue = roundToPrecision(value, precision);
 
