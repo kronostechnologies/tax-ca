@@ -347,7 +347,7 @@ const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } 
             TO: 89080,
             RATE: 0.20,
         }, {
-            FROM: 87575,
+            FROM: 89080,
             TO: 108390,
             RATE: 0.24,
         }, {
