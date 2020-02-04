@@ -1,11 +1,10 @@
 // tslint:disable:max-line-length
 /*
 Sources:
-    https://www.revenuquebec.ca/fr/salle-de-presse/nouvelles-fiscales/details/166564/2019-12-03/
-    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
     http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
+    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
-Revised 2019-12-23
+Revised 2020-02-04
 */
 // tslint:enable:max-line-length
 
@@ -25,13 +24,13 @@ export = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3003.24,
-        DISABILITY: 16347.24,
-        UNDER_45: 6746.64,
-        UNDER_45_WITH_CHILD: 10751.4,
-        UNDER_45_DISABLED: 11177.16,
-        FROM_45_TO_64: 11177.16,
-        OVER_64_WITHOUT_PENSION: 8353.8,
+        ORPHAN: 3060.36,
+        DISABILITY: 16661.52,
+        UNDER_45: 6857.76,
+        UNDER_45_WITH_CHILD: 10938.60,
+        UNDER_45_DISABLED: 11372.40,
+        FROM_45_TO_64: 11372.40,
+        OVER_64_WITHOUT_PENSION: 8479.80,
     },
     getAAF(age: number): number {
         const lower = 0.0060;
@@ -127,10 +126,10 @@ export = {
     },
     MAX_PENSION: {
         RETIREMENT: 14127.60,
-        COMBINED_RETIREMENT_SURVIVOR: 19810.92,
-        SURVIVOR_OVER_64: 8353.8,
-        SURVIVOR_FROM_45_TO_64: 11177.16,
-        SURVIVOR_UNDER_45: 6746.64,
+        COMBINED_RETIREMENT_SURVIVOR: 20196.72,
+        SURVIVOR_OVER_64: 8479.80,
+        SURVIVOR_FROM_45_TO_64: 11372.40,
+        SURVIVOR_UNDER_45: 6857.76,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
