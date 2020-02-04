@@ -86,13 +86,13 @@ export = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3003.24,
-        DISABILITY: 16347.60,
+        ORPHAN: 3060.36,
+        DISABILITY: 16651.92,
         UNDER_45: 7519.56,
-        UNDER_45_WITH_CHILD: 7519.56,
-        UNDER_45_DISABLED: 7519.56,
-        FROM_45_TO_64: 7519.56,
-        OVER_64_WITHOUT_PENSION: 8313,
+        UNDER_45_WITH_CHILD: 7659.36,
+        UNDER_45_DISABLED: 7659.36,
+        FROM_45_TO_64: 7659.36,
+        OVER_64_WITHOUT_PENSION: 8466,
     },
     getAAF(age: number): number {
         const lower = 0.0060;
@@ -145,7 +145,7 @@ export = {
     MAX_PENSION: {
         RETIREMENT: 14109.96,
         COMBINED_RETIREMENT_SURVIVOR: 14109.96,
-        SURVIVOR_OVER_46: 8166,
+        SURVIVOR_OVER_46: 8466,
         SURVIVOR_UNDER_65: 7659.36,
         DEATH_BENEFIT: 2500,
     },
