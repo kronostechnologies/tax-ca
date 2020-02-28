@@ -74,13 +74,27 @@ type MaxIncomeByYear = keyof typeof MAX_INCOME;
 
 export = {
     CONTRIBUTIONS: {
-        MAX_PENSIONABLE_EARNINGS: 58700,
-        MIN_PENSIONABLE_EARNINGS: 3500,
-        AVG_MAX_PENSIONABLE_EARNINGS: 56440,
-        SUP_MAX_PENSIONABLE_EARNINGS: 64300,
+        PENSIONABLE_EARNINGS: {
+            MAX: 58700,
+            MIN: 3500,
+            AVG_MAX: 56440,
+            SUP_MAX: 64300,
+            SUP_FACTORS: [
+                { FROM: 2019, TO: 2023, FACTOR: 1 },
+                { FROM: 2024, TO: 2024, FACTOR: 1.07 },
+                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.14 },
+            ],
+        },
         RATES: {
-            SELF_EMPLOYED: 0.114,
-            SALARIED: 0.057,
+            BASE: 0.054,
+            ENHANCEMENT_STEP_1: [
+                { FROM: 2019, TO: 2019, RATE: 0.0015 },
+                { FROM: 2020, TO: 2020, RATE: 0.003 },
+                { FROM: 2021, TO: 2021, RATE: 0.005 },
+                { FROM: 2022, TO: 2022, RATE: 0.0075 },
+                { FROM: 2023, TO: Number.MAX_SAFE_INTEGER, RATE: 0.01 },
+            ],
+            ENHANCEMENT_STEP_2: 0.04,
         },
     },
     DEATH_BENEFIT: { RATE: 0.5 },
