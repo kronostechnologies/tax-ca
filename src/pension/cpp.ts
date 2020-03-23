@@ -12,6 +12,8 @@ Sources:
 Revised 2019-12-23
 */
 
+import { monthsDelta } from '../utils/date';
+
 const MAX_INCOME: { [K: number]: number } = {
     1966: 5000,
     1967: 5000,
@@ -108,20 +110,20 @@ export = {
         FROM_45_TO_64: 7659.36,
         OVER_64_WITHOUT_PENSION: 8466,
     },
-    getAAF(age: number): number {
-        const lower = 0.0060;
-        const higher = 0.0070;
+    getAAF(birthdate: Date, requestDate: Date): number {
+        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
-        if (age < 60) {
-            return 0;
+        // Clamping age request (MAX_REQUESTAGE, MIN_REQUEST_AGE)
+        monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_REQUEST_AGE * 12);
+        monthsDeltaFromMinAge = Math.max(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12);
+
+        monthsDeltaFromMinAge -= this.STANDARD_REQUEST_AGE * 12;
+
+        if (monthsDeltaFromMinAge >= 0) {
+            return 1 + monthsDeltaFromMinAge * this.MONTHLY_DELAY.BONUS;
+        } else {
+            return 1 + monthsDeltaFromMinAge * this.MONTHLY_DELAY.PENALTY;
         }
-        if (age === 65) {
-            return 1;
-        }
-        if (age < 65) {
-            return (1 - ((65 - Math.max(60, age)) * 12 * lower));
-        }
-        return (1 + ((Math.min(70, age) - 65) * 12 * higher));
     },
     getAverageIndexationRate(): string {
         const sum = this.INDEXATION_RATES_REFERENCES.reduce((previous, current) => previous + current[1], 0);
@@ -165,7 +167,12 @@ export = {
     },
     MAX_INCOME,
     MAX_REQUEST_AGE: 70,
+    STANDARD_REQUEST_AGE: 65,
     MIN_REQUEST_AGE: 60,
+    MONTHLY_DELAY: {
+        BONUS: 0.0070,
+        PENALTY: 0.0060,
+    },
     REPLACEMENT_FACTOR: 0.25,
     SURVIVOR_RATES: {
         OVER_64: 0.6,
