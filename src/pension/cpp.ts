@@ -13,6 +13,7 @@ Revised 2019-12-23
 */
 
 import { monthsDelta } from '../utils/date';
+import { clamp } from '../utils/math';
 
 const MAX_INCOME: { [K: number]: number } = {
     1966: 5000,
@@ -113,17 +114,11 @@ export = {
     getAAF(birthdate: Date, requestDate: Date): number {
         let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
-        // Clamping age request (MAX_REQUESTAGE, MIN_REQUEST_AGE)
-        monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_REQUEST_AGE * 12);
-        monthsDeltaFromMinAge = Math.max(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12);
-
+        monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
         monthsDeltaFromMinAge -= this.STANDARD_REQUEST_AGE * 12;
 
-        if (monthsDeltaFromMinAge >= 0) {
-            return 1 + monthsDeltaFromMinAge * this.MONTHLY_DELAY.BONUS;
-        } else {
-            return 1 + monthsDeltaFromMinAge * this.MONTHLY_DELAY.PENALTY;
-        }
+        return 1 + monthsDeltaFromMinAge
+            * (monthsDeltaFromMinAge >= 0 ? this.MONTHLY_DELAY.BONUS : this.MONTHLY_DELAY.PENALTY);
     },
     getAverageIndexationRate(): string {
         const sum = this.INDEXATION_RATES_REFERENCES.reduce((previous, current) => previous + current[1], 0);

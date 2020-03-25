@@ -1,4 +1,4 @@
-import { roundToPrecision } from '../math';
+import { roundToPrecision, clamp } from '../math';
 
 describe('roundToPrecision', () => {
     it('should round to integer by default', () => {
@@ -16,5 +16,18 @@ describe('roundToPrecision', () => {
         const roundedValue = roundToPrecision(value, precision);
 
         expect(roundedValue).toBe(expected);
+    });
+});
+
+describe('clamp', () => {
+    it.each`
+        value       | min       | max       | expected
+        ${50}       | ${10}     | ${30}     | ${30}
+        ${5}        | ${10}     | ${30}     | ${10}
+        ${20}       | ${10}     | ${30}     | ${20}
+        ${10}       | ${10}     | ${30}     | ${10}
+        ${30}       | ${10}     | ${30}     | ${30}
+    `('should clamp $value between $min and $max', ({ value, min, max, expected }) => {
+        expect(clamp(value, min, max)).toBe(expected);
     });
 });
