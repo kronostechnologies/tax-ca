@@ -9,7 +9,7 @@ Revised 2019-12-23
 import { monthsDelta } from '../utils/date';
 
 export = {
-    getAAF(birthdate: Date, requestDate: Date): number {
+    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
         let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
         monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_AGE * 12);

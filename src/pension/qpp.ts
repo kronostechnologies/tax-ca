@@ -47,11 +47,11 @@ export = {
         FROM_45_TO_64: 11372.40,
         OVER_64_WITHOUT_PENSION: 8479.80,
     },
-    getAAF(birthdate: Date, requestDate: Date): number {
+    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
         let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
         monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
-        monthsDeltaFromMinAge -= this.STANDARD_REQUEST_AGE * 12;
+        monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;
 
         return 1 + monthsDeltaFromMinAge
             * (monthsDeltaFromMinAge >= 0 ? this.MONTHLY_DELAY.BONUS : this.MONTHLY_DELAY.PENALTY);
@@ -142,7 +142,6 @@ export = {
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
-    STANDARD_REQUEST_AGE: 65,
     MIN_REQUEST_AGE: 60,
     MONTHLY_DELAY: {
         BONUS: 0.0070,

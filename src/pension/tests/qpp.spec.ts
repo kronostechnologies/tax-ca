@@ -13,7 +13,7 @@ it.each`
         ${new Date(1955, 0, 1)}  | ${new Date(2019, 0, 1)}    | ${1 - 12*QPP.MONTHLY_DELAY.PENALTY}
         ${new Date(1955, 0, 1)}  | ${new Date(2010, 0, 1)}    | ${1 - 60*QPP.MONTHLY_DELAY.PENALTY}
     `('should round $value with a precision of $precision digits', ({ birthdate, requestAge, expected }) => {
-    const AAF = QPP.getAAF(birthdate, requestAge);
+    const AAF = QPP.getRequestDateFactor(birthdate, requestAge);
 
     expect(AAF).toBe(expected);
 });

@@ -10,7 +10,7 @@ describe('getAAF', () => {
         ${new Date(1955, 0, 1)}  | ${new Date(2030, 0, 1)}    | ${1 + 60*OAS.MONTHLY_DELAY_BONUS}
         ${new Date(1955, 0, 1)}  | ${new Date(2019, 0, 1)}    | ${0}
     `('should round $value with a precision of $precision digits', ({ birthdate, requestAge, expected }) => {
-        const AAF = OAS.getAAF(birthdate, requestAge);
+        const AAF = OAS.getRequestDateFactor(birthdate, requestAge);
 
         expect(AAF).toBe(expected);
     });
