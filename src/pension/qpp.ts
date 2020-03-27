@@ -8,7 +8,8 @@ Revised 2020-02-04
 */
 // tslint:enable:max-line-length
 
-import { roundToPrecision } from '../utils/math';
+import { monthsDelta } from '../utils/date';
+import { clamp, roundToPrecision } from '../utils/math';
 
 export = {
     CONTRIBUTIONS: {
@@ -46,20 +47,14 @@ export = {
         FROM_45_TO_64: 11372.40,
         OVER_64_WITHOUT_PENSION: 8479.80,
     },
-    getAAF(age: number): number {
-        const lower = 0.0060;
-        const higher = 0.0070;
+    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
+        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
-        if (age < 60) {
-            return 0;
-        }
-        if (age === 65) {
-            return 1;
-        }
-        if (age < 65) {
-            return (1 - ((65 - Math.max(60, age)) * 12 * lower));
-        }
-        return (1 + ((Math.min(70, age) - 65) * 12 * higher));
+        monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
+        monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;
+
+        return 1 + monthsDeltaFromMinAge
+            * (monthsDeltaFromMinAge >= 0 ? this.MONTHLY_DELAY.BONUS : this.MONTHLY_DELAY.PENALTY);
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
@@ -148,6 +143,10 @@ export = {
     },
     MAX_REQUEST_AGE: 70,
     MIN_REQUEST_AGE: 60,
+    MONTHLY_DELAY: {
+        BONUS: 0.0070,
+        PENALTY: 0.0060,
+    },
     REPLACEMENT_FACTOR: 0.25,
     SURVIVOR_RATES: {
         OVER_64: 0.6,

@@ -12,6 +12,9 @@ Sources:
 Revised 2019-12-23
 */
 
+import { monthsDelta } from '../utils/date';
+import { clamp } from '../utils/math';
+
 const MAX_INCOME: { [K: number]: number } = {
     1966: 5000,
     1967: 5000,
@@ -108,20 +111,14 @@ export = {
         FROM_45_TO_64: 7659.36,
         OVER_64_WITHOUT_PENSION: 8466,
     },
-    getAAF(age: number): number {
-        const lower = 0.0060;
-        const higher = 0.0070;
+    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
+        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
 
-        if (age < 60) {
-            return 0;
-        }
-        if (age === 65) {
-            return 1;
-        }
-        if (age < 65) {
-            return (1 - ((65 - Math.max(60, age)) * 12 * lower));
-        }
-        return (1 + ((Math.min(70, age) - 65) * 12 * higher));
+        monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
+        monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;
+
+        return 1 + monthsDeltaFromMinAge
+            * (monthsDeltaFromMinAge >= 0 ? this.MONTHLY_DELAY.BONUS : this.MONTHLY_DELAY.PENALTY);
     },
     getAverageIndexationRate(): string {
         const sum = this.INDEXATION_RATES_REFERENCES.reduce((previous, current) => previous + current[1], 0);
@@ -166,6 +163,10 @@ export = {
     MAX_INCOME,
     MAX_REQUEST_AGE: 70,
     MIN_REQUEST_AGE: 60,
+    MONTHLY_DELAY: {
+        BONUS: 0.0070,
+        PENALTY: 0.0060,
+    },
     REPLACEMENT_FACTOR: 0.25,
     SURVIVOR_RATES: {
         OVER_64: 0.6,

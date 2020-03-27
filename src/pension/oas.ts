@@ -6,9 +6,16 @@ Sources:
 Revised 2019-12-23
 */
 
+import { monthsDelta } from '../utils/date';
+
 export = {
-    getAAF(requestAge: number): number {
-        return requestAge < this.MIN_AGE ? 0 : 1 + ((requestAge - this.MIN_AGE) * this.MONTHLY_DELAY_BONUS * 12);
+    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
+        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+
+        monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_AGE * 12);
+        monthsDeltaFromMinAge -= this.MIN_AGE * 12;
+
+        return monthsDeltaFromMinAge < 0 ? 0 : 1 + (monthsDeltaFromMinAge * this.MONTHLY_DELAY_BONUS);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
