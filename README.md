@@ -47,7 +47,6 @@ import { PENSION } from '@equisoft/tax-ca';
 const { OAS, CPP } = PENSION;
 
 console.log("OAS maximum age: ", OAS.MAX_AGE); // 70
-console.log("CPP AAF for age 67: ", CPP.getAAF(67)); // 1.168
 ```
 
 

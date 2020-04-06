@@ -1,4 +1,4 @@
-import { roundToPrecision, clamp } from '../math';
+import { clamp, roundToPrecision } from '../math';
 
 describe('roundToPrecision', () => {
     it('should round to integer by default', () => {
