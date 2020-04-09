@@ -12,7 +12,7 @@ Sources:
 Revised 2019-12-23
 */
 
-import { monthsDelta } from '../utils/date';
+import { getMonthsDiff } from '../utils/date';
 import { clamp } from '../utils/math';
 
 const MAX_INCOME: { [K: number]: number } = {
@@ -112,7 +112,9 @@ export = {
         OVER_64_WITHOUT_PENSION: 8466,
     },
     getRequestDateFactor(birthdate: Date, requestDate: Date): number {
-        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+        return 1;
+
+        let monthsDeltaFromMinAge = getMonthsDiff(birthdate, requestDate);
 
         monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
         monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;

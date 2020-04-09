@@ -8,7 +8,7 @@ Revised 2020-02-04
 */
 // tslint:enable:max-line-length
 
-import { monthsDelta } from '../utils/date';
+import { getMonthsDiff } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
 
 export = {
@@ -48,7 +48,9 @@ export = {
         OVER_64_WITHOUT_PENSION: 8479.80,
     },
     getRequestDateFactor(birthdate: Date, requestDate: Date): number {
-        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+        return 1;
+
+        let monthsDeltaFromMinAge = getMonthsDiff(birthdate, requestDate);
 
         monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
         monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;

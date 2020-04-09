@@ -6,16 +6,29 @@ Sources:
 Revised 2019-12-23
 */
 
-import { monthsDelta } from '../utils/date';
+import { getBirthdayAtAge, getLatestBirthday, getMonthsDiff } from '../utils/date';
 
 export = {
-    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
-        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+        const birthdayAtMinAge = getBirthdayAtAge(birthDate, this.MIN_AGE);
+        // when request date is before the min date, return factor 0 as no income should be received before the min date
+        if (requestDate < birthdayAtMinAge) {
+            return 0;
+        }
 
-        monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_AGE * 12);
-        monthsDeltaFromMinAge -= this.MIN_AGE * 12;
+        const latestBirthday = getLatestBirthday(birthDate);
+        const birthdayAtMaxAge = getBirthdayAtAge(birthDate, this.MAX_AGE);
+        // when latest birthday is after max date, no factor is applied as the income is received as is
+        if (latestBirthday >= birthdayAtMaxAge) {
+            return 1;
+        }
 
-        return monthsDeltaFromMinAge < 0 ? 0 : 1 + (monthsDeltaFromMinAge * this.MONTHLY_DELAY_BONUS);
+        let referenceDate = birthdayAtMinAge;
+        if (latestBirthday > birthdayAtMinAge) {
+            referenceDate = latestBirthday;
+        }
+        const monthsDiff = getMonthsDiff(referenceDate, requestDate);
+        return 1 + (monthsDiff * this.MONTHLY_DELAY_BONUS);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
