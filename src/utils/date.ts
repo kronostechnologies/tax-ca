@@ -1,29 +1,16 @@
 export function getMonthsDiff(firstDate: Date, secondDate: Date): number {
-    const monthsDiff = secondDate.getMonth() - firstDate.getMonth();
-    const yearsDiff = secondDate.getFullYear() - firstDate.getFullYear();
+    const monthsDiff = secondDate.getUTCMonth() - firstDate.getUTCMonth();
+    const yearsDiff = secondDate.getUTCFullYear() - firstDate.getUTCFullYear();
 
-    return monthsDiff + (12 * yearsDiff) - (secondDate.getDate() < firstDate.getDate() ? 1 : 0);
+    return monthsDiff + (12 * yearsDiff) - (secondDate.getUTCDate() < firstDate.getUTCDate() ? 1 : 0);
 }
 
-function getAge(birthDate: Date): number {
-    const now = new Date();
-    const age = now.getFullYear() - birthDate.getFullYear();
-    const month = now.getMonth() - birthDate.getMonth();
-    if (month < 0 || (month === 0 && now.getDate() < birthDate.getDate())) {
-        return age - 1;
-    }
-    return age;
+export function addYearsToDate(date: Date, years: number): Date {
+    const newDate = new Date(date);
+    newDate.setFullYear(date.getFullYear() + years);
+    return newDate;
 }
 
-export function getLatestBirthday(birthDate: Date): Date {
-    return getBirthdayAtAge(birthDate, getAge(birthDate));
-}
-
-export function getBirthdayAtAge(birthDate: Date, age: number): Date {
-    const month = birthDate.getMonth() + 1;
-    const day = birthDate.getDate();
-    const monthString = month < 10 ? `0${month}` : month;
-    const dayString = day < 10 ? `0${day}` : day;
-    const dateString = `${birthDate.getFullYear() + age}-${monthString}-${dayString}T12:00:00`;
-    return new Date(dateString);
+export function now(): Date {
+    return process.env.NODE_ENV === 'test' ? new Date('2020-01-01T12:00:00Z') : new Date();
 }
