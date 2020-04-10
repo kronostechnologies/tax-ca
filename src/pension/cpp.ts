@@ -111,7 +111,9 @@ export = {
         FROM_45_TO_64: 7659.36,
         OVER_64_WITHOUT_PENSION: 8466,
     },
-    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+    getRequestDateFactor(paramBirthDate: Date | string, paramRequestDate: Date | string): number {
+        const birthDate = typeof paramBirthDate === 'string' ? new Date(paramBirthDate) : paramBirthDate;
+        const requestDate = typeof paramRequestDate === 'string' ? new Date(paramRequestDate) : paramRequestDate;
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
 
         const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);

@@ -10,7 +10,10 @@ import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp } from '../utils/math';
 
 export = {
-    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+    getRequestDateFactor(paramBirthDate: Date | string, paramRequestDate: Date | string): number {
+        const birthDate = typeof paramBirthDate === 'string' ? new Date(paramBirthDate) : paramBirthDate;
+        const requestDate = typeof paramRequestDate === 'string' ? new Date(paramRequestDate) : paramRequestDate;
+
         const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
         const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);
 
