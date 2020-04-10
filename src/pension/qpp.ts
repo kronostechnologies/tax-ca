@@ -8,7 +8,7 @@ Revised 2020-02-04
 */
 // tslint:enable:max-line-length
 
-import { monthsDelta } from '../utils/date';
+import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
 
 export = {
@@ -47,14 +47,32 @@ export = {
         FROM_45_TO_64: 11372.40,
         OVER_64_WITHOUT_PENSION: 8479.80,
     },
-    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
-        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+    getRequestDateFactor(paramBirthDate: Date | string, paramRequestDate: Date | string): number {
+        const birthDate = typeof paramBirthDate === 'string' ? new Date(paramBirthDate) : paramBirthDate;
+        const requestDate = typeof paramRequestDate === 'string' ? new Date(paramRequestDate) : paramRequestDate;
+        const { BONUS, PENALTY } = this.MONTHLY_DELAY;
 
-        monthsDeltaFromMinAge = clamp(monthsDeltaFromMinAge, this.MIN_REQUEST_AGE * 12, this.MAX_REQUEST_AGE * 12);
-        monthsDeltaFromMinAge -= this.DEFAULT_REFERENCE_AGE * 12;
+        const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);
+        const maxRequestDate = addYearsToDate(birthDate, this.MAX_REQUEST_AGE);
+        const referenceDate = addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
 
-        return 1 + monthsDeltaFromMinAge
-            * (monthsDeltaFromMinAge >= 0 ? this.MONTHLY_DELAY.BONUS : this.MONTHLY_DELAY.PENALTY);
+        const monthsToToday = getMonthsDiff(birthDate, now());
+        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
+        const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
+        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+
+        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
+        monthsDelta -= Math.max(monthsToToday, monthsToReferenceDate);
+
+        return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);

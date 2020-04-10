@@ -6,16 +6,33 @@ Sources:
 Revised 2019-12-23
 */
 
-import { monthsDelta } from '../utils/date';
+import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
+import { clamp } from '../utils/math';
 
 export = {
-    getRequestDateFactor(birthdate: Date, requestDate: Date): number {
-        let monthsDeltaFromMinAge = monthsDelta(birthdate, requestDate);
+    getRequestDateFactor(paramBirthDate: Date | string, paramRequestDate: Date | string): number {
+        const birthDate = typeof paramBirthDate === 'string' ? new Date(paramBirthDate) : paramBirthDate;
+        const requestDate = typeof paramRequestDate === 'string' ? new Date(paramRequestDate) : paramRequestDate;
 
-        monthsDeltaFromMinAge = Math.min(monthsDeltaFromMinAge, this.MAX_AGE * 12);
-        monthsDeltaFromMinAge -= this.MIN_AGE * 12;
+        const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
+        const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);
 
-        return monthsDeltaFromMinAge < 0 ? 0 : 1 + (monthsDeltaFromMinAge * this.MONTHLY_DELAY_BONUS);
+        const monthsToToday = getMonthsDiff(birthDate, now());
+        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
+        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+
+        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
+        monthsDelta -= Math.max(monthsToToday, monthsToMinRequestDate);
+
+        return 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
