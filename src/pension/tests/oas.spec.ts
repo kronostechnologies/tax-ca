@@ -73,6 +73,15 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1 + 8 * OAS.MONTHLY_DELAY_BONUS);
     });
 
+    it('should return 1 when analysis year is > than MAX date', () => {
+        const birthDate = new Date('1948-01-01'); // 72 years old
+        const requestDate = new Date('2020-01-01');
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1);
+    });
+
     it('should be able to receive string or Date a param types', () => {
         const birthDate = '1980-01-01';
         const requestDate = '2045-07-01'; // 6 months after his 65th birthday

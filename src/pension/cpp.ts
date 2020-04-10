@@ -126,11 +126,17 @@ export = {
         const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
 
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         monthsDelta -= Math.max(monthsToToday, monthsToReferenceDate);
-        const factor = 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
 
-        return monthsToRequestDate < monthsToMinRequestDate ? 0 : factor;
+        return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
     },
     getAverageIndexationRate(): string {
         const sum = this.INDEXATION_RATES_REFERENCES.reduce((previous, current) => previous + current[1], 0);

@@ -22,11 +22,17 @@ export = {
         const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
 
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         monthsDelta -= Math.max(monthsToToday, monthsToMinRequestDate);
-        const factor = 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
 
-        return monthsToRequestDate < monthsToMinRequestDate ? 0 : factor;
+        return 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,

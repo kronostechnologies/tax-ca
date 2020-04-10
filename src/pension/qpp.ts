@@ -8,7 +8,7 @@ Revised 2020-02-04
 */
 // tslint:enable:max-line-length
 
-import {addYearsToDate, getMonthsDiff, now} from '../utils/date';
+import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
 
 export = {
@@ -62,11 +62,17 @@ export = {
         const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
 
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         monthsDelta -= Math.max(monthsToToday, monthsToReferenceDate);
-        const factor = 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
 
-        return monthsToRequestDate < monthsToMinRequestDate ? 0 : factor;
+        return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
