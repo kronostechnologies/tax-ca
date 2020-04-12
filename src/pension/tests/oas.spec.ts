@@ -19,6 +19,24 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1);
     });
 
+    it('should return 1 when request date before last birthday (OAS already requested)', () => {
+        const birthDate = new Date('1953-07-01');
+        const requestDate = new Date('2018-07-01');
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1);
+    });
+
+    it('should return factor relating to last birthday', () => {
+        const birthDate = new Date('1953-07-01');
+        const requestDate = new Date('2019-09-01'); // 2 months after 66ht birthDay
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1 + 2 * OAS.MONTHLY_DELAY_BONUS);
+    });
+
     it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => {
         const birthDate = new Date('1980-01-15');
         const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday
@@ -40,6 +58,15 @@ describe('getRequestDateFactor', () => {
     it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year', () => {
         const birthDate = new Date('1980-01-01');
         const requestDate = new Date('2046-01-01'); // on his 66th birthday
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1 + 12 * OAS.MONTHLY_DELAY_BONUS);
+    });
+
+    it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year and client has more than 65 yo', () => {
+        const birthDate = new Date('1953-07-01');
+        const requestDate = new Date('2020-07-01');
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 

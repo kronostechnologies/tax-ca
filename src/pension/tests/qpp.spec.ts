@@ -19,6 +19,33 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1);
     });
 
+    it('should return 1 when request date is before last birthdate (QPP already requested)', () => {
+        const birthDate = new Date('1953-07-01');
+        const requestDate = new Date('2019-07-01');
+
+        const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1);
+    });
+
+    it('should return factor relating to last birthday', () => {
+        const birthDate = new Date('1953-07-01');
+        const requestDate = new Date('2019-09-01'); // 2 months after 66ht birthDay
+
+        const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1 + 2 * QPP.MONTHLY_DELAY.BONUS);
+    });
+
+    it('should return factor relating to last birthday ONLY after the reference age (65 yo)', () => {
+        const birthDate = new Date('1957-06-06');
+        const requestDate = new Date('2018-06-06'); // on 61th birthDay
+
+        const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1 - 48 * QPP.MONTHLY_DELAY.PENALTY);
+    });
+
     it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => {
         const birthDate = new Date('1980-01-15');
         const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday

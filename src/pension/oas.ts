@@ -21,16 +21,19 @@ export = {
         const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
         const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
 
+        // Request date is before minimum request date
         if (monthsToRequestDate < monthsToMinRequestDate) {
             return 0;
         }
-        if (monthsToMaxRequestDate < monthsToToday) {
+        // Analysis date is after the maximum request date OR request date is in the past
+        if (monthsToMaxRequestDate < monthsToToday || monthsToRequestDate < monthsToLastBirthDay) {
             return 1;
         }
 
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
-        monthsDelta -= Math.max(monthsToToday, monthsToMinRequestDate);
+        monthsDelta -= Math.max(monthsToLastBirthDay, monthsToMinRequestDate);
 
         return 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
     },
