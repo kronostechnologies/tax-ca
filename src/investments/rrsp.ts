@@ -8,4 +8,10 @@ Revised 2019-12-23
 */
 // tslint:enable:max-line-length
 
-export = { MAX_CONTRIBUTION: 27230 };
+export = {
+    CONVERSION_AGE: {
+        MIN: 55,
+        MAX: 71,
+    },
+    MAX_CONTRIBUTION: 27230,
+};

@@ -6,8 +6,8 @@ export function getMonthsDiff(firstDate: Date, secondDate: Date): number {
 }
 
 export function addYearsToDate(date: Date, years: number): Date {
-    const newDate = new Date(date);
-    newDate.setFullYear(date.getFullYear() + years);
+    const newDate = new Date(date.valueOf());
+    newDate.setUTCFullYear(date.getUTCFullYear() + years);
     return newDate;
 }
 
