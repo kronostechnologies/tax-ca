@@ -108,13 +108,4 @@ describe('getRequestDateFactor', () => {
 
         expect(ratio).toBe(1);
     });
-
-    it('should be able to receive string or Date a param types', () => {
-        const birthDate = '1980-01-01';
-        const requestDate = '2045-07-01'; // 6 months after his 65th birthday
-
-        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
-
-        expect(ratio).toBe(1 + 6 * OAS.MONTHLY_DELAY_BONUS);
-    });
 });
