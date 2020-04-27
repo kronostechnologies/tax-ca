@@ -5,6 +5,7 @@ Sources:
 Revised 2018-12-21
 */
 
+import { FederalCode, ProvinceCode } from '../misc/code-types';
 import { maxBy } from '../utils/collections';
 
 export type ProvinceName =
@@ -21,8 +22,6 @@ export type ProvinceName =
     | 'NORTHWEST_TERRITORIES'
     | 'NUNAVUT'
     | 'YUKON';
-export type ProvinceCode = 'AB' | 'BC' | 'MB' | 'NB' | 'NL' | 'NS' | 'PE' | 'ON' | 'QC' | 'SK' | 'NT' | 'NU' | 'YT';
-export type FederalCode = 'CA';
 
 const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode } = {
     ALBERTA: 'AB',

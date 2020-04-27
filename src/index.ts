@@ -1,4 +1,4 @@
-import LIF from './investments/lif';
+import * as LIF from './investments/lif';
 import RRIF from './investments/rrif';
 import RRSP from './investments/rrsp';
 import TFSA from './investments/tfsa';
