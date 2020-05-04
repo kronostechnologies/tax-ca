@@ -1,6 +1,7 @@
 /*
 Source :
 	http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+    https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-FR-web_0.pdf
 
 Revised 2020-04-30
 */
