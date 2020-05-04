@@ -1,19 +1,19 @@
 /*
 Sources:
-	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2019.pdf
+	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2020.pdf
 
-Revised 2019-12-23
+Revised 2020-05-04
 */
 
 export = {
-    INFLATION: 0.021,
+    INFLATION: 0.020,
     RETURN_RATES: {
-        SHORT_TERM: 0.03,
-        FIXED_INCOME: 0.039,
+        SHORT_TERM: 0.024,
+        FIXED_INCOME: 0.029,
         CANADIAN_EQUITIES: 0.061,
-        CONSERVATIVE_PORTFOLIO: 0.032,
-        BALANCED_PORTFOLIO: 0.037,
-        DYNAMIC_PORTFOLIO: 0.045,
+        CONSERVATIVE_PORTFOLIO: 0.024,
+        BALANCED_PORTFOLIO: 0.033,
+        DYNAMIC_PORTFOLIO: 0.043,
     },
-    BORROWING_RATE: 0.05,
+    BORROWING_RATE: 0.044,
 };
