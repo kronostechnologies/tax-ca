@@ -3,6 +3,7 @@
   "version": "2020.6.0",
   "description": "Canadian tax data and calculation functions.",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "contributors": [
     {
       "name": "Christian Roy",
@@ -24,27 +25,23 @@
     "data"
   ],
   "scripts": {
-    "build": "webpack",
+    "build": "tsc",
     "lint": "tslint -p tests/tsconfig.json \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint:ci": "yarn lint --format junit -o build/tests/tslint/junit.xml",
     "prepublishOnly": "rm -rf lib/ && yarn build",
     "test": "jest --config=tests/jest.config.js",
     "test:ci": "JEST_JUNIT_OUTPUT_DIR='build/tests/jest/' yarn test --maxWorkers=2 --ci --reporters=default --reporters=jest-junit",
-    "watch": "webpack --watch --env.dev=true"
+    "watch": "tsc --watch"
   },
   "devDependencies": {
     "@equisoft/tslint-config": "~0.0.8",
     "@types/jest": "~24.0.19",
     "@types/node": "^13.11.1",
-    "awesome-typescript-loader": "~5.2.1",
     "jest": "~24.9.0",
     "jest-junit": "~9.0.0",
     "ts-jest": "~24.1.0",
-    "tsconfig-paths-webpack-plugin": "~3.2.0",
     "tslint": "~5.20.0",
-    "typescript": "~3.6.4",
-    "webpack": "~4.41.2",
-    "webpack-cli": "~3.3.9"
+    "typescript": "~3.6.4"
   },
   "dependencies": {}
 }

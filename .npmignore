@@ -1,11 +1,5 @@
-/node_modules/
-/src/
-/test/
-/build/
-.editorconfig
-.gitignore
-.npmignore
-tsconfig.json
-tslint.json
-webpack.config.js
-yarn.lock
+**/*
+
+!lib
+!package.json
+!README.md
