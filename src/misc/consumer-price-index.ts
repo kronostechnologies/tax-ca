@@ -5,7 +5,36 @@ Sources:
 Revised 2019-12-23
 */
 
-export = {
+interface ConsumerPriceIndexYear {
+    JAN: number;
+    FEB: number;
+    MAR: number;
+    APR: number;
+    MAY: number;
+    JUN: number;
+    JUL: number;
+    AUG: number;
+    SEP: number;
+    OCT: number;
+    NOV: number;
+    DEC: number;
+}
+
+export interface ConsumerPriceIndex {
+    2009: ConsumerPriceIndexYear;
+    2010: ConsumerPriceIndexYear;
+    2011: ConsumerPriceIndexYear;
+    2012: ConsumerPriceIndexYear;
+    2013: ConsumerPriceIndexYear;
+    2014: ConsumerPriceIndexYear;
+    2015: ConsumerPriceIndexYear;
+    2016: ConsumerPriceIndexYear;
+    2017: ConsumerPriceIndexYear;
+    2018: ConsumerPriceIndexYear;
+    2019: ConsumerPriceIndexYear;
+}
+
+export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
     2009: {
         JAN: 113.0,
         FEB: 113.8,

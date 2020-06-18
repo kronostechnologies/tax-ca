@@ -1,6 +1,6 @@
-import CPI from './misc/cpi';
-import IQPF from './misc/iqpf';
-import LIFE_EXPECTANCY from './misc/life-expectancy';
+import * as ConsumerPriceIndex from './misc/consumer-price-index';
+import * as IQPFStats from './misc/iqpf-stats';
+import * as LifeExpectancy from './misc/life-expectancy';
 
 import * as CanadaPensionPlan from './pension/canada-pension-plan';
 import * as OldAgeSecurity from './pension/old-age-security';
@@ -37,8 +37,8 @@ export = {
         QuebecParentalInsurancePlan,
     },
     MISC: {
-        CPI,
-        IQPF,
-        LIFE_EXPECTANCY,
+        ConsumerPriceIndex,
+        IQPFStats,
+        LifeExpectancy,
     },
 };
