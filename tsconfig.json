@@ -5,11 +5,11 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "noEmitOnError": true,
+    "outDir": "dist",
     "baseUrl": "./src/",
     "paths": {},
     "declaration": true,
-    "declarationDir": "./lib/",
-    "outDir": "./lib/"
+    "declarationDir": "dist"
   },
   "include": [
     "src/**/*"
