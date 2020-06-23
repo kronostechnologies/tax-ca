@@ -9,9 +9,10 @@ import CPP from './pension/cpp';
 import OAS from './pension/oas';
 import QPP from './pension/qpp';
 import SPP from './pension/spp';
-import EI from './taxes/ei';
-import { INCOME_TAX } from './taxes/income-tax';
-import QPIP from './taxes/qpip';
+
+import * as EmploymentInsurance from './taxes/employment-insurance';
+import * as IncomeTax from './taxes/income-tax';
+import * as QuebecParentalInsurancePlan from './taxes/quebec-parental-insurance-plan';
 
 export = {
     INVESTMENTS: {
@@ -27,9 +28,9 @@ export = {
         SPP,
     },
     TAXES: {
-        EI,
-        INCOME_TAX,
-        QPIP,
+        EmploymentInsurance,
+        IncomeTax,
+        QuebecParentalInsurancePlan,
     },
     MISC: {
         CPI,
