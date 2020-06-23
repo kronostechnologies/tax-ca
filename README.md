@@ -82,9 +82,9 @@ Data relating to federal and provincial income taxes and social charges.
 
 ```
 TAXES
-  |--EI
-  |--INCOME_TAX
-  |--QPIP
+  |--EmploymentInsurance
+  |--IncomeTax
+  |--QuebecParentalInsurancePlan
 ```
 
 ### `MISC`
