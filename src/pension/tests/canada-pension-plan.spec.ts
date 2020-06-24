@@ -1,4 +1,4 @@
-import CPP from '../cpp';
+import { CPP } from '../canada-pension-plan';
 
 describe('getRequestDateFactor', () => {
     it('should return 0 when request date is before the participant 65th (minimum age) birthday', () => {
