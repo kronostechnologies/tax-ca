@@ -7,7 +7,12 @@ Revised 2019-12-23
 */
 // tslint:enable:max-line-length
 
-export = {
+export interface TaxFreeSavingsAccount {
+    MAX_CONTRIBUTION: number;
+    ROUNDING_FACTOR: number;
+}
+
+export const TFSA: TaxFreeSavingsAccount = {
     MAX_CONTRIBUTION: 6000,
     ROUNDING_FACTOR: 500,
 };

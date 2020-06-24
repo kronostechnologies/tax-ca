@@ -1,7 +1,3 @@
-import * as LIF from './investments/lif';
-import RRIF from './investments/rrif';
-import RRSP from './investments/rrsp';
-import TFSA from './investments/tfsa';
 import CPI from './misc/cpi';
 import IQPF from './misc/iqpf';
 import LIFE_EXPECTANCY from './misc/life-expectancy';
@@ -10,16 +6,21 @@ import OAS from './pension/oas';
 import QPP from './pension/qpp';
 import SPP from './pension/spp';
 
+import * as LifeIncomeFund from './investments/life-income-fund';
+import * as RegisteredRetirementIncomeFund from './investments/registered-retirement-income-fund';
+import * as RegisteredRetirementSavingsPlan from './investments/registered-retirement-savings-plan';
+import * as TaxFreeSavingsAccount from './investments/tax-free-savings-account';
+
 import * as EmploymentInsurance from './taxes/employment-insurance';
 import * as IncomeTax from './taxes/income-tax';
 import * as QuebecParentalInsurancePlan from './taxes/quebec-parental-insurance-plan';
 
 export = {
     INVESTMENTS: {
-        LIF,
-        RRIF,
-        TFSA,
-        RRSP,
+        LifeIncomeFund,
+        RegisteredRetirementIncomeFund,
+        RegisteredRetirementSavingsPlan,
+        TaxFreeSavingsAccount,
     },
     PENSION: {
         CPP,

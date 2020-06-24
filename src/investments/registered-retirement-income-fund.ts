@@ -7,7 +7,11 @@ Revised 2019-12-23
 */
 // tslint:enable:max-line-length
 
-export = {
+export interface RegisteredRetirementIncomeFund {
+    MIN_WITHDRAWAL_PCT: { [K: number]: number };
+}
+
+export const RRIF: RegisteredRetirementIncomeFund = {
     MIN_WITHDRAWAL_PCT: {
         50: 0.0250,
         51: 0.0256,

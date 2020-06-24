@@ -58,10 +58,10 @@ Data relating to registered investments accounts.
 
 ```
 INVESTMENTS
-  |--LIF
-  |--RRIF
-  |--TFSA
-  |--RRSP
+  |--LifeIncomeFund
+  |--RegisteredRetirementIncomeFund
+  |--RegisteredRetirementSavingsPlan
+  |--TaxFreeSavingsAccount
 ```
 
 ### `PENSION`
