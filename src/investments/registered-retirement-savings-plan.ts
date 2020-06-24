@@ -8,7 +8,17 @@ Revised 2019-12-23
 */
 // tslint:enable:max-line-length
 
-export = {
+export interface ConversionAge {
+    MIN: number;
+    MAX: number;
+}
+
+export interface RegisteredRetirementSavingsPlan {
+    CONVERSION_AGE: ConversionAge;
+    MAX_CONTRIBUTION: number;
+}
+
+export const RRSP: RegisteredRetirementSavingsPlan = {
     CONVERSION_AGE: {
         MIN: 55,
         MAX: 71,

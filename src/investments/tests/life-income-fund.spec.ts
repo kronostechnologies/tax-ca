@@ -1,5 +1,5 @@
 import { FederalCode, ProvinceCode } from '../../misc/code-types';
-import { federalMaxWithdrawalPct, getMaxWithdrawalPct, othersMaxWithdrawalPct, province1MaxWithdrawalPct, province2MaxWithdrawalPct } from '../lif';
+import { federalMaxWithdrawalPct, getMaxWithdrawalPct, othersMaxWithdrawalPct, province1MaxWithdrawalPct, province2MaxWithdrawalPct } from '../life-income-fund';
 
 describe('getMaxWithdrawalPct', () => {
     describe.each`
