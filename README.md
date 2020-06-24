@@ -70,10 +70,11 @@ Data relating to federal and provincial pension plans.
 
 ```
 PENSION
-  |--CPP
-  |--OAS
-  |--QPP
-  |--SPP
+  |--CanadaPensionPlan
+  |--OldAgeSecurity
+  |--PublicPensionPlan
+  |--QuebecPensionPlan
+  |--SupplementalPensionPlan
 ```
 
 ### `TAXES`
