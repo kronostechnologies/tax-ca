@@ -10,8 +10,9 @@ Revised 2020-02-04
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
+import { PublicPensionPlan } from './public-pension-plan';
 
-export = {
+export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
             MAX: 58700,
@@ -81,7 +82,6 @@ export = {
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
-
         return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
     },
     INDEXATION_RATE_REFERENCES: [
