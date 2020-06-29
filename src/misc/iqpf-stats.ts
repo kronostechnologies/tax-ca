@@ -5,7 +5,22 @@ Sources:
 Revised 2020-05-04
 */
 
-export = {
+export interface ReturnRates {
+    SHORT_TERM: number;
+    FIXED_INCOME: number;
+    CANADIAN_EQUITIES: number;
+    CONSERVATIVE_PORTFOLIO: number;
+    BALANCED_PORTFOLIO: number;
+    DYNAMIC_PORTFOLIO: number;
+}
+
+export interface IQPFStatistics {
+    INFLATION: number;
+    RETURN_RATES: ReturnRates;
+    BORROWING_RATE: number;
+}
+
+export const IQPF: IQPFStatistics = {
     INFLATION: 0.020,
     RETURN_RATES: {
         SHORT_TERM: 0.024,

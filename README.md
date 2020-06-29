@@ -94,9 +94,9 @@ Complementary data useful in a tax calculation context.
 
 ```
 MISC
-  |--CPI
-  |--QIFP
-  |--LIFE_EXPECTANCY
+  |--ConsumerPriceIndex
+  |--IQPFStats
+  |--LifeExpectancy
 ```
 
 
