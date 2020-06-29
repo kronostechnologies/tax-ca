@@ -5,7 +5,7 @@ Sources:
 Revised 2019-12-23
 */
 
-interface ConsumerPriceIndexYear {
+interface MonthlyConsumerPriceIndex {
     JAN: number;
     FEB: number;
     MAR: number;
@@ -21,17 +21,17 @@ interface ConsumerPriceIndexYear {
 }
 
 export interface ConsumerPriceIndex {
-    2009: ConsumerPriceIndexYear;
-    2010: ConsumerPriceIndexYear;
-    2011: ConsumerPriceIndexYear;
-    2012: ConsumerPriceIndexYear;
-    2013: ConsumerPriceIndexYear;
-    2014: ConsumerPriceIndexYear;
-    2015: ConsumerPriceIndexYear;
-    2016: ConsumerPriceIndexYear;
-    2017: ConsumerPriceIndexYear;
-    2018: ConsumerPriceIndexYear;
-    2019: ConsumerPriceIndexYear;
+    2009: MonthlyConsumerPriceIndex;
+    2010: MonthlyConsumerPriceIndex;
+    2011: MonthlyConsumerPriceIndex;
+    2012: MonthlyConsumerPriceIndex;
+    2013: MonthlyConsumerPriceIndex;
+    2014: MonthlyConsumerPriceIndex;
+    2015: MonthlyConsumerPriceIndex;
+    2016: MonthlyConsumerPriceIndex;
+    2017: MonthlyConsumerPriceIndex;
+    2018: MonthlyConsumerPriceIndex;
+    2019: MonthlyConsumerPriceIndex;
 }
 
 export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
