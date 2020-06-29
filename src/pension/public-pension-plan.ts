@@ -43,7 +43,10 @@ export interface FlatBenefit {
     OVER_64_WITHOUT_PENSION: number;
 }
 
-export type IndexationRateReference = [number, number];
+// tslint:disable-next-line:max-line-length
+export type IndexationRateReferenceYear = 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019;
+
+export type IndexationRateReference = [IndexationRateReferenceYear, number];
 
 export interface MaxPension {
     RETIREMENT: number;
@@ -75,6 +78,6 @@ export interface PublicPensionPlan {
     REPLACEMENT_FACTOR: number;
     SURVIVOR_RATES: SurvivorRate;
     YEARS_TO_FULL_PENSION: number;
-    getRequestDateFactor(a: Date, b: Date): number;
+    getRequestDateFactor(birthDate: Date, requestDate: Date): number;
     getAverageIndexationRate(): number;
 }

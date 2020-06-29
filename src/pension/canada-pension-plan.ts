@@ -86,7 +86,7 @@ export const CPP: PublicPensionPlan = {
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
-        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
+        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 3);
     },
     INDEXATION_RATE_REFERENCES: [ // Previous year inflation used as indexation
         [2007, 0.020],

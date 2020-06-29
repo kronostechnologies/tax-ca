@@ -5,23 +5,8 @@ Sources:
 Revised 2018-12-21
 */
 
-import { FederalCode, ProvinceCode } from '../misc/code-types';
+import { FederalCode, ProvinceCode, ProvinceName } from '../misc/code-types';
 import { maxBy } from '../utils/collections';
-
-type ProvinceName =
-    'ALBERTA'
-    | 'BRITISH_COLUMBIA'
-    | 'MANITOBA'
-    | 'NEW_BRUNSWICK'
-    | 'NEWFOUNDLAND'
-    | 'NOVA_SCOTIA'
-    | 'PRINCE_EDWARD_ISLAND'
-    | 'ONTARIO'
-    | 'QUEBEC'
-    | 'SASKATCHEWAN'
-    | 'NORTHWEST_TERRITORIES'
-    | 'NUNAVUT'
-    | 'YUKON';
 
 export const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode } = {
     ALBERTA: 'AB',

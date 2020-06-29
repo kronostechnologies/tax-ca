@@ -21,7 +21,7 @@ export interface OldAgeSecurity {
     MONTHLY_PAYMENT_MAX: number;
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
-    getRequestDateFactor(a: Date, b: Date): number;
+    getRequestDateFactor(birthDate: Date, requestDate: Date): number;
 }
 
 export const OAS: OldAgeSecurity = {
