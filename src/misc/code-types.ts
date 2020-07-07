@@ -15,3 +15,21 @@ export type ProvinceName =
     | 'NORTHWEST_TERRITORIES'
     | 'NUNAVUT'
     | 'YUKON';
+
+export const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode } = {
+    ALBERTA: 'AB',
+    BRITISH_COLUMBIA: 'BC',
+    MANITOBA: 'MB',
+    NEW_BRUNSWICK: 'NB',
+    NEWFOUNDLAND: 'NL',
+    NOVA_SCOTIA: 'NS',
+    PRINCE_EDWARD_ISLAND: 'PE',
+    ONTARIO: 'ON',
+    QUEBEC: 'QC',
+    SASKATCHEWAN: 'SK',
+    NORTHWEST_TERRITORIES: 'NT',
+    NUNAVUT: 'NU',
+    YUKON: 'YT',
+};
+
+export const FEDERAL_CODE: FederalCode = 'CA';

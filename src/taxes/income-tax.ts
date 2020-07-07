@@ -5,32 +5,16 @@ Sources:
 Revised 2018-12-21
 */
 
-import { FederalCode, ProvinceCode, ProvinceName } from '../misc/code-types';
+import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc/code-types';
 import { maxBy } from '../utils/collections';
 
-export const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode } = {
-    ALBERTA: 'AB',
-    BRITISH_COLUMBIA: 'BC',
-    MANITOBA: 'MB',
-    NEW_BRUNSWICK: 'NB',
-    NEWFOUNDLAND: 'NL',
-    NOVA_SCOTIA: 'NS',
-    PRINCE_EDWARD_ISLAND: 'PE',
-    ONTARIO: 'ON',
-    QUEBEC: 'QC',
-    SASKATCHEWAN: 'SK',
-    NORTHWEST_TERRITORIES: 'NT',
-    NUNAVUT: 'NU',
-    YUKON: 'YT',
-};
-
-interface Rate {
+export interface Rate {
     FROM: number;
     TO: number;
     RATE: number;
 }
 
-interface TaxBracketsElement {
+export interface TaxBracket {
     ABATEMENT: number;
     TAX_CREDIT_RATE: number;
     BASE_TAX_CREDIT: number;
@@ -38,7 +22,9 @@ interface TaxBracketsElement {
     SURTAX_RATES: Rate[];
 }
 
-export const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsElement } = {
+export type TaxBrackets = { [key in ProvinceCode | FederalCode]: TaxBracket };
+
+export const TAX_BRACKETS: TaxBrackets = {
     CA: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.15,
@@ -454,8 +440,6 @@ export const TAX_BRACKETS: { [key in ProvinceCode | FederalCode]: TaxBracketsEle
         }],
     },
 };
-
-export const FEDERAL_CODE: FederalCode = 'CA';
 
 function extractRate(rates: Rate[], income: number, inflationRate: number, yearsToInflate: number): number {
     let tax = 0;
