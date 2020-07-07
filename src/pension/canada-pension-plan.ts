@@ -1,17 +1,22 @@
-// tslint:disable:max-line-length
 /*
 Sources:
-    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
-    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
+    http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/payment-amounts.html
+    ---
+    http://www.esdc.gc.ca/en/cpp/survivor_pension.page
+    http://www.esdc.gc.ca/en/cpp/death_benefit.page
+    http://www.esdc.gc.ca/en/reports/pension/cpp_technical_amendments.page
+    http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
+    http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 
-Revised 2020-02-04
+Revised 2019-12-23
 */
-// tslint:enable:max-line-length
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
+import { PublicPensionPlan } from './public-pension-plan';
 
-export = {
+export const CPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
             MAX: 58700,
@@ -40,12 +45,12 @@ export = {
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         ORPHAN: 3060.36,
-        DISABILITY: 16661.52,
-        UNDER_45: 6857.76,
-        UNDER_45_WITH_CHILD: 10938.60,
-        UNDER_45_DISABLED: 11372.40,
-        FROM_45_TO_64: 11372.40,
-        OVER_64_WITHOUT_PENSION: 8479.80,
+        DISABILITY: 16651.92,
+        UNDER_45: 7519.56,
+        UNDER_45_WITH_CHILD: 7659.36,
+        UNDER_45_DISABLED: 7659.36,
+        FROM_45_TO_64: 7659.36,
+        OVER_64_WITHOUT_PENSION: 8466,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -81,24 +86,28 @@ export = {
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
-
-        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
+        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 3);
     },
-    INDEXATION_RATE_REFERENCES: [
-        [2007, 0.021],
-        [2008, 0.020],
-        [2009, 0.025],
-        [2010, 0.004],
-        [2011, 0.017],
-        [2012, 0.028],
-        [2013, 0.018],
+    INDEXATION_RATE_REFERENCES: [ // Previous year inflation used as indexation
+        [2007, 0.020],
+        [2008, 0.022],
+        [2009, 0.023],
+        [2010, 0.003],
+        [2011, 0.018],
+        [2012, 0.029],
+        [2013, 0.015],
         [2014, 0.009],
-        [2015, 0.018],
-        [2016, 0.012],
-        [2017, 0.020],
-        [2018, 0.015],
+        [2015, 0.020],
+        [2016, 0.011],
+        [2017, 0.014],
+        [2018, 0.016],
         [2019, 0.023],
     ],
+    MAX_PENSION: {
+        RETIREMENT: 14109.96,
+        COMBINED_RETIREMENT_SURVIVOR: 14109.96,
+        DEATH_BENEFIT: 2500,
+    },
     MAX_INCOME: {
         1966: 5000,
         1967: 5000,
@@ -155,11 +164,6 @@ export = {
         2018: 55900,
         2019: 57400,
         2020: 58700,
-    },
-    MAX_PENSION: {
-        RETIREMENT: 14109.96,
-        COMBINED_RETIREMENT_SURVIVOR: 14109.96,
-        DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
     MIN_REQUEST_AGE: 60,

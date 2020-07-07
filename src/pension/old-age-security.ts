@@ -9,7 +9,22 @@ Revised 2019-12-23
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp } from '../utils/math';
 
-export = {
+export interface Repayment {
+    MAX: number;
+    MIN: number;
+    RATIO: number;
+}
+
+export interface OldAgeSecurity {
+    MAX_AGE: number;
+    MIN_AGE: number;
+    MONTHLY_PAYMENT_MAX: number;
+    MONTHLY_DELAY_BONUS: number;
+    REPAYMENT: Repayment;
+    getRequestDateFactor(birthDate: Date, requestDate: Date): number;
+}
+
+export const OAS: OldAgeSecurity = {
     getRequestDateFactor(birthDate: Date, requestDate: Date): number {
         const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
         const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);

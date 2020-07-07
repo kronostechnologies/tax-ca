@@ -1,81 +1,18 @@
+// tslint:disable:max-line-length
 /*
 Sources:
-    http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/payment-amounts.html
-    ---
-    http://www.esdc.gc.ca/en/cpp/survivor_pension.page
-    http://www.esdc.gc.ca/en/cpp/death_benefit.page
-    http://www.esdc.gc.ca/en/reports/pension/cpp_technical_amendments.page
-    http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
-    http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
+    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
+    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
-Revised 2019-12-23
+Revised 2020-02-04
 */
+// tslint:enable:max-line-length
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
-import { clamp } from '../utils/math';
+import { clamp, roundToPrecision } from '../utils/math';
+import { PublicPensionPlan } from './public-pension-plan';
 
-const MAX_INCOME: { [K: number]: number } = {
-    1966: 5000,
-    1967: 5000,
-    1968: 5100,
-    1969: 5200,
-    1970: 5300,
-    1971: 5400,
-    1972: 5500,
-    1973: 5900,
-    1974: 6600,
-    1975: 7400,
-    1976: 8300,
-    1977: 9300,
-    1978: 10400,
-    1979: 11700,
-    1980: 13100,
-    1981: 14700,
-    1982: 16500,
-    1983: 18500,
-    1984: 20800,
-    1985: 23400,
-    1986: 25800,
-    1987: 25900,
-    1988: 26500,
-    1989: 27700,
-    1990: 28900,
-    1991: 30500,
-    1992: 32200,
-    1993: 33400,
-    1994: 34400,
-    1995: 34900,
-    1996: 35400,
-    1997: 35800,
-    1998: 36900,
-    1999: 37400,
-    2000: 37600,
-    2001: 38300,
-    2002: 39100,
-    2003: 39900,
-    2004: 40500,
-    2005: 41100,
-    2006: 42100,
-    2007: 43700,
-    2008: 44900,
-    2009: 46300,
-    2010: 47200,
-    2011: 48300,
-    2012: 50100,
-    2013: 51100,
-    2014: 52500,
-    2015: 53600,
-    2016: 54900,
-    2017: 55300,
-    2018: 55900,
-    2019: 57400,
-    2020: 58700,
-};
-
-type MaxIncomeByYear = keyof typeof MAX_INCOME;
-
-export = {
+export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
             MAX: 58700,
@@ -104,12 +41,12 @@ export = {
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         ORPHAN: 3060.36,
-        DISABILITY: 16651.92,
-        UNDER_45: 7519.56,
-        UNDER_45_WITH_CHILD: 7659.36,
-        UNDER_45_DISABLED: 7659.36,
-        FROM_45_TO_64: 7659.36,
-        OVER_64_WITHOUT_PENSION: 8466,
+        DISABILITY: 16661.52,
+        UNDER_45: 6857.76,
+        UNDER_45_WITH_CHILD: 10938.60,
+        UNDER_45_DISABLED: 11372.40,
+        FROM_45_TO_64: 11372.40,
+        OVER_64_WITHOUT_PENSION: 8479.80,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -143,45 +80,87 @@ export = {
 
         return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
     },
-    getAverageIndexationRate(): string {
-        const sum = this.INDEXATION_RATES_REFERENCES.reduce((previous, current) => previous + current[1], 0);
-        const averageAsString: string = (sum / this.INDEXATION_RATES_REFERENCES.length).toString();
-
-        return Number.parseFloat(averageAsString).toPrecision(3);
+    getAverageIndexationRate(): number {
+        const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
+        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
     },
-    getMPEA(year: MaxIncomeByYear): number {
-        return (this.MAX_INCOME[year - 4] + this.MAX_INCOME[year - 3] + this.MAX_INCOME[year - 2]
-            + this.MAX_INCOME[year - 1] + this.MAX_INCOME[year]) / 5;
-    },
-    getPostRetirementBenefit(
-        pensionableEarning: number,
-        yearMaximumPe: number,
-        maximumPeAverage: number,
-        aaf: number,
-    ): number {
-        return (pensionableEarning / yearMaximumPe) * 0.00625 * maximumPeAverage * aaf / 12;
-    },
-    INDEXATION_RATES_REFERENCES: [ // Previous year inflation used as indexation
-        [2007, 0.020],
-        [2008, 0.022],
-        [2009, 0.023],
-        [2010, 0.003],
-        [2011, 0.018],
-        [2012, 0.029],
-        [2013, 0.015],
+    INDEXATION_RATE_REFERENCES: [
+        [2007, 0.021],
+        [2008, 0.020],
+        [2009, 0.025],
+        [2010, 0.004],
+        [2011, 0.017],
+        [2012, 0.028],
+        [2013, 0.018],
         [2014, 0.009],
-        [2015, 0.020],
-        [2016, 0.011],
-        [2017, 0.014],
-        [2018, 0.016],
+        [2015, 0.018],
+        [2016, 0.012],
+        [2017, 0.020],
+        [2018, 0.015],
         [2019, 0.023],
     ],
+    MAX_INCOME: {
+        1966: 5000,
+        1967: 5000,
+        1968: 5100,
+        1969: 5200,
+        1970: 5300,
+        1971: 5400,
+        1972: 5500,
+        1973: 5900,
+        1974: 6600,
+        1975: 7400,
+        1976: 8300,
+        1977: 9300,
+        1978: 10400,
+        1979: 11700,
+        1980: 13100,
+        1981: 14700,
+        1982: 16500,
+        1983: 18500,
+        1984: 20800,
+        1985: 23400,
+        1986: 25800,
+        1987: 25900,
+        1988: 26500,
+        1989: 27700,
+        1990: 28900,
+        1991: 30500,
+        1992: 32200,
+        1993: 33400,
+        1994: 34400,
+        1995: 34900,
+        1996: 35400,
+        1997: 35800,
+        1998: 36900,
+        1999: 37400,
+        2000: 37600,
+        2001: 38300,
+        2002: 39100,
+        2003: 39900,
+        2004: 40500,
+        2005: 41100,
+        2006: 42100,
+        2007: 43700,
+        2008: 44900,
+        2009: 46300,
+        2010: 47200,
+        2011: 48300,
+        2012: 50100,
+        2013: 51100,
+        2014: 52500,
+        2015: 53600,
+        2016: 54900,
+        2017: 55300,
+        2018: 55900,
+        2019: 57400,
+        2020: 58700,
+    },
     MAX_PENSION: {
         RETIREMENT: 14109.96,
         COMBINED_RETIREMENT_SURVIVOR: 14109.96,
         DEATH_BENEFIT: 2500,
     },
-    MAX_INCOME,
     MAX_REQUEST_AGE: 70,
     MIN_REQUEST_AGE: 60,
     MONTHLY_DELAY: {
