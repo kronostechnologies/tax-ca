@@ -5,14 +5,14 @@ Sources:
 Revised 2019-12-23
 */
 
-export interface PremiumRate {
+export interface PremiumRates {
     SELF_EMPLOYED: number;
     SALARIED: number;
 }
 
 export interface QuebecParentalInsurancePlan {
     MAX_INSURABLE_EARNINGS: number;
-    PREMIUM_RATES: PremiumRate;
+    PREMIUM_RATES: PremiumRates;
 }
 
 export const QPIP: QuebecParentalInsurancePlan = {

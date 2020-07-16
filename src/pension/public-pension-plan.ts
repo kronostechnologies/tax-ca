@@ -1,13 +1,9 @@
+import { Rate } from '..';
+
 export interface Factor {
     FROM: number;
     TO: number;
     FACTOR: number;
-}
-
-export interface Rate {
-    FROM: number;
-    TO: number;
-    RATE: number;
 }
 
 export interface PensionableEarnings {
