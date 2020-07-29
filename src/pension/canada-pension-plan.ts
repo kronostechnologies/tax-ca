@@ -52,12 +52,12 @@ export const CPP: PublicPensionPlan = {
         FROM_45_TO_64: 7659.36,
         OVER_64_WITHOUT_PENSION: 8466,
     },
-    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+    getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
 
         const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);
         const maxRequestDate = addYearsToDate(birthDate, this.MAX_REQUEST_AGE);
-        const referenceDate = addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
+        const referenceDate = customReferenceDate || addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
 
         const monthsToToday = getMonthsDiff(birthDate, now());
         const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
