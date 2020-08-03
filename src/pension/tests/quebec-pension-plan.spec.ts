@@ -46,7 +46,7 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1 - 48 * QPP.MONTHLY_DELAY.PENALTY);
     });
 
-    it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => {
+    it('should return 1 when request date is after the participant 65th (reference age) birthday but for less than a month ', () => {
         const birthDate = new Date('1980-01-15');
         const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday
 
@@ -125,5 +125,15 @@ describe('getRequestDateFactor', () => {
         const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
 
         expect(ratio).toBe(1);
+    });
+
+    it('should use a custom reference date on calculation when given', () => {
+        const birthDate = new Date('1980-01-01');
+        const referenceDate = new Date('2046-01-01');
+        const requestDate = new Date('2046-07-01'); // 6 months after his 66th birthday, the custom reference date
+
+        const ratio = QPP.getRequestDateFactor(birthDate, requestDate, referenceDate);
+
+        expect(ratio).toBe(1 + 6 * QPP.MONTHLY_DELAY.BONUS);
     });
 });
