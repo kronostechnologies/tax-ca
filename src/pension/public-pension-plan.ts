@@ -74,6 +74,6 @@ export interface PublicPensionPlan {
     REPLACEMENT_FACTOR: number;
     SURVIVOR_RATES: SurvivorRate;
     YEARS_TO_FULL_PENSION: number;
-    getRequestDateFactor(birthDate: Date, requestDate: Date): number;
+    getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number;
     getAverageIndexationRate(): number;
 }
