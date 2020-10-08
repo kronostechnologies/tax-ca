@@ -368,9 +368,9 @@
     pretty-format "^25.2.1"
 
 "@types/node@^14.0.23":
-  version "14.11.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.4.tgz#bf6ea3d5f7b1504232b11acbc40e1ac4c750d3b9"
-  integrity sha512-KmoLCUeW2cWKkEOQ0gQcECuqOc0g7B7zcmRPQNMT4ntNm0luKv3BTLcqIyWpTxkhLDzLTdMus11j/6DROaZdPw==
+  version "14.11.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.6.tgz#a332341dc32dd896d55c6c1a64a3105701bccd67"
+  integrity sha512-1/AVlPLmRzzTDc+T28H3AaA12Be1X74mqYDaecFFCo5r5aw3Lqj+PAqAE06nefV33otTl5JLfiIp5HgRrpu4SA==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
