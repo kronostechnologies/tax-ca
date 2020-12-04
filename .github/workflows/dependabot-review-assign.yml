@@ -1,0 +1,15 @@
+name: "Dependabot Review Assign"
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reviewer lottery
+        if: contains(github.actor, 'dependabot')
+        uses: hkusu/review-assign-action@v0.1.1
+        with:
+          reviewers: toby-daigle, JsGarneau, julienchouinard, jeremilc, Pierregagne
+          max-num-of-reviewers: 1
