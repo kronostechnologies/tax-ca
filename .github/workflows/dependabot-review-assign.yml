@@ -7,9 +7,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Reviewer lottery
+      - name: Find last assign
         if: contains(github.actor, 'dependabot')
-        uses: hkusu/review-assign-action@v0.1.1
+        uses: lee-dohm/last-assigned@v1
         with:
-          reviewers: toby-daigle, JsGarneau, julienchouinard, jeremilc, Pierregagne
-          max-num-of-reviewers: 1
+          query: 'label:dependencies assignee:*'
+          token: ${{ secrets.GITHUB_TOKEN }}
+        id: assigned
+      - uses: lee-dohm/team-rotation@v1
+        if: contains(github.actor, 'dependabot')
+        with:
+          last: ${{ steps.assigned.outputs.last }}
+          include: toby-daigle JsGarneau julienchouinard jeremilc Pierregagne
+        id: rotation
+      - name: 'Add assignee'
+        if: contains(github.actor, 'dependabot')
+        uses: actions-ecosystem/action-add-assignees@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          assignees: ${{ steps.rotation.outputs.next }}
