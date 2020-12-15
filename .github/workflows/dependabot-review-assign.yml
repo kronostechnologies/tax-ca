@@ -4,25 +4,18 @@ on:
     types: [opened, ready_for_review, reopened]
 
 jobs:
-  test:
+  assign:
     runs-on: ubuntu-latest
     steps:
-      - name: Find last assign
+      - name: 'Last assignee'
         if: contains(github.actor, 'dependabot')
-        uses: lee-dohm/last-assigned@v1
+        uses: toby-daigle/rotation@v1.0.2
         with:
-          query: 'label:dependencies assignee:*'
-          token: ${{ secrets.GITHUB_TOKEN }}
-        id: assigned
-      - uses: lee-dohm/team-rotation@v1
-        if: contains(github.actor, 'dependabot')
-        with:
-          last: ${{ steps.assigned.outputs.last }}
-          include: toby-daigle JsGarneau julienchouinard jeremilc Pierregagne
+          members: toby-daigle jeremilc JsGarneau Pierregagne julienchouinard
         id: rotation
       - name: 'Add assignee'
         if: contains(github.actor, 'dependabot')
         uses: actions-ecosystem/action-add-assignees@v1
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           assignees: ${{ steps.rotation.outputs.next }}
