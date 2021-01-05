@@ -4,7 +4,7 @@ Sources:
     http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
     https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
-Revised 2020-02-04
+Revised 2021-01-05
 */
 // tslint:enable:max-line-length
 
@@ -15,10 +15,10 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 58700,
+            MAX: 61600,
             MIN: 3500,
-            AVG_MAX: 56440,
-            SUP_MAX: 64300,
+            AVG_MAX: 60180,
+            SUP_MAX: 70224,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
@@ -40,13 +40,13 @@ export const QPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3060.36,
-        DISABILITY: 16661.52,
-        UNDER_45: 6857.76,
-        UNDER_45_WITH_CHILD: 10938.60,
-        UNDER_45_DISABLED: 11372.40,
-        FROM_45_TO_64: 11372.40,
-        OVER_64_WITHOUT_PENSION: 8479.80,
+        ORPHAN: 3090.96,
+        DISABILITY: 16997.40,
+        UNDER_45: 6941.04,
+        UNDER_45_WITH_CHILD: 11062.68,
+        UNDER_45_DISABLED: 11500.80,
+        FROM_45_TO_64: 11500.80,
+        OVER_64_WITHOUT_PENSION: 8577.36,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -98,6 +98,8 @@ export const QPP: PublicPensionPlan = {
         [2017, 0.020],
         [2018, 0.015],
         [2019, 0.023],
+        [2020, 0.019],
+        [2021, 0.010],
     ],
     MAX_INCOME: {
         1966: 5000,
@@ -155,10 +157,11 @@ export const QPP: PublicPensionPlan = {
         2018: 55900,
         2019: 57400,
         2020: 58700,
+        2021: 61600,
     },
     MAX_PENSION: {
-        RETIREMENT: 14109.96,
-        COMBINED_RETIREMENT_SURVIVOR: 14109.96,
+        RETIREMENT: 14499.12,
+        COMBINED_RETIREMENT_SURVIVOR: 14499.12,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,

@@ -1,8 +1,8 @@
 /*
 Sources:
-	http://app.iqpf.org/guidelines/life-expectancy
+	http://app.iqpf.org/?locale=en#/guidelines/life-expectancy
 
-Revised 2019-12-23
+Revised 2020-12-21
 */
 
 export interface IndividualLifeExpectancy {
