@@ -1,9 +1,9 @@
 /*
-Source :
-	http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
-    https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-FR-web_0.pdf
+Sources:
+  Federal: http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+  Provincial: https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-EN-web_0.pdf
 
-Revised 2020-04-30
+Revised 2020-12-21
 */
 
 import { FederalCode, ProvinceCode } from '../misc/code-types';
@@ -98,42 +98,42 @@ export const province2MaxWithdrawalPct: MaxWithdrawalPctByAge = {
 
 // Federal
 export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
-    54: 0.0424,
-    55: 0.0428,
-    56: 0.0432,
-    57: 0.0437,
-    58: 0.0443,
-    59: 0.0448,
-    60: 0.0455,
-    61: 0.0462,
-    62: 0.0469,
-    63: 0.0478,
-    64: 0.0487,
-    65: 0.0497,
-    66: 0.0508,
-    67: 0.0521,
-    68: 0.0535,
-    69: 0.0550,
-    70: 0.0567,
-    71: 0.0587,
-    72: 0.0610,
-    73: 0.0635,
-    74: 0.0665,
-    75: 0.0700,
-    76: 0.0741,
-    77: 0.0788,
-    78: 0.0843,
-    79: 0.0906,
-    80: 0.0981,
-    81: 0.1071,
-    82: 0.1181,
-    83: 0.1319,
-    84: 0.1496,
-    85: 0.1732,
-    86: 0.2062,
-    87: 0.2558,
-    88: 0.3385,
-    89: 0.5038,
+    54: 0.040251,
+    55: 0.040662,
+    56: 0.041107,
+    57: 0.041589,
+    58: 0.042113,
+    59: 0.042683,
+    60: 0.043304,
+    61: 0.043983,
+    62: 0.044726,
+    63: 0.045541,
+    64: 0.046438,
+    65: 0.047429,
+    66: 0.048526,
+    67: 0.049746,
+    68: 0.051107,
+    69: 0.052635,
+    70: 0.054357,
+    71: 0.056309,
+    72: 0.058538,
+    73: 0.061102,
+    74: 0.064077,
+    75: 0.067563,
+    76: 0.071699,
+    77: 0.076427,
+    78: 0.081883,
+    79: 0.088251,
+    80: 0.095777,
+    81: 0.104811,
+    82: 0.115855,
+    83: 0.129661,
+    84: 0.147416,
+    85: 0.171091,
+    86: 0.20424,
+    87: 0.253968,
+    88: 0.336854,
+    89: 0.502636,
     90: 1,
 };
 

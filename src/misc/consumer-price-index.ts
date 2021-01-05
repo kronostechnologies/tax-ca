@@ -1,7 +1,8 @@
 /*
 Sources:
-	http://www.banqueducanada.ca/taux/indices-des-prix/ipc/ (IPC Global)
+	https://www.bankofcanada.ca/rates/price-indexes/cpi/
 
+NOT USED BY FNA-ENGINE
 Revised 2019-12-23
 */
 
@@ -32,6 +33,7 @@ export interface ConsumerPriceIndex {
     2017: MonthlyConsumerPriceIndex;
     2018: MonthlyConsumerPriceIndex;
     2019: MonthlyConsumerPriceIndex;
+    2020: MonthlyConsumerPriceIndex;
 }
 
 export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
@@ -188,5 +190,19 @@ export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
         OCT: 136.6,
         NOV: 136.4,
         DEC: 136.4,
+    },
+    2020: {
+        JAN: 136.8,
+        FEB: 137.4,
+        MAR: 136.6,
+        APR: 135.7,
+        MAY: 136.1,
+        JUN: 137.2,
+        JUL: 137.2,
+        AUG: 137.0,
+        SEP: 136.9,
+        OCT: 137.5,
+        NOV: 137.7,
+        DEC: 137.7,
     },
 };

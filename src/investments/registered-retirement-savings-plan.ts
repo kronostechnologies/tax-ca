@@ -2,9 +2,8 @@
 /*
 Sources:
 	https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
-	http://www.rrq.gouv.qc.ca/SiteCollectionDocuments/www.rrq.gouv.qc/Francais/pdf/rcr/annexe06.pdf
 
-Revised 2019-12-23
+Revised 2020-12-21
 */
 // tslint:enable:max-line-length
 
@@ -23,5 +22,5 @@ export const RRSP: RegisteredRetirementSavingsPlan = {
         MIN: 55,
         MAX: 71,
     },
-    MAX_CONTRIBUTION: 27230,
+    MAX_CONTRIBUTION: 27830,
 };

@@ -2,7 +2,7 @@
 Sources:
   https://www.rqap.gouv.qc.ca/fr/a-propos-du-regime/information-generale/cotisations-et-revenu-maximal-assurable
 
-Revised 2019-12-23
+Revised 2020-12-22
 */
 
 export interface PremiumRates {
@@ -16,7 +16,7 @@ export interface QuebecParentalInsurancePlan {
 }
 
 export const QPIP: QuebecParentalInsurancePlan = {
-    MAX_INSURABLE_EARNINGS: 78500,
+    MAX_INSURABLE_EARNINGS: 83500,
     PREMIUM_RATES: {
         SELF_EMPLOYED: 0.00878,
         SALARIED: 0.00494,
