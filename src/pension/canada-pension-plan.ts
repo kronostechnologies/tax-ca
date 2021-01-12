@@ -33,7 +33,7 @@ export const CPP: PublicPensionPlan = {
             ],
         },
         RATES: {
-            BASE: 0.054,
+            BASE: 0.0495,
             ENHANCEMENT_STEP_1: [
                 { FROM: 2019, TO: 2019, RATE: 0.0015 },
                 { FROM: 2020, TO: 2020, RATE: 0.003 },
