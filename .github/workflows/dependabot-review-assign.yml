@@ -11,7 +11,7 @@ jobs:
         if: contains(github.actor, 'dependabot')
         uses: toby-daigle/rotation@v1.0.2
         with:
-          members: toby-daigle jeremilc JsGarneau Pierregagne julienchouinard
+          members: toby-daigle jeremilc JsGarneau Pierregagne
         id: rotation
       - name: 'Add assignee'
         if: contains(github.actor, 'dependabot')
