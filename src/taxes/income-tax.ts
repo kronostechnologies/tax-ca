@@ -321,7 +321,7 @@ export const TAX_BRACKETS: TaxBrackets = {
             TO: 45105,
             RATE: 0.15,
         }, {
-            FROM: 44545,
+            FROM: 45105,
             TO: 90200,
             RATE: 0.20,
         }, {
