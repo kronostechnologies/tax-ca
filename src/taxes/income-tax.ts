@@ -487,10 +487,17 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].SURTAX_RATES;
 }
 
-export function getFederalTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
+export function getFederalTaxAmount(
+    provincialCode: ProvinceCode,
+    grossIncome: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
     const federalBaseTaxAmount = getFederalBaseTaxAmount(grossIncome, inflationRate, yearsToInflate);
     const baseCredit = getFederalBaseCredit(inflationRate, yearsToInflate);
-    return Math.max(federalBaseTaxAmount - baseCredit, 0);
+    const federalTax = Math.max(federalBaseTaxAmount - baseCredit, 0);
+    const abatement = getProvincialAbatement(provincialCode, federalTax);
+    return Math.max(federalTax - abatement, 0);
 }
 
 export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
@@ -505,7 +512,7 @@ export function getProvincialTaxAmount(
 ): number {
     const baseTaxAmount = getProvincialBaseTaxAmount(province, grossIncome, inflationRate, yearsToInflate);
     const baseCredit = getProvincialBaseCredit(province, inflationRate, yearsToInflate);
-    const tax = Math.max(baseTaxAmount - baseCredit, 0)
+    const tax = Math.max(baseTaxAmount - baseCredit, 0);
     const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
     return tax + surTax;
 }
@@ -567,15 +574,6 @@ export function getProvincialMarginalRate(
     return taxRate + (taxRate * surtaxRate);
 }
 
-export function getEffectiveRate(
-    provincialCode: ProvinceCode,
-    grossIncome: number,
-    inflationRate = 0,
-    yearsToInflate = 0,
-): number {
-    return calculateEffectiveTaxRate(grossIncome, provincialCode, inflationRate, yearsToInflate);
-}
-
 export function getProvincialBaseCredit(province: ProvinceCode, inflationRate: number, yearsToInflate: number): number {
     const baseTaxCredit = TAX_BRACKETS[province].BASE_TAX_CREDIT * TAX_BRACKETS[province].RATES[0].RATE;
     return inflate(baseTaxCredit, inflationRate, yearsToInflate);
@@ -623,12 +621,11 @@ export function getTotalTaxAmount(
     yearsToInflate = 0,
 ): number {
     const provTax = getProvincialTaxAmount(provincialCode, grossIncome, inflationRate, yearsToInflate);
-    const fedTax = getFederalTaxAmount(grossIncome, inflationRate, yearsToInflate);
-    const abatement = getProvincialAbatement(provincialCode, fedTax);
-    return Math.max(provTax, 0) + Math.max(fedTax - abatement, 0);
+    const fedTax = getFederalTaxAmount(provincialCode, grossIncome, inflationRate, yearsToInflate);
+    return Math.max(provTax, 0) + Math.max(fedTax, 0);
 }
 
-export function calculateEffectiveTaxRate(
+export function getEffectiveRate(
     province: ProvinceCode,
     income: number,
     inflationRate = 0,
