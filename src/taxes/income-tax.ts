@@ -467,6 +467,14 @@ function extractRate(rates: Rate[], income: number, inflationRate: number, years
     return rates.reduce(reducer, 0);
 }
 
+function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number {
+    const reducer = (previous: number, current: Rate) => {
+        const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
+        return bracketFrom < grossIncome ? current.RATE : previous;
+    };
+    return brackets.reduce(reducer, 0);
+}
+
 function getTaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].RATES;
 }
@@ -479,19 +487,37 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].SURTAX_RATES;
 }
 
-function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number {
-    const reducer = (previous: number, current: Rate) => {
-        const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
-        return bracketFrom < grossIncome ? current.RATE : previous;
-    };
-    return brackets.reduce(reducer, 0);
+export function getFederalTaxAmount(
+    provincialCode: ProvinceCode,
+    grossIncome: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
+    const federalBaseTaxAmount = getFederalBaseTaxAmount(grossIncome, inflationRate, yearsToInflate);
+    const baseCredit = getFederalBaseCredit(inflationRate, yearsToInflate);
+    const federalTax = Math.max(federalBaseTaxAmount - baseCredit, 0);
+    const abatement = getProvincialAbatement(provincialCode, federalTax);
+    return Math.max(federalTax - abatement, 0);
 }
 
-export function getFederalTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
+export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
     return extractRate(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
 }
 
 export function getProvincialTaxAmount(
+    province: ProvinceCode,
+    grossIncome: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
+    const baseTaxAmount = getProvincialBaseTaxAmount(province, grossIncome, inflationRate, yearsToInflate);
+    const baseCredit = getProvincialBaseCredit(province, inflationRate, yearsToInflate);
+    const tax = Math.max(baseTaxAmount - baseCredit, 0);
+    const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
+    return tax + surTax;
+}
+
+export function getProvincialBaseTaxAmount(
     province: ProvinceCode,
     grossIncome: number,
     inflationRate = 0,
@@ -595,26 +621,18 @@ export function getTotalTaxAmount(
     yearsToInflate = 0,
 ): number {
     const provTax = getProvincialTaxAmount(provincialCode, grossIncome, inflationRate, yearsToInflate);
-    const provSurtax = getProvincialSurtaxAmount(provincialCode, provTax, inflationRate, yearsToInflate);
-    const fedTax = getFederalTaxAmount(grossIncome, inflationRate, yearsToInflate);
-
-    return provTax + provSurtax + fedTax;
+    const fedTax = getFederalTaxAmount(provincialCode, grossIncome, inflationRate, yearsToInflate);
+    return Math.max(provTax, 0) + Math.max(fedTax, 0);
 }
 
-export function calculateEffectiveTaxRate(income: number, province: ProvinceCode): number {
+export function getEffectiveRate(
+    province: ProvinceCode,
+    income: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
     if (income <= 0) {
         return 0;
     }
-
-    const provTax = getProvincialTaxAmount(province, income, 0, 0);
-    const provBaseCredit = getProvincialBaseCredit(province, 0, 0);
-
-    const fedTax = getFederalTaxAmount(income, 0, 0);
-    const fedBaseCredit = getFederalBaseCredit(0, 0);
-    const fedProvAbatement = getProvincialAbatement(province, fedTax - fedBaseCredit);
-
-    const taxesToPay = Math.max(fedTax - fedBaseCredit - fedProvAbatement, 0)
-        + Math.max(provTax - provBaseCredit, 0);
-
-    return taxesToPay / income;
+    return (getTotalTaxAmount(province, income, inflationRate, yearsToInflate)) / income;
 }
