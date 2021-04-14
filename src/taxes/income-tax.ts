@@ -629,8 +629,8 @@ export function getTotalTaxAmount(
 }
 
 export function calculateEffectiveTaxRate(
-    income: number,
     province: ProvinceCode,
+    income: number,
     inflationRate = 0,
     yearsToInflate = 0,
 ): number {
