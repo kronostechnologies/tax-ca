@@ -119,3 +119,5 @@ yarn publish
 git push
 git push --tags
 ``` 
+
+Now all you need to do is draft a new Release in Github, and fill it using [RELEASE.MD](RELEASE.md) template.
