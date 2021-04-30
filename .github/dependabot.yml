@@ -1,9 +1,4 @@
 version: 2
-registries:
-  npm-registry-registry-npmjs-org:
-    type: npm-registry
-    url: https://registry.npmjs.org
-    token: "${{secrets.NPM_REGISTRY_REGISTRY_NPMJS_ORG_TOKEN}}"
 
 updates:
 - package-ecosystem: npm
@@ -11,16 +6,3 @@ updates:
   schedule:
     interval: daily
     timezone: America/Toronto
-  ignore:
-  - dependency-name: "@types/node"
-    versions:
-    - "> 14.14.11, < 14.15"
-  - dependency-name: "@types/node"
-    versions:
-    - 15.0.0
-  - dependency-name: typescript
-    versions:
-    - 4.1.4
-    - 4.2.2
-  registries:
-  - npm-registry-registry-npmjs-org
