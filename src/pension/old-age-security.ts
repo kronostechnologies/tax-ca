@@ -3,8 +3,9 @@ Sources:
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
 
-Revised 2019-12-23
+Revised 2021-05-05
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -52,7 +53,7 @@ export const OAS: OldAgeSecurity = {
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
-    MONTHLY_PAYMENT_MAX: 614.14,
+    MONTHLY_PAYMENT_MAX: 618.45,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
         MAX: 128149,
