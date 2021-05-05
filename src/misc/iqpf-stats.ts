@@ -1,8 +1,8 @@
 /*
 Sources:
-	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2020.pdf
+	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2021.pdf
 
-Revised 2020-05-04
+Revised 2021-05-05
 */
 
 export interface ReturnRates {
@@ -23,12 +23,12 @@ export interface IQPFStatistics {
 export const IQPF: IQPFStatistics = {
     INFLATION: 0.020,
     RETURN_RATES: {
-        SHORT_TERM: 0.024,
-        FIXED_INCOME: 0.029,
-        CANADIAN_EQUITIES: 0.061,
-        CONSERVATIVE_PORTFOLIO: 0.024,
-        BALANCED_PORTFOLIO: 0.033,
-        DYNAMIC_PORTFOLIO: 0.043,
+        SHORT_TERM: 0.023,
+        FIXED_INCOME: 0.027,
+        CANADIAN_EQUITIES: 0.062,
+        CONSERVATIVE_PORTFOLIO: 0.023,
+        BALANCED_PORTFOLIO: 0.032,
+        DYNAMIC_PORTFOLIO: 0.044,
     },
-    BORROWING_RATE: 0.044,
+    BORROWING_RATE: 0.043,
 };
