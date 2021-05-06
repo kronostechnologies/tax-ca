@@ -1,6 +1,6 @@
 name: "Dependabot Review Assign"
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, ready_for_review, reopened]
 
 jobs:
@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Last assignee'
-        if: contains(github.actor, 'dependabot')
+        if: ${{ github.actor == 'dependabot[bot]' }}
         uses: toby-daigle/rotation@v1.0.2
         with:
           members: toby-daigle jeremilc JsGarneau Pierregagne
         id: rotation
       - name: 'Add assignee'
-        if: contains(github.actor, 'dependabot')
+        if: ${{ github.actor == 'dependabot[bot]' }}
         uses: actions-ecosystem/action-add-assignees@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
