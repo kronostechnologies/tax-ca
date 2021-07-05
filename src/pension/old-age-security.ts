@@ -53,7 +53,7 @@ export const OAS: OldAgeSecurity = {
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
-    MONTHLY_PAYMENT_MAX: 618.45,
+    MONTHLY_PAYMENT_MAX: 626.49,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
         MAX: 128149,
