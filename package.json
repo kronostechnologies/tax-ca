@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@equisoft/tslint-config": "~0.0.8",
-    "@types/jest": "~26.0.4",
+    "@types/jest": "~27.0.1",
     "@types/node": "^16.0.0",
     "jest": "~24.9.0",
     "jest-junit": "~12.2.0",
