@@ -24,8 +24,10 @@ export const CPP: PublicPensionPlan = {
         PENSIONABLE_EARNINGS: {
             MAX: 61600,
             MIN: 3500,
-            AVG_MAX: 60180,
-            SUP_MAX: 70224,
+            // Average YPE of the last 5 year (including current year)
+            AVG_MAX: 57780,
+            // 114% of AVG_MAX
+            SUP_MAX: 65869,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
