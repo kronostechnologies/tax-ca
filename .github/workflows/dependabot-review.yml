@@ -1,0 +1,22 @@
+name: "Dependabot Review"
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot-review:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Last assignee
+        id: rotation
+        uses: toby-daigle/rotation@v1.0.2
+        with:
+          members: toby-daigle jeremilc JsGarneau Pierregagne faroukhoumaidi
+      - name: Add assignee to Dependabot PR
+        uses: actions-ecosystem/action-add-assignees@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          assignees: ${{ steps.rotation.outputs.next }}
