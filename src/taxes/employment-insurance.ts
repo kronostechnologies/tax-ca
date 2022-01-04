@@ -1,9 +1,10 @@
 // tslint:disable:max-line-length
 /*
-Sources:
-	https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/2021-maximum-insurable-earnings.html
+Sources
+	https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/2022-maximum-insurable-earnings.html
 
-Revised 2021-01-05
+Revised
+  2021-12-22
 */
 // tslint:enable:max-line-length
 
@@ -18,7 +19,7 @@ export interface EmploymentInsurance {
 }
 
 export const EI: EmploymentInsurance = {
-    MAX_INSURABLE_EARNINGS: 56300,
+    MAX_INSURABLE_EARNINGS: 60300,
     PREMIUM_RATES: {
         CA: 0.0158,
         QC: 0.0120,

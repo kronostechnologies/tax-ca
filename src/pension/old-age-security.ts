@@ -1,11 +1,12 @@
 /*
-Sources:
+Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
 
-Revised 2021-11-16
+Revised
+  2021-12-21
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -57,7 +58,7 @@ export const OAS: OldAgeSecurity = {
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
         MAX: 129757,
-        MIN: 79054,
+        MIN: 79845,
         RATIO: 0.15,
     },
 };

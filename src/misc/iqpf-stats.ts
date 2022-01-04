@@ -1,8 +1,9 @@
 /*
-Sources:
+Sources
 	https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2021.pdf
 
-Revised 2021-05-05
+Revised
+  2021-05-05
 */
 
 export interface ReturnRates {
