@@ -1,13 +1,17 @@
+// tslint:disable:max-line-length
 /*
-Sources:
-  Federal: http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+Sources
   Provincial: https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-EN-web_0.pdf
+              https://ca.rbcwealthmanagement.com/documents/634020/2289317/2021+-+Registered+Plan+Minimums+and+Maximums.pdf/ded97359-099d-4650-b626-67358d78f3af
+  Federal: http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
 
-Revised 2020-12-21
+Revised
+  2021-12-21
 */
+// tslint:enable:max-line-length
 
-import { FederalCode, ProvinceCode } from '../misc/code-types';
-import { clamp } from '../utils/math';
+import { FederalCode, ProvinceCode } from '../misc';
+import { clamp } from '../utils';
 
 interface MaxWithdrawalPctByAge {
     [key: number]: number;
@@ -15,7 +19,7 @@ interface MaxWithdrawalPctByAge {
 
 /* Alberta (AB), British Columbia (BC), Ontario (ON), New Brunswick (NB),
  Newfoundland and Labrador (NL), Saskatchewan (SK)
- */
+*/
 export const province1MaxWithdrawalPct: MaxWithdrawalPctByAge = {
     54: 0.0640,
     55: 0.0645,
@@ -96,47 +100,6 @@ export const province2MaxWithdrawalPct: MaxWithdrawalPctByAge = {
     89: 0.2000,
 };
 
-// Federal
-export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
-    54: 0.040251,
-    55: 0.040662,
-    56: 0.041107,
-    57: 0.041589,
-    58: 0.042113,
-    59: 0.042683,
-    60: 0.043304,
-    61: 0.043983,
-    62: 0.044726,
-    63: 0.045541,
-    64: 0.046438,
-    65: 0.047429,
-    66: 0.048526,
-    67: 0.049746,
-    68: 0.051107,
-    69: 0.052635,
-    70: 0.054357,
-    71: 0.056309,
-    72: 0.058538,
-    73: 0.061102,
-    74: 0.064077,
-    75: 0.067563,
-    76: 0.071699,
-    77: 0.076427,
-    78: 0.081883,
-    79: 0.088251,
-    80: 0.095777,
-    81: 0.104811,
-    82: 0.115855,
-    83: 0.129661,
-    84: 0.147416,
-    85: 0.171091,
-    86: 0.20424,
-    87: 0.253968,
-    88: 0.336854,
-    89: 0.502636,
-    90: 1,
-};
-
 // Others: Northwest Territories (NT), Nunavut (NU), Prince Edward Island (PE), Yukon (YT)
 export const othersMaxWithdrawalPct: MaxWithdrawalPctByAge = {
     54: 0.0270,
@@ -184,6 +147,46 @@ export const othersMaxWithdrawalPct: MaxWithdrawalPctByAge = {
     96: 0.2000,
 };
 
+// Federal
+export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
+    54: 0.044832,
+    55: 0.045301,
+    56: 0.045808,
+    57: 0.046359,
+    58: 0.046957,
+    59: 0.047608,
+    60: 0.048318,
+    61: 0.049094,
+    62: 0.049944,
+    63: 0.050878,
+    64: 0.051907,
+    65: 0.053045,
+    66: 0.054306,
+    67: 0.05571,
+    68: 0.05728,
+    69: 0.059044,
+    70: 0.061036,
+    71: 0.0633,
+    72: 0.06589,
+    73: 0.068878,
+    74: 0.072356,
+    75: 0.076448,
+    76: 0.08113,
+    77: 0.086536,
+    78: 0.092849,
+    79: 0.100316,
+    80: 0.109283,
+    81: 0.12025,
+    82: 0.133967,
+    83: 0.151612,
+    84: 0.175151,
+    85: 0.208118,
+    86: 0.257586,
+    87: 0.340054,
+    88: 0.505024,
+    89: 1,
+};
+
 export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, age: number): number {
     switch (jurisdiction) {
         case 'AB':
@@ -198,7 +201,7 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
         case 'NS':
             return province2MaxWithdrawalPct[clamp(age, 54, 89)];
         case 'CA':
-            return federalMaxWithdrawalPct[clamp(age, 54, 90)];
+            return federalMaxWithdrawalPct[clamp(age, 54, 89)];
         default:
             return othersMaxWithdrawalPct[clamp(age, 54, 96)];
     }

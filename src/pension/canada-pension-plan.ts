@@ -1,18 +1,16 @@
 /*
-Sources:
+Sources
     http://www.cra-arc.gc.ca/tx/bsnss/tpcs/pyrll/clcltng/cpp-rpc/cnt-chrt-pf-eng.html
-    Excutive decision to calculate AVG_MAX with AVG(YMPE2019+YMPE2020+YMPE2021+YMPE2021 for 2022+YMPE2021 for 2023)
-     because YMPE is overinflated following coronavirus pandemic. Executive deciision to calculate SUP_MAX with
-      YMPE2021*1.14 because YMPE is overinflated following coronavirus pandemic.
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/payment-amounts.html
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
     ---
     http://www.esdc.gc.ca/en/cpp/survivor_pension.page
     http://www.esdc.gc.ca/en/cpp/death_benefit.page
     http://www.esdc.gc.ca/en/reports/pension/cpp_technical_amendments.page
-    http://www.esdc.gc.ca/en/cpp/consumer_price_index.page
     http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 
-Revised 2021-01-05
+Revised
+  2022-01-04
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -22,12 +20,12 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const CPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 61600,
+            MAX: 64900,
             MIN: 3500,
-            // Average YPE of the last 5 year (including current year)
-            AVG_MAX: 57780,
+            // Average YMPE of the last 5 year (including current year)
+            AVG_MAX: 59700,
             // 114% of AVG_MAX
-            SUP_MAX: 65869,
+            SUP_MAX: 68058,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
@@ -49,13 +47,13 @@ export const CPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3090.96,
-        DISABILITY: 16963.92,
-        UNDER_45: 7808.64,
-        UNDER_45_WITH_CHILD: 7808.64,
-        UNDER_45_DISABLED: 7808.64,
-        FROM_45_TO_64: 7808.64,
-        OVER_64_WITHOUT_PENSION: 8667.00,
+        ORPHAN: 3174.36,
+        DISABILITY: 17577.96,
+        UNDER_45: 8097.48,
+        UNDER_45_WITH_CHILD: 8097.48,
+        UNDER_45_DISABLED: 8097.48,
+        FROM_45_TO_64: 8097.48,
+        OVER_64_WITHOUT_PENSION: 9025.80,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -109,6 +107,7 @@ export const CPP: PublicPensionPlan = {
         [2019, 0.023],
         [2020, 0.019],
         [2021, 0.010],
+        [2022, 0.027],
     ],
     MAX_INCOME: {
         1966: 5000,
@@ -167,10 +166,11 @@ export const CPP: PublicPensionPlan = {
         2019: 57400,
         2020: 58700,
         2021: 61600,
+        2022: 64900,
     },
     MAX_PENSION: {
-        RETIREMENT: 14445.00,
-        COMBINED_RETIREMENT_SURVIVOR: 14445.00,
+        RETIREMENT: 15043.08,
+        COMBINED_RETIREMENT_SURVIVOR: 15085.56,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,

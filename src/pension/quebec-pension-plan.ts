@@ -1,10 +1,11 @@
 // tslint:disable:max-line-length
 /*
-Sources:
+Sources
     http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
     https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
-Revised 2021-01-05
+Revised
+  2022-01-04
 */
 // tslint:enable:max-line-length
 
@@ -15,12 +16,12 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 61600,
+            MAX: 64900,
             MIN: 3500,
             // Average YPE of the last 5 year (including current year)
-            AVG_MAX: 57780,
+            AVG_MAX: 59700,
             // 114% of AVG_MAX
-            SUP_MAX: 65869,
+            SUP_MAX: 68058,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
@@ -42,13 +43,13 @@ export const QPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3090.96,
-        DISABILITY: 16997.40,
-        UNDER_45: 6941.04,
-        UNDER_45_WITH_CHILD: 11062.68,
-        UNDER_45_DISABLED: 11500.80,
-        FROM_45_TO_64: 11500.80,
-        OVER_64_WITHOUT_PENSION: 8577.36,
+        ORPHAN: 3174.36,
+        DISABILITY: 17565.96,
+        UNDER_45: 7268.16,
+        UNDER_45_WITH_CHILD: 11501.16,
+        UNDER_45_DISABLED: 11951.04,
+        FROM_45_TO_64: 11951.04,
+        OVER_64_WITHOUT_PENSION: 9013.80,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -102,6 +103,7 @@ export const QPP: PublicPensionPlan = {
         [2019, 0.023],
         [2020, 0.019],
         [2021, 0.010],
+        [2022, 0.027],
     ],
     MAX_INCOME: {
         1966: 5000,
@@ -160,10 +162,11 @@ export const QPP: PublicPensionPlan = {
         2019: 57400,
         2020: 58700,
         2021: 61600,
+        2022: 64900,
     },
     MAX_PENSION: {
-        RETIREMENT: 14499.12,
-        COMBINED_RETIREMENT_SURVIVOR: 14499.12,
+        RETIREMENT: 15043.08,
+        COMBINED_RETIREMENT_SURVIVOR: 15043.08,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
