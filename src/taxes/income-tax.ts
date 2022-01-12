@@ -5,7 +5,7 @@ Sources
   Abattement QC: http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
 
 Revised
-  2021-12-22
+  2022-01-11
 */
 // tslint:enable:max-line-length
 
@@ -121,7 +121,7 @@ export const TAX_BRACKETS: TaxBrackets = {
             TO: 227091,
             RATE: 0.168,
         }, {
-            FROM: 222420,
+            FROM: 227091,
             TO: 999999999,
             RATE: 0.205,
         }],
@@ -137,14 +137,14 @@ export const TAX_BRACKETS: TaxBrackets = {
         BASE_TAX_CREDIT: 10145,
         RATES: [{
             FROM: 0,
-            TO: 33723,
+            TO: 34431,
             RATE: 0.108,
         }, {
-            FROM: 33723,
-            TO: 72885,
+            FROM: 34431,
+            TO: 74416,
             RATE: 0.1275,
         }, {
-            FROM: 72885,
+            FROM: 74416,
             TO: 999999999,
             RATE: 0.174,
         }],
