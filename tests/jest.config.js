@@ -1,6 +1,4 @@
 const path = require('path');
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { compilerOptions } = require('../tsconfig');
 
 module.exports = {
     preset: 'ts-jest',
@@ -8,17 +6,20 @@ module.exports = {
     resetMocks: true,
     globals: {
         'ts-jest': {
-            tsConfig: path.resolve(__dirname + '/tsconfig.json'),
+            tsconfig: path.resolve(__dirname + '/tsconfig.json'),
         },
     },
     moduleDirectories: [
         'src',
-        'node_modules'
+        'node_modules',
     ],
     rootDir: '../',
-    collectCoverageFrom: ['src/**/*.ts'],
-    testMatch: ['**/*.spec.ts'],
-    moduleNameMapper: {
-        ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' })
-    }
-};
+    collectCoverageFrom: [
+        'src/**/*.ts',
+    ],
+    testMatch: [
+        '**/*.spec.ts',
+    ],
+    moduleNameMapper: {},
+}
+
