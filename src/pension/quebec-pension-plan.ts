@@ -5,7 +5,7 @@ Sources
     https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
 Revised
-  2022-01-04
+  2022-01-20
 */
 // tslint:enable:max-line-length
 
@@ -45,11 +45,11 @@ export const QPP: PublicPensionPlan = {
     FLAT_BENEFIT: {
         ORPHAN: 3174.36,
         DISABILITY: 17565.96,
-        UNDER_45: 7268.16,
-        UNDER_45_WITH_CHILD: 11501.16,
-        UNDER_45_DISABLED: 11951.04,
-        FROM_45_TO_64: 11951.04,
-        OVER_64_WITHOUT_PENSION: 9013.80,
+        UNDER_45: 7234.32,
+        UNDER_45_WITH_CHILD: 11467.32,
+        UNDER_45_DISABLED: 11917.20,
+        FROM_45_TO_64: 11917.20,
+        OVER_64_WITHOUT_PENSION: 8959.80,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
