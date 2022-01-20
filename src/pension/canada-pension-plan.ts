@@ -10,7 +10,7 @@ Sources
     http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/econ46a-eng.htm
 
 Revised
-  2022-01-04
+  2022-01-20
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -48,7 +48,7 @@ export const CPP: PublicPensionPlan = {
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         ORPHAN: 3174.36,
-        DISABILITY: 17577.96,
+        DISABILITY: 17489.40,
         UNDER_45: 8097.48,
         UNDER_45_WITH_CHILD: 8097.48,
         UNDER_45_DISABLED: 8097.48,
