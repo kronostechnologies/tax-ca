@@ -17,12 +17,14 @@ export interface ReturnRates {
 
 export interface IQPFStatistics {
     INFLATION: number;
+    PERFORMANCE_RATE: number;
     RETURN_RATES: ReturnRates;
     BORROWING_RATE: number;
 }
 
 export const IQPF: IQPFStatistics = {
     INFLATION: 0.020,
+    PERFORMANCE_RATE: 0.01,
     RETURN_RATES: {
         SHORT_TERM: 0.023,
         FIXED_INCOME: 0.027,
