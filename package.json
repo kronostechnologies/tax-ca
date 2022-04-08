@@ -1,6 +1,6 @@
 {
   "name": "@equisoft/tax-ca",
-  "version": "2022.2.0",
+  "version": "2022.4.0",
   "description": "Canadian tax data and calculation functions.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
