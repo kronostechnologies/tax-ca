@@ -20,7 +20,7 @@ export interface RegisteredRetirementSavingsPlan {
 
 export const RRSP: RegisteredRetirementSavingsPlan = {
     CONVERSION_AGE: {
-        MIN: 55,
+        MIN: 0,
         MAX: 71,
     },
     MAX_CONTRIBUTION: 29210,
