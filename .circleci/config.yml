@@ -6,7 +6,7 @@ variables:
 executors:
   node:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:17
 
 commands:
   attach_project_directory:
