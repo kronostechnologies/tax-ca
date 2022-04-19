@@ -12,6 +12,10 @@ export interface RegisteredRetirementIncomeFund {
     MIN_WITHDRAWAL_PCT: { [K: number]: number };
 }
 
+export function getMinimumWithdrawalPercentage(age: number): number {
+    return age >= 71 ? RRIF.MIN_WITHDRAWAL_PCT[age] : 1 / (90 - age);
+}
+
 export const RRIF: RegisteredRetirementIncomeFund = {
     MIN_WITHDRAWAL_PCT: {
         50: 0.0250,
