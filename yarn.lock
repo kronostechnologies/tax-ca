@@ -302,10 +302,17 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@equisoft/tslint-config@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@equisoft/tslint-config/-/tslint-config-0.0.8.tgz#3c7b141af685479ff9cacf1fa9dfda8ca49c4f57"
-  integrity sha512-jYpZOf2P8W4pck09N8IV2wRcIZasYbK/U3bFDKK7Bj51hhnVW2WH9JeaN4YIylzrp4O9rnUgCMh4L/PsrJUE9w==
+"@equisoft/tslint-config@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@equisoft/tslint-config/-/tslint-config-2.0.0.tgz#5ac262c4d9a0d1992e7c383750057beefada7717"
+  integrity sha512-aHiqiqBBEyUP4MeoGxsY/Mnc3imfIAbNh701TY2r6/igIm6FquOpZTwra84XBAGLPvDl4Npzobdso2XFlvcfFw==
+  dependencies:
+    "@equisoft/typescript-config" "2.0.0"
+
+"@equisoft/typescript-config@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@equisoft/typescript-config/-/typescript-config-2.0.0.tgz#babc322e8687f4abc67f3b2c60d69ef830e229cc"
+  integrity sha512-LF59u0KF41sa3ZZGBrJwWGEo35toi69TOeCHZzB22EOinIF+BJSrHIA1gQnNI0XfObE4RlP/3BFL24tNp4iY4w==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

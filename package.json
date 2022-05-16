@@ -34,7 +34,7 @@
     "watch": "tsc --watch"
   },
   "devDependencies": {
-    "@equisoft/tslint-config": "0.0.8",
+    "@equisoft/tslint-config": "2.0.0",
     "@types/jest": "27.5.1",
     "@types/node": "17.0.23",
     "jest": "27.5.1",
