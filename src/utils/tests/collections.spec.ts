@@ -6,7 +6,7 @@ describe('maxBy', () => {
         const maxA = { a: 5, b: 2 };
         const values = [maxA, maxB];
 
-        const valueWithMaxB = maxBy(values, x => x.b);
+        const valueWithMaxB = maxBy(values, (x) => x.b);
 
         expect(valueWithMaxB).toBe(maxB);
     });
@@ -17,7 +17,7 @@ describe('maxBy', () => {
         const maxA2 = { ...maxA };
         const values = [maxA, maxB, maxA2];
 
-        const valueWithMaxA = maxBy(values, x => x.a);
+        const valueWithMaxA = maxBy(values, (x) => x.a);
 
         expect(valueWithMaxA).toBe(maxA);
     });

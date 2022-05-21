@@ -12,7 +12,9 @@ describe('roundToPrecision', () => {
         ${1.56789}  | ${1}      | ${1.6}
         ${1.56789}  | ${2}      | ${1.57}
         ${1.56789}  | ${3}      | ${1.568}
-    `('should round $value with a precision of $precision digits', ({ value, precision, expected }) => {
+    `('should round $value with a precision of $precision digits', ({
+        value, precision, expected,
+    }) => {
         const roundedValue = roundToPrecision(value, precision);
 
         expect(roundedValue).toBe(expected);
@@ -27,7 +29,9 @@ describe('clamp', () => {
         ${20}       | ${10}     | ${30}     | ${20}
         ${10}       | ${10}     | ${30}     | ${10}
         ${30}       | ${10}     | ${30}     | ${30}
-    `('should clamp $value between $min and $max', ({ value, min, max, expected }) => {
+    `('should clamp $value between $min and $max', ({
+        value, min, max, expected,
+    }) => {
         expect(clamp(value, min, max)).toBe(expected);
     });
 });

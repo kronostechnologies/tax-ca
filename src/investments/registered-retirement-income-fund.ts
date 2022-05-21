@@ -1,19 +1,13 @@
-// tslint:disable:max-line-length
 /*
-Sources
-	http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
+ Sources
+ http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
 
-Revised
-  2021-12-21
-*/
-// tslint:enable:max-line-length
+ Revised
+ 2021-12-21
+ */
 
 export interface RegisteredRetirementIncomeFund {
     MIN_WITHDRAWAL_PCT: { [K: number]: number };
-}
-
-export function getMinimumWithdrawalPercentage(age: number): number {
-    return age >= 71 ? RRIF.MIN_WITHDRAWAL_PCT[age] : 1 / (90 - age);
 }
 
 export const RRIF: RegisteredRetirementIncomeFund = {
@@ -66,3 +60,7 @@ export const RRIF: RegisteredRetirementIncomeFund = {
         95: 0.20,
     },
 };
+
+export function getMinimumWithdrawalPercentage(age: number): number {
+    return age >= 71 ? RRIF.MIN_WITHDRAWAL_PCT[age] : 1 / (90 - age);
+}

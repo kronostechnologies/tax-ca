@@ -1,12 +1,10 @@
-// tslint:disable:max-line-length
 /*
-Sources
-	https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
+ Sources
+ https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
 
-Revised
-  2021-12-21
-*/
-// tslint:enable:max-line-length
+ Revised
+ 2021-12-21
+ */
 
 export interface ConversionAge {
     MIN: number;

@@ -34,7 +34,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 2 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (2 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return factor relating to last birthday ONLY after the reference age (65 yo)', () => {
@@ -43,17 +43,20 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 - 48 * CPP.MONTHLY_DELAY.PENALTY);
+        expect(ratio).toBe(1 - (48 * CPP.MONTHLY_DELAY.PENALTY));
     });
 
-    it('should return 1 when request date is after the participant 65th (reference age) birthday but for less than a month ', () => {
-        const birthDate = new Date('1980-01-15');
-        const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday
+    it(
+        'should return 1 when request date is after the participant 65th (reference age) birthday but for less than a month ', // eslint-disable-line max-len
+        () => {
+            const birthDate = new Date('1980-01-15');
+            const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday
 
-        const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
+            const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1);
-    });
+            expect(ratio).toBe(1);
+        },
+    );
 
     it('should return 1 + X times the MONTHLY delay bonus when waiting for x months', () => {
         const birthDate = new Date('1980-01-01');
@@ -61,7 +64,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 6 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (6 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year', () => {
@@ -70,7 +73,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 12 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (12 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return 1 + 60 times the MONTHLY delay bonus when waiting has max age on request', () => {
@@ -79,7 +82,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 60 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (60 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return max delay bonus (1 + 60 times the MONTHLY delay bonus) when request is after max age', () => {
@@ -88,7 +91,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 60 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (60 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return 1 - X times the MONTHLY delay penalty when taking pension x months earlier', () => {
@@ -97,7 +100,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 - 6 * CPP.MONTHLY_DELAY.PENALTY);
+        expect(ratio).toBe(1 - (6 * CPP.MONTHLY_DELAY.PENALTY));
     });
 
     it('should return 1 - 12 times the MONTHLY delay penalty when taking pension a year earlier', () => {
@@ -106,7 +109,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 - 12 * CPP.MONTHLY_DELAY.PENALTY);
+        expect(ratio).toBe(1 - (12 * CPP.MONTHLY_DELAY.PENALTY));
     });
 
     it('should compute bonus from analysis year when analysis year > reference age', () => {
@@ -115,7 +118,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 8 * CPP.MONTHLY_DELAY.BONUS);
+        expect(ratio).toBe(1 + (8 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return 1 when analysis year is > than MAX date', () => {
@@ -134,6 +137,6 @@ describe('getRequestDateFactor', () => {
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate, referenceDate);
 
-        expect(ratio).toBe(1 + 6 * CPP.MONTHLY_DELAY.BONUS);
-    })
+        expect(ratio).toBe(1 + (6 * CPP.MONTHLY_DELAY.BONUS));
+    });
 });

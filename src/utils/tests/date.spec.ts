@@ -6,7 +6,9 @@ describe('Date Utils', () => {
             date                      | years   | expected
             ${new Date('1950-01-01')} | ${50}   | ${new Date('2000-01-01')}
             ${new Date('1955-07-07')} | ${65}   | ${new Date('2020-07-07')}
-        `('should return $expected when adding $years years to $date', ({ date, years, expected }) => {
+        `('should return $expected when adding $years years to $date', ({
+            date, years, expected,
+        }) => {
             expect(addYearsToDate(date, years)).toStrictEqual(expected);
         });
     });
@@ -25,7 +27,8 @@ describe('Date Utils', () => {
             ${new Date('2021-01-01')}  | ${new Date('2021-07-01')}   | ${6}
             ${new Date('2020-03-30')}  | ${new Date('2021-04-30')}   | ${13}
             ${new Date('1955-01-01')}  | ${new Date('2020-07-01')}   | ${786}
-        `('should return $expected months between $firstDate and $secondDate',
-            ({ firstDate, secondDate, expected }) => expect(getMonthsDiff(firstDate, secondDate)).toBe(expected));
+        `('should return $expected months between $firstDate and $secondDate', ({
+            firstDate, secondDate, expected,
+        }) => expect(getMonthsDiff(firstDate, secondDate)).toBe(expected));
     });
 });

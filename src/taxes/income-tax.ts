@@ -1,4 +1,3 @@
-// tslint:disable:max-line-length
 /*
 Sources
   http://www.taxtips.ca/marginaltaxrates.htm
@@ -7,7 +6,6 @@ Sources
 Revised
   2022-01-11
 */
-// tslint:enable:max-line-length
 
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc/code-types';
 import { roundToPrecision } from '../utils';
@@ -471,7 +469,7 @@ function inflate(amount: number, inflationRate: number, yearsToInflate: number):
 }
 
 function extractRate(rates: Rate[], income: number, inflationRate: number, yearsToInflate: number): number {
-    const reducer = (previous: number, current: Rate) => {
+    const reducer = (previous: number, current: Rate): number => {
         const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
         const bracketTo = inflate(current.TO, inflationRate, yearsToInflate);
         const bracketTax = bracketFrom < income ? (Math.min(income, bracketTo) - bracketFrom) * current.RATE : 0;
@@ -481,7 +479,7 @@ function extractRate(rates: Rate[], income: number, inflationRate: number, years
 }
 
 function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number {
-    const reducer = (previous: number, current: Rate) => {
+    const reducer = (previous: number, current: Rate): number => {
         const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
         return bracketFrom < grossIncome ? current.RATE : previous;
     };
@@ -500,6 +498,19 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].SURTAX_RATES;
 }
 
+export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
+    return extractRate(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
+}
+
+export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
+    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * TAX_BRACKETS.CA.TAX_CREDIT_RATE;
+    return inflate(baseTaxCredit, inflationRate, yearsToInflate);
+}
+
+export function getProvincialAbatement(province: ProvinceCode, federalTaxAmount: number): number {
+    return getAbatement(province) * federalTaxAmount;
+}
+
 export function getFederalTaxAmount(
     provincialCode: ProvinceCode,
     grossIncome: number,
@@ -513,8 +524,27 @@ export function getFederalTaxAmount(
     return Math.max(federalTax - abatement, 0);
 }
 
-export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
-    return extractRate(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
+export function getProvincialSurtaxAmount(
+    province: ProvinceCode,
+    baseTaxAmount: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
+    return extractRate(getSurtaxRates(province), baseTaxAmount, inflationRate, yearsToInflate);
+}
+
+export function getProvincialBaseTaxAmount(
+    province: ProvinceCode,
+    grossIncome: number,
+    inflationRate = 0,
+    yearsToInflate = 0,
+): number {
+    return extractRate(getTaxRates(province), grossIncome, inflationRate, yearsToInflate);
+}
+
+export function getProvincialBaseCredit(province: ProvinceCode, inflationRate: number, yearsToInflate: number): number {
+    const baseTaxCredit = TAX_BRACKETS[province].BASE_TAX_CREDIT * TAX_BRACKETS[province].RATES[0].RATE;
+    return inflate(baseTaxCredit, inflationRate, yearsToInflate);
 }
 
 export function getProvincialTaxAmount(
@@ -528,33 +558,6 @@ export function getProvincialTaxAmount(
     const tax = Math.max(baseTaxAmount - baseCredit, 0);
     const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
     return tax + surTax;
-}
-
-export function getProvincialBaseTaxAmount(
-    province: ProvinceCode,
-    grossIncome: number,
-    inflationRate = 0,
-    yearsToInflate = 0,
-): number {
-    return extractRate(getTaxRates(province), grossIncome, inflationRate, yearsToInflate);
-}
-
-export function getProvincialSurtaxAmount(
-    province: ProvinceCode,
-    baseTaxAmount: number,
-    inflationRate = 0,
-    yearsToInflate = 0,
-): number {
-    return extractRate(getSurtaxRates(province), baseTaxAmount, inflationRate, yearsToInflate);
-}
-
-export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * TAX_BRACKETS.CA.TAX_CREDIT_RATE;
-    return inflate(baseTaxCredit, inflationRate, yearsToInflate);
-}
-
-export function getProvincialAbatement(province: ProvinceCode, federalTaxAmount: number): number {
-    return getAbatement(province) * federalTaxAmount;
 }
 
 export function getFederalMarginalRate(
@@ -587,11 +590,6 @@ export function getProvincialMarginalRate(
     return taxRate + (taxRate * surtaxRate);
 }
 
-export function getProvincialBaseCredit(province: ProvinceCode, inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS[province].BASE_TAX_CREDIT * TAX_BRACKETS[province].RATES[0].RATE;
-    return inflate(baseTaxCredit, inflationRate, yearsToInflate);
-}
-
 export function getTotalMarginalRate(
     provincialCode: ProvinceCode,
     grossIncome: number,
@@ -605,17 +603,17 @@ export function getTotalMarginalRate(
 }
 
 export function getMaxProvincialMarginalRate(provincialCode: ProvinceCode): number {
-    // tslint:disable-next-line:no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const marginalRate = maxBy(getTaxRates(provincialCode), (bracket: Rate) => bracket.TO)!.RATE;
-    // tslint:disable-next-line:no-non-null-assertion
-    const surtaxRate = maxBy(getSurtaxRates(provincialCode), bracket => bracket.TO)!.RATE;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const surtaxRate = maxBy(getSurtaxRates(provincialCode), (bracket) => bracket.TO)!.RATE;
 
     return marginalRate + (marginalRate * surtaxRate);
 }
 
 export function getMaxFederalMarginalRate(provincialCode: ProvinceCode): number {
-    // tslint:disable-next-line:no-non-null-assertion
-    const maxRate = maxBy(getTaxRates(FEDERAL_CODE), bracket => bracket.TO)!.RATE;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const maxRate = maxBy(getTaxRates(FEDERAL_CODE), (bracket) => bracket.TO)!.RATE;
 
     return maxRate * (1 - getAbatement(provincialCode));
 }

@@ -1,13 +1,15 @@
 /*
-Sources
-	https://www.finance-investissement.com/zone-experts_/martin-dupras/la-valeur-reelle-de-reporter-la-rente-du-rrq/
-Description
-    Cumulative difference in %, according to the table calculated by Martin Dupras,
-    from the reference age of 65, divided by 12 months.
-    The formula consuming these values is only utilized by kronos-fna.
-Revised
-  2022-04-28
-*/
+ Sources
+ https://www.finance-investissement.com/zone-experts_/martin-dupras/la-valeur-reelle-de-reporter-la-rente-du-rrq/
+
+ Description
+ Cumulative difference in %, according to the table calculated by Martin Dupras,
+ from the reference age of 65, divided by 12 months.
+ The formula consuming these values is only utilized by kronos-fna.
+
+ Revised
+ 2022-04-28
+ */
 
 export interface PPPIncreaseFactor {
     FIRST_YEAR: number;

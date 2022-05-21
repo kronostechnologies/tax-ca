@@ -1,9 +1,13 @@
 export function clamp(num: number, min: number, max: number): number {
-    return num <= min ? min : num >= max ? max : num;
+    if (num <= min) {
+        return min;
+    }
+    return num >= max ? max : num;
 }
 
-export function roundToPrecision(value: number, precision: number = 0): number {
-    return !isNaN(value)
-        ? Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)
-        : 0;
+export function roundToPrecision(value: number, precision = 0): number {
+    if (!Number.isNaN(Number(value))) {
+        return Math.round(value * (10 ** precision)) / (10 ** precision);
+    }
+    return 0;
 }

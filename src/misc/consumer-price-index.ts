@@ -1,12 +1,12 @@
 /*
-Sources
-	https://www.bankofcanada.ca/rates/price-indexes/cpi/
-Use column v41690973
+ Sources
+ https://www.bankofcanada.ca/rates/price-indexes/cpi/
+ Use column v41690973
 
-NOT USED BY FNA-ENGINE
-Revised
-  2021-12-21
-*/
+ NOT USED BY FNA-ENGINE
+ Revised
+ 2021-12-21
+ */
 
 interface MonthlyConsumerPriceIndex {
     JAN: number;

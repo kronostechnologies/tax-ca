@@ -1,0 +1,161 @@
+name: Build and deploy
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+    tags:
+      - v*.*.*
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      is-release: ${{ steps.metadata.outputs.is-release }}
+      publishable: ${{ steps.metadata.outputs.publishable }}
+      version: ${{ steps.metadata.outputs.version }}
+      npm-tag: ${{ steps.metadata.outputs.npm-tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Fetch origin/master (for action-metadata commit check)
+        run: |
+          git fetch --no-tags --prune --depth=1000 origin +refs/heads/master:refs/remotes/origin/master
+
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v1
+
+      - name: Find application metadata
+        id: metadata
+        uses: equisoft-actions/nodejs-application-metadata@v1
+
+      - name: Install NPM dependencies
+        uses: equisoft-actions/yarn-install@v1
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v1
+
+      - name: Install NPM dependencies
+        uses: equisoft-actions/yarn-install@v1
+
+      - name: Run ESLint
+        uses: equisoft-actions/yarn-eslint@v2
+
+  jest:
+    name: Jest
+    needs:
+      - setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v1
+
+      - name: Install NPM dependencies
+        uses: equisoft-actions/yarn-install@v1
+
+      - name: Run Jest
+        uses: equisoft-actions/yarn-jest@v1
+
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v1
+
+      - name: Install NPM dependencies
+        uses: equisoft-actions/yarn-install@v1
+
+      - name: Build
+        run: yarn build
+
+      - name: Store package
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+      - jest
+      - lint
+      - build
+
+    if: ${{ needs.setup.outputs.publishable == 'true' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v1
+
+      - name: Install NPM dependencies
+        uses: equisoft-actions/yarn-install@v1
+
+      - name: Update package version
+        env:
+          VERSION: ${{ needs.setup.outputs.version }}
+        run: |
+          contents="$(jq ".version = \"${VERSION}\"" ./package.json)" && echo "${contents}" > ./package.json
+
+      - name: NPM Login
+        uses: equisoft-actions/yarn-npm-login@v1
+        with:
+          registry: registry.yarnpkg.com
+          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Yarn publish
+        env:
+          VERSION: ${{ needs.setup.outputs.npm-tag }}
+        run: |
+          yarn npm publish --tag "${VERSION}" --tolerate-republish --access public
+
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - jest
+      - build
+      - publish
+    if: failure() && github.event_name == 'push'
+    steps:
+      - name: Post workflow status
+        uses: equisoft-actions/notify-workflow-status@v1
+        with:
+          needs: ${{ toJSON(needs) }}
+          slack-webhook-url: ${{ secrets.OPS_CI_WEBHOOK_URL }}
