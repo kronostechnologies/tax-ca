@@ -34,10 +34,10 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 2 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (2 * OAS.MONTHLY_DELAY_BONUS));
     });
 
-    it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => {
+    it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => { // eslint-disable-line max-len
         const birthDate = new Date('1980-01-15');
         const requestDate = new Date('2045-02-01'); // two weeks after his 65th birthday
 
@@ -52,7 +52,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 6 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (6 * OAS.MONTHLY_DELAY_BONUS));
     });
 
     it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year', () => {
@@ -61,16 +61,16 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 12 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (12 * OAS.MONTHLY_DELAY_BONUS));
     });
 
-    it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year and client has more than 65 yo', () => {
+    it('should return 1 + 12 times the MONTHLY delay bonus when waiting for exactly a year and client has more than 65 yo', () => { // eslint-disable-line max-len
         const birthDate = new Date('1953-07-01');
         const requestDate = new Date('2020-07-01');
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 12 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (12 * OAS.MONTHLY_DELAY_BONUS));
     });
 
     it('should return 1 + 60 times the MONTHLY delay bonus when waiting has max age on request', () => {
@@ -79,7 +79,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 60 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (60 * OAS.MONTHLY_DELAY_BONUS));
     });
 
     it('should return max delay bonus (1 + 60 times the MONTHLY delay bonus) when request is after max age', () => {
@@ -88,7 +88,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 60 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (60 * OAS.MONTHLY_DELAY_BONUS));
     });
 
     it('should compute bonus from analysis year when analysis year > reference age', () => {
@@ -97,7 +97,7 @@ describe('getRequestDateFactor', () => {
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + 8 * OAS.MONTHLY_DELAY_BONUS);
+        expect(ratio).toBe(1 + (8 * OAS.MONTHLY_DELAY_BONUS));
     });
 
     it('should return 1 when analysis year is > than MAX date', () => {

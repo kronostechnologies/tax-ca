@@ -1,13 +1,13 @@
 /*
-Sources
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
+ Sources
+ https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
+ https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
+ https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
+ https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
 
-Revised
-  2022-04-07
-*/
+ Revised
+ 2022-04-07
+ */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp } from '../utils/math';
@@ -24,6 +24,7 @@ export interface OldAgeSecurity {
     MONTHLY_PAYMENT_MAX: number;
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
+
     getRequestDateFactor(birthDate: Date, requestDate: Date): number;
 }
 

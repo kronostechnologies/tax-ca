@@ -85,7 +85,7 @@ export const CPP: PublicPensionPlan = {
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         monthsDelta -= Math.max(monthsToLastBirthDay, monthsToReferenceDate);
 
-        return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
+        return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);

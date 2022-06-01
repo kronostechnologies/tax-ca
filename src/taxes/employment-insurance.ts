@@ -1,12 +1,10 @@
-// tslint:disable:max-line-length
 /*
-Sources
-	https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/2022-maximum-insurable-earnings.html
+ Sources
+ https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/2022-maximum-insurable-earnings.html
 
-Revised
-  2021-12-22
-*/
-// tslint:enable:max-line-length
+ Revised
+ 2021-12-22
+ */
 
 export interface PremiumRate {
     CA: number;

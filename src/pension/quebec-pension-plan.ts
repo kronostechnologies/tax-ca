@@ -1,13 +1,11 @@
-// tslint:disable:max-line-length
 /*
-Sources
-    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
-    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
+ Sources
+ http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
+ https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
-Revised
-  2022-01-20
-*/
-// tslint:enable:max-line-length
+ Revised
+ 2022-01-20
+ */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
@@ -81,7 +79,7 @@ export const QPP: PublicPensionPlan = {
         let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         monthsDelta -= Math.max(monthsToLastBirthDay, monthsToReferenceDate);
 
-        return 1 + monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY);
+        return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);

@@ -13,3 +13,9 @@ dist/
 
 # misc
 .DS_Store
+
+.pnp.*
+**/.yarn/*
+!**/.yarn/releases
+!**/.yarn/plugins
+!**/.yarn/sdks

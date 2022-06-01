@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "@equisoft/eslint-config-typescript",
+    "plugin:import/typescript"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": [
+          "tsconfig.json",
+          "tests/tsconfig.json"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "/*.js",
+          "test/**/*",
+          "**/*.test.{js,jsx,ts,tsx}",
+          "**/*.spec.{js,jsx,ts,tsx}"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*"],
+      "rules": {
+        "import/no-unresolved": [
+          "error",
+          {
+            "ignore": ["^~/"]
+          }
+        ]
+      }
+    }
+  ]
+}
