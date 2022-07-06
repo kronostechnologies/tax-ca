@@ -107,18 +107,7 @@ This library is maintained by the _Equisoft Plan_ team in Quebec City.
 
 We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull requests to the repository. 
 
-### Release
+## Release
 
-To release please use :
-
-```
-yarn publish 
-          --new-version XXXX.X.X  OR    
-          --major                             auto-increment major version number OR
-          --minor                             auto-increment minor version number OR
-          --patch                             auto-increment patch version number
-git push
-git push --tags
-``` 
-
-Now all you need to do is draft a new Release in Github, and fill it using [RELEASE.MD](RELEASE.md) template.
+Versions of this package are built by Github Actions.
+All you need to do is create a new tag and release using the Github Interface.
