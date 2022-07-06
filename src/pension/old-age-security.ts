@@ -22,7 +22,7 @@ export interface OldAgeSecurity {
     MAX_AGE: number;
     MIN_AGE: number;
     INCREASE_AGE: number;
-    INCREASE_PERCENT: number;
+    INCREASE_RATE: number;
     MONTHLY_PAYMENT_MAX: number;
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
@@ -58,7 +58,7 @@ export const OAS: OldAgeSecurity = {
     MAX_AGE: 70,
     MIN_AGE: 65,
     INCREASE_AGE: 75,
-    INCREASE_PERCENT: 0.1,
+    INCREASE_RATE: 0.1,
     MONTHLY_PAYMENT_MAX: 648.67,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
