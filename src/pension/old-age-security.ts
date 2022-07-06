@@ -14,6 +14,7 @@ import { clamp } from '../utils/math';
 
 export interface Repayment {
     MAX: number;
+    MAX_FROM_INCREASE: number;
     MIN: number;
     RATIO: number;
 }
@@ -59,10 +60,11 @@ export const OAS: OldAgeSecurity = {
     MIN_AGE: 65,
     INCREASE_AGE: 75,
     INCREASE_RATE: 0.1,
-    MONTHLY_PAYMENT_MAX: 648.67,
+    MONTHLY_PAYMENT_MAX: 666.83,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
-        MAX: 133527,
+        MAX: 134253,
+        MAX_FROM_INCREASE: 136920,
         MIN: 81761,
         RATIO: 0.15,
     },
