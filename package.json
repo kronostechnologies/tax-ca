@@ -44,7 +44,7 @@
     "@typescript-eslint/parser": "5.30.4",
     "eslint": "8.19.0",
     "eslint-import-resolver-node": "0.3.6",
-    "eslint-import-resolver-typescript": "2.7.1",
+    "eslint-import-resolver-typescript": "3.2.4",
     "eslint-plugin-import": "2.26.0",
     "jest": "28.1.2",
     "jest-junit": "14.0.0",
