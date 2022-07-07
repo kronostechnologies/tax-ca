@@ -19,10 +19,13 @@ export interface Repayment {
 }
 
 export interface OldAgeSecurity {
+    INCREASE: {
+        AGE: number;
+        RATE: number;
+        REPAYMENT_MAX: 136920;
+    }
     MAX_AGE: number;
     MIN_AGE: number;
-    INCREASE_AGE: number;
-    INCREASE_RATE: number;
     MONTHLY_PAYMENT_MAX: number;
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
@@ -57,12 +60,15 @@ export const OAS: OldAgeSecurity = {
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
-    INCREASE_AGE: 75,
-    INCREASE_RATE: 0.1,
-    MONTHLY_PAYMENT_MAX: 648.67,
+    INCREASE: {
+        AGE: 75,
+        RATE: 0.1,
+        REPAYMENT_MAX: 136920,
+    },
+    MONTHLY_PAYMENT_MAX: 666.83,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
-        MAX: 133527,
+        MAX: 134253,
         MIN: 81761,
         RATIO: 0.15,
     },
