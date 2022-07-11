@@ -31,6 +31,8 @@ export interface OldAgeSecurity {
     REPAYMENT: Repayment;
 
     getRequestDateFactor(birthDate: Date, requestDate: Date): number;
+
+    getRepaymentMax(startOfYearAge: number): number;
 }
 
 export const OAS: OldAgeSecurity = {
@@ -57,6 +59,9 @@ export const OAS: OldAgeSecurity = {
         monthsDelta -= Math.max(monthsToLastBirthDay, monthsToMinRequestDate);
 
         return 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
+    },
+    getRepaymentMax(startOfYearAge: number): number {
+        return startOfYearAge >= OAS.INCREASE.AGE - 1 ? OAS.INCREASE.REPAYMENT_MAX : OAS.REPAYMENT.MAX;
     },
     MAX_AGE: 70,
     MIN_AGE: 65,

@@ -109,3 +109,17 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1);
     });
 });
+describe('getRepaymentMax', () => {
+    it('should return correct amount when below 74', () => {
+        const amount = OAS.getRepaymentMax(73);
+        expect(amount).toBe(OAS.REPAYMENT.MAX);
+    });
+    it('should return correct amount when 74', () => {
+        const amount = OAS.getRepaymentMax(74);
+        expect(amount).toBe(OAS.INCREASE.REPAYMENT_MAX);
+    });
+    it('should return correct amount when above 74', () => {
+        const amount = OAS.getRepaymentMax(75);
+        expect(amount).toBe(OAS.INCREASE.REPAYMENT_MAX);
+    });
+});
