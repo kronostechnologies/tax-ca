@@ -61,6 +61,6 @@ export const RRIF: RegisteredRetirementIncomeFund = {
     },
 };
 
-export function getMinimumWithdrawalPercentage(age: number): number {
-    return age >= 71 ? RRIF.MIN_WITHDRAWAL_PCT[age] : 1 / (90 - age);
+export function getMinimumWithdrawalPercentage(beginningOfYearAge: number): number {
+    return beginningOfYearAge >= 71 ? RRIF.MIN_WITHDRAWAL_PCT[beginningOfYearAge] : 1 / (90 - beginningOfYearAge);
 }
