@@ -10,7 +10,6 @@
  */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
-import { clamp } from '../utils/math';
 
 export interface Repayment {
     MAX: number;
@@ -30,35 +29,43 @@ export interface OldAgeSecurity {
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
 
+    getMinRequestDateFactor(birthDate: Date): number,
     getRequestDateFactor(birthDate: Date, requestDate: Date): number;
 
     getRepaymentMax(startOfYearAge: number): number;
 }
 
 export const OAS: OldAgeSecurity = {
-    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+    getMinRequestDateFactor(birthDate: Date): number {
         const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
         const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);
 
         const monthsToToday = getMonthsDiff(birthDate, now());
+        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
         const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
         const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
-        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
-        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
 
-        // Request date is before minimum request date
-        if (monthsToRequestDate < monthsToMinRequestDate) {
-            return 0;
-        }
-        // Analysis date is after the maximum request date OR request date is in the past
-        if (monthsToMaxRequestDate < monthsToToday || monthsToRequestDate < monthsToLastBirthDay) {
+        if (monthsToLastBirthDay < monthsToMinRequestDate || monthsToLastBirthDay > monthsToMaxRequestDate) {
             return 1;
         }
 
-        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
-        monthsDelta -= Math.max(monthsToLastBirthDay, monthsToMinRequestDate);
-
+        const monthsDelta = monthsToLastBirthDay - monthsToMinRequestDate;
         return 1 + (monthsDelta * this.MONTHLY_DELAY_BONUS);
+    },
+    getRequestDateFactor(birthDate: Date, requestDate: Date): number {
+        const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
+
+        const monthsToToday = getMonthsDiff(birthDate, now());
+        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
+        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+        const deltaMonthsFromtMinRequestDate = monthsToRequestDate - monthsToMinRequestDate;
+
+        if (monthsToLastBirthDay > monthsToRequestDate) {
+            return 1;
+        }
+
+        return 1 + (deltaMonthsFromtMinRequestDate * this.MONTHLY_DELAY_BONUS);
     },
     getRepaymentMax(startOfYearAge: number): number {
         return startOfYearAge >= OAS.INCREASE.AGE - 1 ? OAS.INCREASE.REPAYMENT_MAX : OAS.REPAYMENT.MAX;
