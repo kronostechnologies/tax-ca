@@ -10,6 +10,7 @@
  */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
+import { clamp } from '../utils/math';
 
 export interface Repayment {
     MAX: number;
@@ -54,15 +55,22 @@ export const OAS: OldAgeSecurity = {
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date): number {
         const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
+        const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);
 
         const monthsToToday = getMonthsDiff(birthDate, now());
         const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
         const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
-        const deltaMonthsFromtMinRequestDate = monthsToRequestDate - monthsToMinRequestDate;
+        const clampedMonthsToRequestDate = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
+        const deltaMonthsFromtMinRequestDate = clampedMonthsToRequestDate - monthsToMinRequestDate;
 
-        if (monthsToLastBirthDay > monthsToRequestDate) {
+        if (monthsToLastBirthDay > monthsToMaxRequestDate) {
             return 1;
+        }
+
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
         }
 
         return 1 + (deltaMonthsFromtMinRequestDate * this.MONTHLY_DELAY_BONUS);
