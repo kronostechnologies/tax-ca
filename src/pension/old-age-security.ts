@@ -63,7 +63,7 @@ export const OAS: OldAgeSecurity = {
         const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
         const clampedMonthsToRequestDate = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
-        const deltaMonthsFromtMinRequestDate = clampedMonthsToRequestDate - monthsToMinRequestDate;
+        const deltaMonthsFromMinRequestDate = clampedMonthsToRequestDate - monthsToMinRequestDate;
 
         if (monthsToLastBirthDay > monthsToMaxRequestDate) {
             return 1;
@@ -73,7 +73,7 @@ export const OAS: OldAgeSecurity = {
             return 0;
         }
 
-        return 1 + (deltaMonthsFromtMinRequestDate * this.MONTHLY_DELAY_BONUS);
+        return 1 + (deltaMonthsFromMinRequestDate * this.MONTHLY_DELAY_BONUS);
     },
     getRepaymentMax(startOfYearAge: number): number {
         return startOfYearAge >= OAS.INCREASE.AGE - 1 ? OAS.INCREASE.REPAYMENT_MAX : OAS.REPAYMENT.MAX;
