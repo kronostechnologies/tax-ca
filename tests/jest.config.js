@@ -3,14 +3,16 @@ const path = require('path');
 
 module.exports = {
     preset: 'ts-jest',
-
+    transform: {
+        '^.+\\.ts?$': [
+            'ts-jest',
+            {
+                tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+            }
+        ],
+    },
     clearMocks: true,
     errorOnDeprecated: true,
-    globals: {
-        'ts-jest': {
-            tsconfig: path.resolve(__dirname, 'tsconfig.json'),
-        },
-    },
     moduleDirectories: [
         'src',
         'node_modules',
