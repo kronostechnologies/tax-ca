@@ -8,7 +8,7 @@ module.exports = {
             'ts-jest',
             {
                 tsconfig: path.resolve(__dirname, 'tsconfig.json'),
-            }
+            },
         ],
     },
     clearMocks: true,
