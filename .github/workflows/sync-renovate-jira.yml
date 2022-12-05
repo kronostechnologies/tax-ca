@@ -25,6 +25,6 @@ jobs:
           jira-api-token: ${{ secrets.JIRA_API_TOKEN }}
           jira-user: ${{ secrets.JIRA_USER }}
           jira-project-key: ABF
-          jira-transition-resolve: "To done (Bug + Story)"
+          jira-transition-resolve: "To Done"
           ticket-label: dependency-update
           ticket-type: "Story"
