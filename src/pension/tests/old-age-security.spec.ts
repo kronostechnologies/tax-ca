@@ -29,12 +29,21 @@ describe('getRequestDateFactor', () => {
     });
 
     it('should return factor relating to last birthday', () => {
-        const birthDate = new Date('1953-07-01');
-        const requestDate = new Date('2019-09-01'); // 2 months after 66ht birthDay
+        const birthDate = new Date('1963-07-01');
+        const requestDate = new Date('2029-09-01'); // 2 months after 66ht birthDay
 
         const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
         expect(ratio).toBe(1 + (14 * OAS.MONTHLY_DELAY_BONUS));
+    });
+
+    it('should return 1 when currently receiving payment and aged between min and max ages', () => {
+        const birthDate = new Date('1956-06-06');
+        const requestDate = new Date('2021-06-06');
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1);
     });
 
     it('should return 1 when request date is after the participant 65th (minimum age) birthday but for less than a month ', () => { // eslint-disable-line max-len
@@ -112,24 +121,37 @@ describe('getRequestDateFactor', () => {
 describe('getMinRequestDateFactor', () => {
     it('should return factor 1 when does not have 65yo yet', () => {
         const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2043-01-01');
 
-        const ratio = OAS.getMinRequestDateFactor(birthDate);
+        const ratio = OAS.getMinRequestDateFactor(birthDate, requestDate);
+
+        expect(ratio).toBe(1);
+    });
+
+    it('when currently receiving payment and aged between min and max ages', () => {
+        const birthDate = new Date('1956-06-06');
+        const requestDate = new Date('2021-06-06');
+
+        const ratio = OAS.getRequestDateFactor(birthDate, requestDate);
 
         expect(ratio).toBe(1);
     });
 
     it('should return factor 1 when is 70yo+', () => {
         const birthDate = new Date('1945-01-01');
+        const requestDate = new Date('2043-01-01');
 
-        const ratio = OAS.getMinRequestDateFactor(birthDate);
+        const ratio = OAS.getMinRequestDateFactor(birthDate, requestDate);
 
         expect(ratio).toBe(1);
     });
 
     it('should return factor ratio when between min and max request date', () => {
         const birthDate = new Date('1952-01-01');
+        const requestDate = new Date('2043-01-01');
 
-        const ratio = OAS.getMinRequestDateFactor(birthDate);
+        const ratio = OAS.getMinRequestDateFactor(birthDate, requestDate);
+
 
         expect(ratio).toBe(1 + (36 * OAS.MONTHLY_DELAY_BONUS));
     });
