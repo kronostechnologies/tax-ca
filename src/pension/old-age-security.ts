@@ -30,14 +30,15 @@ export interface OldAgeSecurity {
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
 
-    getMinRequestDateFactor(birthDate: Date): number,
+    getMinRequestDateFactor(birthDate: Date, requestDate: Date): number,
+
     getRequestDateFactor(birthDate: Date, requestDate: Date): number;
 
     getRepaymentMax(startOfYearAge: number): number;
 }
 
 export const OAS: OldAgeSecurity = {
-    getMinRequestDateFactor(birthDate: Date): number {
+    getMinRequestDateFactor(birthDate: Date, requestDate: Date): number {
         const minRequestDate = addYearsToDate(birthDate, this.MIN_AGE);
         const maxRequestDate = addYearsToDate(birthDate, this.MAX_AGE);
 
@@ -45,8 +46,13 @@ export const OAS: OldAgeSecurity = {
         const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
         const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
         const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
+        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
 
-        if (monthsToLastBirthDay < monthsToMinRequestDate || monthsToLastBirthDay > monthsToMaxRequestDate) {
+        const receivingOASPayment = monthsToRequestDate >= monthsToMinRequestDate && monthsToRequestDate
+            <= monthsToMaxRequestDate && monthsToRequestDate <= monthsToToday;
+
+        if (monthsToLastBirthDay < monthsToMinRequestDate || monthsToLastBirthDay > monthsToMaxRequestDate
+            || receivingOASPayment) {
             return 1;
         }
 
@@ -64,8 +70,10 @@ export const OAS: OldAgeSecurity = {
         const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
         const clampedMonthsToRequestDate = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
         const deltaMonthsFromMinRequestDate = clampedMonthsToRequestDate - monthsToMinRequestDate;
+        const receivingOASPayment = monthsToRequestDate >= monthsToMinRequestDate && monthsToRequestDate
+            <= monthsToMaxRequestDate && monthsToRequestDate <= monthsToToday;
 
-        if (monthsToLastBirthDay > monthsToMaxRequestDate) {
+        if (monthsToLastBirthDay > monthsToMaxRequestDate || receivingOASPayment) {
             return 1;
         }
 
