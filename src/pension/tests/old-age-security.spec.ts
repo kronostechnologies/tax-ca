@@ -152,7 +152,6 @@ describe('getMinRequestDateFactor', () => {
 
         const ratio = OAS.getMinRequestDateFactor(birthDate, requestDate);
 
-
         expect(ratio).toBe(1 + (36 * OAS.MONTHLY_DELAY_BONUS));
     });
 });
