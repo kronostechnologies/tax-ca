@@ -1,13 +1,13 @@
 /*
- Sources
- https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
- https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
- https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
- https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
+Sources
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/recovery-tax.html
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/eligibility.html (delay bonus)
+    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
 
- Revised
- 2022-04-07
- */
+Revised
+    2023-01-03
+*/
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp } from '../utils/math';
@@ -83,13 +83,13 @@ export const OAS: OldAgeSecurity = {
     INCREASE: {
         AGE: 75,
         RATE: 0.1,
-        REPAYMENT_MAX: 137331,
+        REPAYMENT_MAX: 147418,
     },
-    MONTHLY_PAYMENT_MAX: 685.50,
+    MONTHLY_PAYMENT_MAX: 687.56,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
-        MAX: 134626,
-        MIN: 81761,
+        MAX: 141917,
+        MIN: 86912,
         RATIO: 0.15,
     },
 };

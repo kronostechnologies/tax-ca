@@ -1,10 +1,13 @@
 /*
- Sources
- http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
+Sources
+    http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
 
- Revised
- 2021-12-21
- */
+Conversion
+    None
+
+Revised
+    2023-01-03
+*/
 
 export interface RegisteredRetirementIncomeFund {
     MIN_WITHDRAWAL_PCT: { [K: number]: number };

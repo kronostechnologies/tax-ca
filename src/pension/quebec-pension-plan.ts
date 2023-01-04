@@ -1,11 +1,11 @@
 /*
- Sources
- http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
- https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
+Sources
+    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
+    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
 
- Revised
- 2022-01-20
- */
+Revised
+    2023-01-03
+*/
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
 import { clamp, roundToPrecision } from '../utils/math';
@@ -14,12 +14,12 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 64900,
+            MAX: 66600,
             MIN: 3500,
             // Average YPE of the last 5 year (including current year)
-            AVG_MAX: 59700,
+            AVG_MAX: 61840,
             // 114% of AVG_MAX
-            SUP_MAX: 68058,
+            SUP_MAX: 70497,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
@@ -41,13 +41,13 @@ export const QPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3174.36,
-        DISABILITY: 17565.96,
-        UNDER_45: 7234.32,
-        UNDER_45_WITH_CHILD: 11467.32,
-        UNDER_45_DISABLED: 11917.20,
-        FROM_45_TO_64: 11917.20,
-        OVER_64_WITHOUT_PENSION: 8959.80,
+        ORPHAN: 3380.64,
+        DISABILITY: 18445.56,
+        UNDER_45: 7790.40,
+        UNDER_45_WITH_CHILD: 12298.56,
+        UNDER_45_DISABLED: 12777.72,
+        FROM_45_TO_64: 12777.72,
+        OVER_64_WITHOUT_PENSION: 9649.56,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -102,6 +102,7 @@ export const QPP: PublicPensionPlan = {
         [2020, 0.019],
         [2021, 0.010],
         [2022, 0.027],
+        [2023, 0.065],
     ],
     MAX_INCOME: {
         1966: 5000,
@@ -161,10 +162,11 @@ export const QPP: PublicPensionPlan = {
         2020: 58700,
         2021: 61600,
         2022: 64900,
+        2023: 66600,
     },
     MAX_PENSION: {
-        RETIREMENT: 15043.08,
-        COMBINED_RETIREMENT_SURVIVOR: 15043.08,
+        RETIREMENT: 15678.84,
+        COMBINED_RETIREMENT_SURVIVOR: 15757.56,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,

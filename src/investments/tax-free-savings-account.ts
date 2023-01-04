@@ -1,9 +1,9 @@
 /*
- Sources
- https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
+Sources
+    https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
 
- Revised
- 2021-12-21
+Revised
+    2023-01-03
  */
 
 export interface TaxFreeSavingsAccount {
@@ -14,9 +14,12 @@ export interface TaxFreeSavingsAccount {
 }
 
 export const TFSA: TaxFreeSavingsAccount = {
-    MAX_CONTRIBUTION: 6000,
-    // Lastest unrounded contribution change that changed rounded factor bracket (5847.32 -> 6000)
-    UNROUNDED_MAX_CONTRIBUTION: 5850,
+    MAX_CONTRIBUTION: 6500,
+    /**
+     * Latest unrounded contribution change that changed rounded factor bracket
+     * (6500 -> 6500, but 2024 will be ~6637 -> 6500)
+     */
+    UNROUNDED_MAX_CONTRIBUTION: 6500,
     ROUNDING_FACTOR: 500,
-    UPDATE_YEAR: 2019,
+    UPDATE_YEAR: 2023,
 };

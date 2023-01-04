@@ -1,12 +1,13 @@
 /*
- Sources
- https://www.bankofcanada.ca/rates/price-indexes/cpi/
- Use column v41690973
+Sources
+    https://www.bankofcanada.ca/rates/price-indexes/cpi/
+    Use column v41690973
 
- NOT USED BY FNA-ENGINE
- Revised
- 2021-12-21
- */
+NOT USED BY FNA-ENGINE
+
+Revised
+    2023-01-03
+*/
 
 interface MonthlyConsumerPriceIndex {
     JAN: number;
@@ -220,7 +221,21 @@ export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
         SEP: 142.9,
         OCT: 143.9,
         NOV: 144.2,
-        // DEC is estimated using the difference between OCT and NOV.
-        DEC: 144.5,
+        DEC: 144.0,
+    },
+    2022: {
+        JAN: 145.3,
+        FEB: 146.8,
+        MAR: 148.9,
+        APR: 149.8,
+        MAY: 151.9,
+        JUN: 152.9,
+        JUL: 153.1,
+        AUG: 152.6,
+        SEP: 152.7,
+        OCT: 153.8,
+        NOV: 154.0,
+        // DEC is estimated using NOV
+        DEC: 154.0,
     },
 };

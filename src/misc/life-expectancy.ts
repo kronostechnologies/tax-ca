@@ -1,10 +1,10 @@
 /*
- Sources
- http://app.iqpf.org/?locale=en#/guidelines/life-expectancy
+Sources
+    http://app.iqpf.org/?locale=en#/guidelines/life-expectancy
 
- Revised
- 2020-12-21
- */
+Revised
+    2022-04-30
+*/
 
 export interface IndividualLifeExpectancy {
     0: number;

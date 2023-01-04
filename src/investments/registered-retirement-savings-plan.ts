@@ -1,10 +1,13 @@
 /*
- Sources
- https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
+Sources
+    https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
 
- Revised
- 2021-12-21
- */
+Note
+    Must use RRSP dollar limit and not DB limit
+
+Revised
+    2023-01-03
+*/
 
 export interface ConversionAge {
     MIN: number;
@@ -21,5 +24,5 @@ export const RRSP: RegisteredRetirementSavingsPlan = {
         MIN: 0,
         MAX: 71,
     },
-    MAX_CONTRIBUTION: 29210,
+    MAX_CONTRIBUTION: 30780,
 };
