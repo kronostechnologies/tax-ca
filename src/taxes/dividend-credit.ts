@@ -1,11 +1,11 @@
 /*
- Sources
- Non-eligible Dividends: https://www.taxtips.ca/dtc/non-eligible-dividend-tax-credit.htm
- Eligible Dividends: https://www.taxtips.ca/dtc/eligible-dividends/eligible-dividend-tax-credit-rates.htm
+Sources
+    Non-eligible Dividends: https://www.taxtips.ca/dtc/non-eligible-dividend-tax-credit.htm
+    Eligible Dividends: https://www.taxtips.ca/dtc/eligible-dividends/eligible-dividend-tax-credit-rates.htm
 
- Revised
- 2022-01-04
- */
+Revised
+    2023-01-03
+*/
 
 import { FederalCode, ProvinceCode } from '../misc';
 

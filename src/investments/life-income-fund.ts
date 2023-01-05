@@ -1,12 +1,17 @@
 // tslint:disable:max-line-length
 /*
 Sources
-  Provincial: https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-EN-web_0.pdf
+    Provincial: https://www.empire.ca/sites/default/files/2020-02/INV-996A-LIFMinMaxWithdrawalPercentages-EN-web_0.pdf
               https://ca.rbcwealthmanagement.com/documents/634020/2289317/2021+-+Registered+Plan+Minimums+and+Maximums.pdf/ded97359-099d-4650-b626-67358d78f3af
-  Federal: http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+    Federal: http://www.osfi-bsif.gc.ca/Eng/pp-rr/faq/Pages/lif-frv.aspx
+
+Conversion
+    Because the age of reference is at the end of the previous year, we must shift the reference rate
+    by one year to reflect the calculation engine which uses the age at the end of the current year.
+    i.e. : Gov has a rate for age 60 but we use it for age 61.
 
 Revised
-  2021-12-21
+    2023-01-03
 */
 // tslint:enable:max-line-length
 
@@ -149,42 +154,76 @@ export const othersMaxWithdrawalPct: MaxWithdrawalPctByAge = {
 
 // Federal
 export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
-    54: 0.044832,
-    55: 0.045301,
-    56: 0.045808,
-    57: 0.046359,
-    58: 0.046957,
-    59: 0.047608,
-    60: 0.048318,
-    61: 0.049094,
-    62: 0.049944,
-    63: 0.050878,
-    64: 0.051907,
-    65: 0.053045,
-    66: 0.054306,
-    67: 0.05571,
-    68: 0.05728,
-    69: 0.059044,
-    70: 0.061036,
-    71: 0.0633,
-    72: 0.06589,
-    73: 0.068878,
-    74: 0.072356,
-    75: 0.076448,
-    76: 0.08113,
-    77: 0.086536,
-    78: 0.092849,
-    79: 0.100316,
-    80: 0.109283,
-    81: 0.12025,
-    82: 0.133967,
-    83: 0.151612,
-    84: 0.175151,
-    85: 0.208118,
-    86: 0.257586,
-    87: 0.340054,
-    88: 0.505024,
-    89: 1,
+    21: 0.043237,
+    22: 0.043288,
+    23: 0.043343,
+    24: 0.043401,
+    25: 0.043463,
+    26: 0.043528,
+    27: 0.043598,
+    28: 0.043673,
+    29: 0.043752,
+    30: 0.043836,
+    31: 0.043925,
+    32: 0.044021,
+    33: 0.044122,
+    34: 0.04423,
+    35: 0.044345,
+    36: 0.044468,
+    37: 0.044599,
+    38: 0.044738,
+    39: 0.044887,
+    40: 0.045046,
+    41: 0.045216,
+    42: 0.045397,
+    43: 0.04559,
+    44: 0.045798,
+    45: 0.046019,
+    46: 0.046256,
+    47: 0.04651,
+    48: 0.046783,
+    49: 0.047075,
+    50: 0.047389,
+    51: 0.047726,
+    52: 0.048089,
+    53: 0.04848,
+    54: 0.048901,
+    55: 0.049355,
+    56: 0.049846,
+    57: 0.050377,
+    58: 0.050953,
+    59: 0.051577,
+    60: 0.052256,
+    61: 0.052996,
+    62: 0.053803,
+    63: 0.054686,
+    64: 0.055654,
+    65: 0.056718,
+    66: 0.057891,
+    67: 0.059189,
+    68: 0.06063,
+    69: 0.062236,
+    70: 0.064035,
+    71: 0.066057,
+    72: 0.068346,
+    73: 0.070952,
+    74: 0.07394,
+    75: 0.077395,
+    76: 0.081429,
+    77: 0.086048,
+    78: 0.09139,
+    79: 0.097634,
+    80: 0.105025,
+    81: 0.11391,
+    82: 0.124785,
+    83: 0.138397,
+    84: 0.155919,
+    85: 0.179305,
+    86: 0.212075,
+    87: 0.261266,
+    88: 0.343299,
+    89: 0.507438,
+    90: 1,
 };
 
 export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, age: number): number {
@@ -201,7 +240,7 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
         case 'NS':
             return province2MaxWithdrawalPct[clamp(age, 54, 89)];
         case 'CA':
-            return federalMaxWithdrawalPct[clamp(age, 54, 89)];
+            return federalMaxWithdrawalPct[clamp(age, 54, 90)];
         default:
             return othersMaxWithdrawalPct[clamp(age, 54, 96)];
     }
