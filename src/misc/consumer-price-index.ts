@@ -38,6 +38,7 @@ export interface ConsumerPriceIndex {
     2019: MonthlyConsumerPriceIndex;
     2020: MonthlyConsumerPriceIndex;
     2021: MonthlyConsumerPriceIndex;
+    2022: MonthlyConsumerPriceIndex;
 }
 
 export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
