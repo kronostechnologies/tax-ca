@@ -1,0 +1,24 @@
+name: Security
+
+on:
+  pull_request: { }
+  push:
+    branches:
+      - master
+    tags:
+      - v*.*.*
+
+jobs:
+  sast:
+    name: SAST
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: CodeQL
+        uses: equisoft-actions/codeql@v1
+        with:
+          category: app
+          languages: typescript,javascript
+          working-directory: .
