@@ -3,7 +3,6 @@
         "github>kronostechnologies/standards:renovate-base"
     ],
 
-    reviewers: ["team:team-abf"],
     rebaseWhen: "conflicted",
 
     js: {
