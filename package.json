@@ -38,10 +38,10 @@
     "@equisoft/eslint-config-typescript": "3.0.3",
     "@equisoft/typescript-config": "2.0.0",
     "@microsoft/eslint-formatter-sarif": "3.0.0",
-    "@types/jest": "29.4.0",
+    "@types/jest": "29.5.0",
     "@types/node": "18.15.2",
-    "@typescript-eslint/eslint-plugin": "5.55.0",
-    "@typescript-eslint/parser": "5.55.0",
+    "@typescript-eslint/eslint-plugin": "5.56.0",
+    "@typescript-eslint/parser": "5.56.0",
     "eslint": "8.36.0",
     "eslint-import-resolver-node": "0.3.7",
     "eslint-import-resolver-typescript": "3.5.3",
@@ -56,5 +56,5 @@
     "@babel/core/json5": "^2.2.2",
     "ts-jest/json5": "^2.2.2"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.5.0"
 }
