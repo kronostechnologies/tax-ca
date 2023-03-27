@@ -638,6 +638,7 @@ __metadata:
     "@equisoft/eslint-config": 3.0.3
     "@equisoft/eslint-config-typescript": 3.0.3
     "@equisoft/typescript-config": 2.0.0
+    "@jest/globals": 29.5.0
     "@microsoft/eslint-formatter-sarif": 3.0.0
     "@types/jest": 29.5.0
     "@types/node": 18.15.2
@@ -893,7 +894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:^29.5.0":
+"@jest/globals@npm:29.5.0, @jest/globals@npm:^29.5.0":
   version: 29.5.0
   resolution: "@jest/globals@npm:29.5.0"
   dependencies:
