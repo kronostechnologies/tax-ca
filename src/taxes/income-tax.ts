@@ -464,7 +464,7 @@ function inflate(amount: number, inflationRate: number, yearsToInflate: number):
     return amount * ((1 + inflationRate) ** yearsToInflate);
 }
 
-function extractRate(rates: Rate[], income: number, inflationRate: number, yearsToInflate: number): number {
+export function getTaxAmount(rates: Rate[], income: number, inflationRate: number, yearsToInflate: number): number {
     const reducer = (previous: number, current: Rate): number => {
         const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
         const bracketTo = inflate(current.TO, inflationRate, yearsToInflate);
@@ -474,7 +474,7 @@ function extractRate(rates: Rate[], income: number, inflationRate: number, years
     return rates.reduce(reducer, 0);
 }
 
-function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number {
+export function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number {
     const reducer = (previous: number, current: Rate): number => {
         const bracketFrom = inflate(current.FROM, inflationRate, yearsToInflate);
         return bracketFrom < grossIncome ? current.RATE : previous;
@@ -482,7 +482,7 @@ function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, y
     return brackets.reduce(reducer, 0);
 }
 
-function getTaxRates(code: ProvinceCode | FederalCode): Rate[] {
+export function getTaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].RATES;
 }
 
@@ -495,7 +495,7 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
 }
 
 export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
-    return extractRate(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
+    return getTaxAmount(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
 }
 
 export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
@@ -526,7 +526,7 @@ export function getProvincialSurtaxAmount(
     inflationRate = 0,
     yearsToInflate = 0,
 ): number {
-    return extractRate(getSurtaxRates(province), baseTaxAmount, inflationRate, yearsToInflate);
+    return getTaxAmount(getSurtaxRates(province), baseTaxAmount, inflationRate, yearsToInflate);
 }
 
 export function getProvincialBaseTaxAmount(
@@ -535,7 +535,7 @@ export function getProvincialBaseTaxAmount(
     inflationRate = 0,
     yearsToInflate = 0,
 ): number {
-    return extractRate(getTaxRates(province), grossIncome, inflationRate, yearsToInflate);
+    return getTaxAmount(getTaxRates(province), grossIncome, inflationRate, yearsToInflate);
 }
 
 export function getProvincialBaseCredit(province: ProvinceCode, inflationRate: number, yearsToInflate: number): number {
