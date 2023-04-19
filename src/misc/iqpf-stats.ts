@@ -1,10 +1,10 @@
 /*
-Sources
-    https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2022.pdf
+ Sources
+ https://www.iqpf.org/docs/default-source/outils/iqpf-normes-projection2023.pdf
 
-Revised
-    2022-04-30
-*/
+ Revised
+ 2023-04-30
+ */
 
 export interface ReturnRates {
     SHORT_TERM: number;
@@ -27,10 +27,10 @@ export const IQPF: IQPFStatistics = {
     PERFORMANCE_RATE: 0.01,
     RETURN_RATES: {
         SHORT_TERM: 0.023,
-        FIXED_INCOME: 0.028,
-        CANADIAN_EQUITIES: 0.063,
-        CONSERVATIVE_PORTFOLIO: 0.024,
-        BALANCED_PORTFOLIO: 0.033,
+        FIXED_INCOME: 0.032,
+        CANADIAN_EQUITIES: 0.062,
+        CONSERVATIVE_PORTFOLIO: 0.027,
+        BALANCED_PORTFOLIO: 0.034,
         DYNAMIC_PORTFOLIO: 0.044,
     },
     BORROWING_RATE: 0.043,
