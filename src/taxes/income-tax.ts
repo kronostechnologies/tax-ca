@@ -132,7 +132,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     MB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.108,
-        BASE_TAX_CREDIT: 10855,
+        BASE_TAX_CREDIT: 15000,
         RATES: [{
             FROM: 0,
             TO: 36842,
