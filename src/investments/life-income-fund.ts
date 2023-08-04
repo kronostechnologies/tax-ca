@@ -15,7 +15,7 @@ Revised
 */
 // tslint:enable:max-line-length
 
-import { FederalCode, ProvinceCode } from '../misc';
+import { ByProvince, FederalCode, ProvinceCode } from '../misc';
 import { clamp } from '../utils';
 
 interface MaxWithdrawalPctByAge {
@@ -245,3 +245,19 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
             return othersMaxWithdrawalPct[clamp(age, 54, 96)];
     }
 }
+
+export const YMPEUnlockingSmallBalance: ByProvince<number> = {
+    AB: 0.4,
+    BC: 0.4,
+    MB: 0.4,
+    NB: 0.4,
+    NL: 0.4,
+    NS: 0.5,
+    PE: 0.4,
+    ON: 0.4,
+    QC: 0.4,
+    SK: 0.4,
+    NT: 0.4,
+    NU: 0.4,
+    YT: 0.4,
+};
