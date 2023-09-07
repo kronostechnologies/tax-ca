@@ -1,26 +1,4 @@
 {
-    extends: [
-        "github>kronostechnologies/standards:renovate-base"
-    ],
-
-    rebaseWhen: "conflicted",
-
-    js: {
-        packageRules: [
-            {
-                matchUpdateTypes: ["major", "minor", "patch"],
-                automerge: false,
-            },
-            {
-                matchUpdateTypes: ["minor"],
-                excludePackageNames: [""],
-                groupName: "Yarn minors",
-            },
-            {
-                matchUpdateTypes: ["patch"],
-                excludePackageNames: [""],
-                groupName: "Yarn patches",
-            },
-        ],
-    },
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    extends: ["local>kronostechnologies/renovate-config"],
 }
