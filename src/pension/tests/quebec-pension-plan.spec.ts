@@ -79,22 +79,22 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1 + (12 * QPP.MONTHLY_DELAY.BONUS));
     });
 
-    it('should return 1 + 60 times the MONTHLY delay bonus when waiting has max age on request', () => {
+    it('should return 1 + 84 times the MONTHLY delay bonus when waiting has max age on request', () => {
         const birthDate = new Date('1980-01-01');
-        const requestDate = new Date('2055-01-01'); // on his 70th birthday
+        const requestDate = new Date('2057-01-01'); // on his 72nd birthday
 
         const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + (60 * QPP.MONTHLY_DELAY.BONUS));
+        expect(ratio).toBe(1 + (84 * QPP.MONTHLY_DELAY.BONUS));
     });
 
-    it('should return max delay bonus (1 + 60 times the MONTHLY delay bonus) when request is after max age', () => {
+    it('should return max delay bonus (1 + 84 times the MONTHLY delay bonus) when request is after max age', () => {
         const birthDate = new Date('1980-01-01');
         const requestDate = new Date('2065-01-01'); // on his 80th birthday
 
         const ratio = QPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + (60 * QPP.MONTHLY_DELAY.BONUS));
+        expect(ratio).toBe(1 + (84 * QPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should return 1 - X times the MONTHLY delay penalty when taking pension x months earlier', () => {

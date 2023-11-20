@@ -169,7 +169,7 @@ export const QPP: PublicPensionPlan = {
         COMBINED_RETIREMENT_SURVIVOR: 15757.56,
         DEATH_BENEFIT: 2500,
     },
-    MAX_REQUEST_AGE: 70,
+    MAX_REQUEST_AGE: 72,
     MIN_REQUEST_AGE: 60,
     MONTHLY_DELAY: {
         BONUS: 0.0070,
