@@ -17,6 +17,8 @@ export interface PPPIncreaseFactor {
     THIRD_YEAR: number;
     FOURTH_YEAR: number;
     FIFTH_YEAR: number;
+    SIXTH_YEAR: number;
+    SEVENTH_YEAR: number;
 }
 
 export const PPP_INCREASE_FACTOR: PPPIncreaseFactor = {
@@ -25,4 +27,6 @@ export const PPP_INCREASE_FACTOR: PPPIncreaseFactor = {
     THIRD_YEAR: 0.425,
     FOURTH_YEAR: 0.375,
     FIFTH_YEAR: 0.358,
+    SIXTH_YEAR: 0.3185,
+    SEVENTH_YEAR: 0.2790,
 };
