@@ -39,22 +39,22 @@
     "@equisoft/typescript-config": "2.0.0",
     "@microsoft/eslint-formatter-sarif": "3.0.0",
     "@types/jest": "29.5.8",
-    "@types/node": "20.9.0",
-    "@typescript-eslint/eslint-plugin": "6.11.0",
-    "@typescript-eslint/parser": "6.11.0",
-    "eslint": "8.53.0",
+    "@types/node": "20.9.2",
+    "@typescript-eslint/eslint-plugin": "6.12.0",
+    "@typescript-eslint/parser": "6.12.0",
+    "eslint": "8.54.0",
     "eslint-import-resolver-node": "0.3.9",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.0",
     "jest": "29.7.0",
     "jest-junit": "16.0.0",
     "ts-jest": "29.1.1",
-    "typescript": "5.2.2",
+    "typescript": "5.3.2",
     "yargs": "17.7.2"
   },
   "resolutions": {
     "@babel/core/json5": "^2.2.2",
     "ts-jest/json5": "^2.2.2"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.7.0"
 }
