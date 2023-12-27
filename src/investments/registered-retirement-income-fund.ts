@@ -1,12 +1,12 @@
 /*
 Sources
-    http://www.getsmarteraboutmoney.ca/en/managing-your-money/investing/rrifs-and-annuities/Pages/Making-withdrawals-from-your-RRIF.aspx
+    https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/completing-slips-summaries/t4rsp-t4rif-information-returns/payments/chart-prescribed-factors.html
 
 Conversion
     None
 
 Revised
-    2023-01-03
+    2023-12-27
 */
 
 export interface RegisteredRetirementIncomeFund {

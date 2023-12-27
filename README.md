@@ -4,7 +4,7 @@
 
 The `tax-ca` library contains up-to-date provincial and federal tax data and calculation functions.
 
-We built it so that we would have a single source of truth for taxes data across all of our applications.  The initial version is derived from code from the `fna-engine`, `kronos-fna` and `kronos-express` repositories.
+We built it so that we would have a single source of truth for taxes data across all of our applications.  The initial version is derived from code from the `fna-engine` and `kronos-fna` repositories.
 
 As we develop and update `tax-ca`, we will try to make it as application-agnostic as possible.
 
@@ -58,10 +58,10 @@ Data relating to registered investments accounts.
 
 ```
 INVESTMENTS
-  |--LifeIncomeFund
-  |--RegisteredRetirementIncomeFund
-  |--RegisteredRetirementSavingsPlan
-  |--TaxFreeSavingsAccount
+  |--life-income-fund
+  |--registered-retirement-income-fund
+  |--registered-retirement-savings-plan
+  |--tax-free-savings-account
 ```
 
 ### `PENSION`
@@ -70,11 +70,11 @@ Data relating to federal and provincial pension plans.
 
 ```
 PENSION
-  |--CanadaPensionPlan
-  |--OldAgeSecurity
-  |--PublicPensionPlan
-  |--QuebecPensionPlan
-  |--SupplementalPensionPlan
+  |--canada-pension-plan
+  |--old-age-security
+  |--public-pension-plan
+  |--quebec-pension-plan
+  |--supplemental-pension-plan
 ```
 
 ### `TAXES`
@@ -83,10 +83,10 @@ Data relating to federal and provincial income taxes and social charges.
 
 ```
 TAXES
-  |--DividendCredit
-  |--EmploymentInsurance
-  |--IncomeTax
-  |--QuebecParentalInsurancePlan
+  |--dividend-credit
+  |--employment-insurance
+  |--income-tax
+  |--quebec-parental-insurance-plan
 ```
 
 ### `MISC`
@@ -95,15 +95,15 @@ Complementary data useful in a tax calculation context.
 
 ```
 MISC
-  |--ConsumerPriceIndex
-  |--IQPFStats
-  |--LifeExpectancy
+  |--consumer-price-index
+  |--iqpf-stats
+  |--life-expectancy
 ```
 
 
 ## Development
 
-This library is maintained by the _Equisoft Plan_ team in Quebec City.
+This library is maintained by the _Equisoft/plan_ product team in Quebec City, QC, Canada.
 
 We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull requests to the repository. 
 

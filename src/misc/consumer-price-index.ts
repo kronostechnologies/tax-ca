@@ -6,7 +6,7 @@ Sources
 NOT USED BY FNA-ENGINE
 
 Revised
-    2023-01-03
+    2023-12-27
 */
 
 interface MonthlyConsumerPriceIndex {
@@ -39,6 +39,7 @@ export interface ConsumerPriceIndex {
     2020: MonthlyConsumerPriceIndex;
     2021: MonthlyConsumerPriceIndex;
     2022: MonthlyConsumerPriceIndex;
+    2023: MonthlyConsumerPriceIndex;
 }
 
 export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
@@ -236,7 +237,21 @@ export const CONSUMER_PRICE_INDEX: ConsumerPriceIndex = {
         SEP: 152.7,
         OCT: 153.8,
         NOV: 154.0,
+        DEC: 153.1,
+    },
+    2023: {
+        JAN: 153.9,
+        FEB: 154.5,
+        MAR: 155.3,
+        APR: 156.4,
+        MAY: 157.0,
+        JUN: 157.2,
+        JUL: 158.1,
+        AUG: 158.7,
+        SEP: 158.5,
+        OCT: 158.6,
+        NOV: 158.8,
         // DEC is estimated using NOV
-        DEC: 154.0,
+        DEC: 158.8,
     },
 };
