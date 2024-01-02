@@ -168,7 +168,7 @@ export const CPP: PublicPensionPlan = {
         2024: 68500,
     },
     MAX_PENSION: {
-        RETIREMENT: 16504.92,
+        RETIREMENT: 16375.20, // Max amount at age 65
         COMBINED_RETIREMENT_SURVIVOR: 19363.68,
         DEATH_BENEFIT: 2500,
     },

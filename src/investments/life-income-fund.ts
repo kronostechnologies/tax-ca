@@ -72,7 +72,7 @@ export const province1MaxWithdrawalPct: MaxWithdrawalPctByAge = {
 export const province2MaxWithdrawalPct: MaxWithdrawalPctByAge = {
     51: 0.0610,
     52: 0.0610,
-    53: 0.0610, 
+    53: 0.0610,
     54: 0.0610,
     55: 0.0610,
     56: 0.0640,
