@@ -6,7 +6,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/payments.html
 
 Revised
-    2023-12-27
+    2024-01-02
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -91,13 +91,13 @@ export const OAS: OldAgeSecurity = {
     INCREASE: {
         AGE: 75,
         RATE: 0.1,
-        REPAYMENT_MAX: 148179,
+        REPAYMENT_MAX: 153771,
     },
-    MONTHLY_PAYMENT_MAX: 707.68,
+    MONTHLY_PAYMENT_MAX: 713.34,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
-        MAX: 142609,
-        MIN: 86912,
+        MAX: 148065,
+        MIN: 90997,
         RATIO: 0.15,
     },
 };

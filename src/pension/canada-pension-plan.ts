@@ -5,7 +5,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
 
 Revised
-    2023-12-27
+    2023-01-02
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -168,8 +168,8 @@ export const CPP: PublicPensionPlan = {
         2024: 68500,
     },
     MAX_PENSION: {
-        RETIREMENT: 15678.84,
-        COMBINED_RETIREMENT_SURVIVOR: 15757.56,
+        RETIREMENT: 16504.92,
+        COMBINED_RETIREMENT_SURVIVOR: 19363.68,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
