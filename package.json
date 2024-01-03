@@ -56,5 +56,5 @@
     "@babel/core/json5": "^2.2.2",
     "ts-jest/json5": "^2.2.2"
   },
-  "packageManager": "yarn@3.7.0"
+  "packageManager": "yarn@4.0.2"
 }
