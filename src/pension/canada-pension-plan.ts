@@ -5,7 +5,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
 
 Revised
-    2023-01-03
+    2023-01-02
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -15,12 +15,12 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const CPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 66600,
+            MAX: 68500,
             MIN: 3500,
             // Average YMPE of the last 5 year (including current year)
-            AVG_MAX: 61840,
-            // 114% of AVG_MAX
-            SUP_MAX: 70497,
+            AVG_MAX: 64060,
+            // Year's additional maximum pensionable earnings (YAMPE), approx. 114% of AVG_MAX
+            SUP_MAX: 73200,
             SUP_FACTORS: [
                 { FROM: 2019, TO: 2023, FACTOR: 1 },
                 { FROM: 2024, TO: 2024, FACTOR: 1.07 },
@@ -165,10 +165,11 @@ export const CPP: PublicPensionPlan = {
         2021: 61600,
         2022: 64900,
         2023: 66600,
+        2024: 68500,
     },
     MAX_PENSION: {
-        RETIREMENT: 15678.84,
-        COMBINED_RETIREMENT_SURVIVOR: 15757.56,
+        RETIREMENT: 16375.20, // Max amount at age 65
+        COMBINED_RETIREMENT_SURVIVOR: 19363.68,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
