@@ -1,7 +1,7 @@
 /*
 Sources
     http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
-    https://www.rrq.gouv.qc.ca/en/services/publications/regime_rentes/retraite/Pages/tableaux-revenus-travail-admissibles.aspx
+    https://www.retraitequebec.gouv.qc.ca/fr/publications/nos-programmes/regime-de-rentes-du-quebec/retraite/Pages/revenus-de-travail-admissibles-et-cotisations.aspx
 
 Revised
     2024-01-02

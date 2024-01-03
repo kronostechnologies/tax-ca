@@ -58,10 +58,10 @@ Data relating to registered investments accounts.
 
 ```
 INVESTMENTS
-  |--life-income-fund
-  |--registered-retirement-income-fund
-  |--registered-retirement-savings-plan
-  |--tax-free-savings-account
+  |--LifeIncomeFund
+  |--RegisteredRetirementIncomeFund
+  |--RegisteredRetirementSavingsPlan
+  |--TaxFreeSavingsAccount
 ```
 
 ### `PENSION`
@@ -70,11 +70,11 @@ Data relating to federal and provincial pension plans.
 
 ```
 PENSION
-  |--canada-pension-plan
-  |--old-age-security
-  |--public-pension-plan
-  |--quebec-pension-plan
-  |--supplemental-pension-plan
+  |--CanadaPensionPlan
+  |--OldAgeSecurity
+  |--PublicPensionPlan
+  |--QuebecPensionPlan
+  |--SupplementalPensionPlan
 ```
 
 ### `TAXES`
@@ -83,10 +83,10 @@ Data relating to federal and provincial income taxes and social charges.
 
 ```
 TAXES
-  |--dividend-credit
-  |--employment-insurance
-  |--income-tax
-  |--quebec-parental-insurance-plan
+  |--DividendCredit
+  |--EmploymentInsurance
+  |--IncomeTax
+  |--QuebecParentalInsurancePlan
 ```
 
 ### `MISC`
@@ -95,9 +95,9 @@ Complementary data useful in a tax calculation context.
 
 ```
 MISC
-  |--consumer-price-index
-  |--iqpf-stats
-  |--life-expectancy
+  |--ConsumerPriceIndex
+  |--IQPFStats
+  |--LifeExpectancy
 ```
 
 
