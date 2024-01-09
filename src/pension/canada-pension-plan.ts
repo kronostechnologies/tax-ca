@@ -23,7 +23,7 @@ export const CPP: PublicPensionPlan = {
             SUP_MAX: 73200,
             SUP_FACTORS: [
                 { FROM: 2024, TO: 2024, FACTOR: 1 },
-                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.14 },
+                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.07 },
             ],
         },
         RATES: {
