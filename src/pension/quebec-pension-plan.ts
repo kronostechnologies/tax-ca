@@ -4,7 +4,7 @@ Sources
     https://www.retraitequebec.gouv.qc.ca/fr/publications/nos-programmes/regime-de-rentes-du-quebec/retraite/Pages/revenus-de-travail-admissibles-et-cotisations.aspx
 
 Revised
-    2024-01-02
+    2024-01-09
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -21,9 +21,8 @@ export const QPP: PublicPensionPlan = {
             // Year's additional maximum pensionable earnings (YAMPE), approx. 114% of AVG_MAX
             SUP_MAX: 73200,
             SUP_FACTORS: [
-                { FROM: 2019, TO: 2023, FACTOR: 1 },
-                { FROM: 2024, TO: 2024, FACTOR: 1.07 },
-                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.14 },
+                { FROM: 2024, TO: 2024, FACTOR: 1 },
+                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.07 },
             ],
         },
         RATES: {
