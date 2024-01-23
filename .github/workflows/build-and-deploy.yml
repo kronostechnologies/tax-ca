@@ -32,6 +32,9 @@ jobs:
       - name: Find application metadata
         id: metadata
         uses: equisoft-actions/nodejs-application-metadata@v1
+        with:
+          release-branch: master
+          hotfix-branch-prefix: release/
 
       - name: Install NPM dependencies
         uses: equisoft-actions/yarn-install@v1
