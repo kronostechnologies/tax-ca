@@ -260,14 +260,9 @@ export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
 };
 
 export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, age: number): number {
-    // get the element with the smallest key in federalMaxWithdrawalPct
-    const getLowerBoundAgeByProvinceGroup = (provinceGroup: MaxWithdrawalPctByAge): number => {
-        return Math.min(...Object.keys(provinceGroup).map(Number));
-    };
-
-    const getUpperBoundAgeByProvinceGroup = (provinceGroup: MaxWithdrawalPctByAge): number => {
-        return Math.max(...Object.keys(provinceGroup).map(Number));
-    };
+    const getAgeLimitByProvinceGroup = (group: MaxWithdrawalPctByAge, biggest: boolean = true): number => ((biggest)
+        ? Math.max(...Object.keys(group).map(Number))
+        : Math.min(...Object.keys(group).map(Number)));
 
     switch (jurisdiction) {
         case 'AB':
@@ -279,36 +274,36 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
             return province1MaxWithdrawalPct[
                 clamp(
                     age,
-                    getLowerBoundAgeByProvinceGroup(province1MaxWithdrawalPct),
-                    getUpperBoundAgeByProvinceGroup(province1MaxWithdrawalPct),
+                    getAgeLimitByProvinceGroup(province1MaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(province1MaxWithdrawalPct),
                 )
-                ];
+            ];
         case 'QC':
         case 'MB':
         case 'NS':
             return province2MaxWithdrawalPct[
                 clamp(
                     age,
-                    getLowerBoundAgeByProvinceGroup(province2MaxWithdrawalPct),
-                    getUpperBoundAgeByProvinceGroup(province2MaxWithdrawalPct),
+                    getAgeLimitByProvinceGroup(province2MaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(province2MaxWithdrawalPct),
                 )
-                ];
+            ];
         case 'CA':
             return federalMaxWithdrawalPct[
                 clamp(
                     age,
-                    getLowerBoundAgeByProvinceGroup(federalMaxWithdrawalPct),
-                    getUpperBoundAgeByProvinceGroup(federalMaxWithdrawalPct),
+                    getAgeLimitByProvinceGroup(federalMaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(federalMaxWithdrawalPct),
                 )
-                ];
+            ];
         default:
             return othersMaxWithdrawalPct[
                 clamp(
                     age,
-                    getLowerBoundAgeByProvinceGroup(othersMaxWithdrawalPct),
-                    getUpperBoundAgeByProvinceGroup(othersMaxWithdrawalPct),
+                    getAgeLimitByProvinceGroup(othersMaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(othersMaxWithdrawalPct),
                 )
-                ];
+            ];
     }
 }
 
