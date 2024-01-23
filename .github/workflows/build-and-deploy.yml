@@ -24,7 +24,7 @@ jobs:
 
       - name: Fetch origin/master (for action-metadata commit check)
         run: |
-          git fetch --no-tags --prune --depth=1000 origin +refs/heads/master:refs/remotes/origin/master
+          git fetch --no-tags --prune --depth=1000 origin +refs/heads/master:refs/remotes/origin/master '+refs/heads/release/*:refs/remotes/origin/release/*'
 
       - name: Setup asdf-vm
         uses: equisoft-actions/with-asdf-vm@v2
