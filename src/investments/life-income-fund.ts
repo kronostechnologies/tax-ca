@@ -260,6 +260,10 @@ export const federalMaxWithdrawalPct: MaxWithdrawalPctByAge = {
 };
 
 export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, age: number): number {
+    const getAgeLimitByProvinceGroup = (group: MaxWithdrawalPctByAge, biggest: boolean = true): number => ((biggest)
+        ? Math.max(...Object.keys(group).map(Number))
+        : Math.min(...Object.keys(group).map(Number)));
+
     switch (jurisdiction) {
         case 'AB':
         case 'BC':
@@ -267,15 +271,39 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
         case 'NB':
         case 'NL':
         case 'SK':
-            return province1MaxWithdrawalPct[clamp(age, 54, 90)];
+            return province1MaxWithdrawalPct[
+                clamp(
+                    age,
+                    getAgeLimitByProvinceGroup(province1MaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(province1MaxWithdrawalPct),
+                )
+            ];
         case 'QC':
         case 'MB':
         case 'NS':
-            return province2MaxWithdrawalPct[clamp(age, 54, 89)];
+            return province2MaxWithdrawalPct[
+                clamp(
+                    age,
+                    getAgeLimitByProvinceGroup(province2MaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(province2MaxWithdrawalPct),
+                )
+            ];
         case 'CA':
-            return federalMaxWithdrawalPct[clamp(age, 54, 90)];
+            return federalMaxWithdrawalPct[
+                clamp(
+                    age,
+                    getAgeLimitByProvinceGroup(federalMaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(federalMaxWithdrawalPct),
+                )
+            ];
         default:
-            return othersMaxWithdrawalPct[clamp(age, 54, 96)];
+            return othersMaxWithdrawalPct[
+                clamp(
+                    age,
+                    getAgeLimitByProvinceGroup(othersMaxWithdrawalPct, false),
+                    getAgeLimitByProvinceGroup(othersMaxWithdrawalPct),
+                )
+            ];
     }
 }
 
