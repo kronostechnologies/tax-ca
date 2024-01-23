@@ -11,10 +11,10 @@ describe('getMaxWithdrawalPct', () => {
     // @formatter:off
     describe.each`
         title | min | max | jurisdictions | maxWithdrawalPct
-        ${'given AB, BC, ON, NB, NL or SK jurisdiction'} | ${54} | ${90} | ${['AB', 'BC', 'ON', 'NB', 'NL', 'SK']} | ${province1MaxWithdrawalPct}
-        ${'given QC, MB or NS jurisdiction'} | ${54} | ${89} | ${['QC', 'MB', 'NS']} | ${province2MaxWithdrawalPct}
-        ${'given federal jurisdiction'} | ${54} | ${90} | ${['CA']} | ${federalMaxWithdrawalPct}
-        ${'given other jurisdiction'} | ${54} | ${96} | ${['other']} | ${othersMaxWithdrawalPct}
+        ${'given AB, BC, ON, NB, NL or SK jurisdiction'} | ${51} | ${90} | ${['AB', 'BC', 'ON', 'NB', 'NL', 'SK']} | ${province1MaxWithdrawalPct}
+        ${'given QC, MB or NS jurisdiction'} | ${51} | ${89} | ${['QC', 'MB', 'NS']} | ${province2MaxWithdrawalPct}
+        ${'given federal jurisdiction'} | ${20} | ${89} | ${['CA']} | ${federalMaxWithdrawalPct}
+        ${'given other jurisdiction'} | ${20} | ${89} | ${['other']} | ${othersMaxWithdrawalPct}
     `('$title', ({ // @formatter:on
         min, max, jurisdictions, maxWithdrawalPct,
     }) => {
@@ -25,6 +25,7 @@ describe('getMaxWithdrawalPct', () => {
             jurisdictions.forEach((jurisdiction: FederalCode | ProvinceCode) => {
                 const result = getMaxWithdrawalPct(jurisdiction, age);
                 expect(result).toBe(expectedResult);
+                expect(result).not.toBeUndefined();
             });
         });
 
@@ -35,6 +36,7 @@ describe('getMaxWithdrawalPct', () => {
             jurisdictions.forEach((jurisdiction: FederalCode | ProvinceCode) => {
                 const result = getMaxWithdrawalPct(jurisdiction, age);
                 expect(result).toBe(expectedResult);
+                expect(result).not.toBeUndefined();
             });
         });
 
@@ -45,6 +47,7 @@ describe('getMaxWithdrawalPct', () => {
             jurisdictions.forEach((jurisdiction: FederalCode | ProvinceCode) => {
                 const result = getMaxWithdrawalPct(jurisdiction, age);
                 expect(result).toBe(expectedResult);
+                expect(result).not.toBeUndefined();
             });
         });
     });
