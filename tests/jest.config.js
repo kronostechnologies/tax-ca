@@ -10,6 +10,7 @@ module.exports = {
                 tsconfig: path.resolve(__dirname, 'tsconfig.json'),
             },
         ],
+        '^.+\\.(js|jsx)$': 'babel-jest',
     },
     clearMocks: true,
     errorOnDeprecated: true,
