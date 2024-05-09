@@ -14,8 +14,7 @@ describe('getCapitalGainsTaxableAmount', () => {
         ];
 
         capitalGainsList.forEach((item) => {
-            let taxableAmount = 0;
-            taxableAmount = getCapitalGainsTaxableAmount(item.capitalGains);
+            const taxableAmount = getCapitalGainsTaxableAmount(item.capitalGains);
             expect(taxableAmount).toBe(item.taxableAmount);
         });
     });
