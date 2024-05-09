@@ -11,6 +11,7 @@ describe('getCapitalGainsTaxableAmount', () => {
             { capitalGains: 350001, taxableAmount: 125000 + 66700.667 },
             { capitalGains: 250100, taxableAmount: 125000 + 66.7 },
             { capitalGains: 249000, taxableAmount: 124500 },
+            { capitalGains: 250001, taxableAmount: 125000 + 0.667 },
         ];
 
         capitalGainsList.forEach((item) => {

@@ -1,6 +1,6 @@
 import { Rate } from '../taxes';
 
-export const CAPITAL_GAINS_INCLUSION_RATE: Rate[] = [
+export const CAPITAL_GAINS_BRACKETS: Rate[] = [
     {
         FROM: 0,
         TO: 250000,
@@ -13,18 +13,14 @@ export const CAPITAL_GAINS_INCLUSION_RATE: Rate[] = [
     },
 ];
 
-export function getCapitalGainsTaxableAmount(taxableCapitalGains: number): number {
-    return CAPITAL_GAINS_INCLUSION_RATE.reduce((taxableAmount, inclusionRate, index) => {
-        const bracketBefore = index === 0 ? null : CAPITAL_GAINS_INCLUSION_RATE[index - 1];
-        const currentBracket = inclusionRate;
+export function getCapitalGainsTaxableAmount(totalCapitalGains: number): number {
+    return CAPITAL_GAINS_BRACKETS.reduce((taxableAmount, currentBracket) => {
         const currentBracketRate = currentBracket.RATE;
 
-        const lowerBound = bracketBefore === null ? 0 : bracketBefore.TO;
-        const upperBound = currentBracket.TO;
-        const upperBoundAmount = taxableCapitalGains <= upperBound ? taxableCapitalGains : upperBound;
+        const bracketTaxableAmount = Math.min(totalCapitalGains, currentBracket.TO);
 
-        if (upperBoundAmount <= lowerBound) return taxableAmount;
+        if (bracketTaxableAmount <= currentBracket.FROM) return taxableAmount;
 
-        return taxableAmount + ((upperBoundAmount - lowerBound) * currentBracketRate);
+        return taxableAmount + ((bracketTaxableAmount - currentBracket.FROM) * currentBracketRate);
     }, 0);
 }
