@@ -9,7 +9,7 @@ export const CAPITAL_GAINS_BRACKETS: Rate[] = [
     {
         FROM: 250000,
         TO: Infinity,
-        RATE: 0.667,
+        RATE: 2 / 3,
     },
 ];
 
