@@ -159,7 +159,7 @@ jobs:
     if: failure() && github.event_name == 'push'
     steps:
       - name: Post workflow status
-        uses: equisoft-actions/notify-workflow-status@v1
+        uses: equisoft-actions/notify-workflow-status@v2
         with:
           needs: ${{ toJSON(needs) }}
           slack-webhook-url: ${{ secrets.OPS_CI_WEBHOOK_URL }}
