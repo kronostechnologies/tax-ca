@@ -162,4 +162,5 @@ jobs:
         uses: equisoft-actions/notify-workflow-status@v2
         with:
           needs: ${{ toJSON(needs) }}
-          slack-webhook-url: ${{ secrets.OPS_CI_WEBHOOK_URL }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack-channel: ${{ github.event.repository.custom_properties.ci_slack_channel }}
