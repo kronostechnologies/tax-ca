@@ -1,54 +1,30 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { createJestConfig } = require('@equisoft/jest-utils');
 
-module.exports = {
-    preset: 'ts-jest',
-    transform: {
-        '^.+\\.ts?$': [
-            'ts-jest',
-            {
-                tsconfig: path.resolve(__dirname, 'tsconfig.json'),
-            },
-        ],
-        '^.+\\.(js|jsx)$': 'babel-jest',
-    },
-    clearMocks: true,
-    errorOnDeprecated: true,
-    moduleDirectories: [
-        'src',
-        'node_modules',
-    ],
+const config = {
     moduleNameMapper: {},
-    reporters: [
-        'default',
-        [
-            'jest-junit',
-            {
-                outputDirectory: 'build/jest/',
-                outputName: 'junit.xml',
-                suiteNameTemplate: '{filepath}',
-                classNameTemplate: '{classname}',
-                titleTemplate: '{title}',
-            },
+
+    rootDir: './../',
+    roots: [
+        '<rootDir>/src',
+    ],
+
+    collectCoverageFrom: ['<rootDir>/src/**/*.{js,ts}'],
+
+    testEnvironment: 'node',
+
+    restoreMocks: true,
+
+    transformIgnorePatterns: ['/node_modules/'],
+    transform: {
+        '^.+\\.ts?$': ['ts-jest', {
+            tsconfig: './tsconfig.json',
+        },
         ],
-    ],
-    resetMocks: true,
-    rootDir: '../',
-    testMatch: [
-        '**/*.spec.ts',
-    ],
-    collectCoverage: true,
-    collectCoverageFrom: ['<rootDir>/src/**/*.{js,jsx,ts,tsx}'],
-    coverageDirectory: 'build/jest/coverage',
-    coveragePathIgnorePatterns: [
-        '/index\\.[jt]sx?$',
-        '.+\\.d\\.ts$',
-    ],
-    coverageProvider: 'v8',
-    coverageReporters: [
-        // Supported reporters: https://istanbul.js.org/docs/advanced/alternative-reporters/
-        'text',
-        'html',
-        'clover', // ADR-05
-    ],
+        '^.+\\.(js)$': 'babel-jest',
+    },
+
 };
+
+module.exports = createJestConfig(config);
+/* eslint-enable @typescript-eslint/no-var-requires */
