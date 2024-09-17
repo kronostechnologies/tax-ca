@@ -73,7 +73,7 @@ jobs:
         uses: equisoft-actions/yarn-install@v1
 
       - name: Run Jest
-        uses: equisoft-actions/yarn-jest@v1
+        uses: equisoft-actions/yarn-jest@v2
 
 
   build:

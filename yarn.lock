@@ -1427,6 +1427,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@equisoft/jest-utils@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@equisoft/jest-utils@npm:1.6.0"
+  dependencies:
+    pretty-format: "npm:29.7.0"
+  peerDependencies:
+    jest-junit: "*"
+    ts-jest: "*"
+  checksum: 10c0/b3742025e440d0d3f9c5d740afaa253ef77f55193f3222a1fcda69153d2aae02b6c4b2c03be46c2f71f2aaaafccde4bebe02040da0524f30ef916b5af0268dcd
+  languageName: node
+  linkType: hard
+
 "@equisoft/tax-ca@workspace:.":
   version: 0.0.0-use.local
   resolution: "@equisoft/tax-ca@workspace:."
@@ -1436,6 +1448,7 @@ __metadata:
     "@babel/preset-typescript": "npm:7.24.7"
     "@equisoft/eslint-config": "npm:3.0.7"
     "@equisoft/eslint-config-typescript": "npm:3.0.7"
+    "@equisoft/jest-utils": "npm:1.6.0"
     "@equisoft/typescript-config": "npm:2.0.0"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
     "@types/babel__core": "npm:^7"
@@ -5602,7 +5615,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^29.0.0, pretty-format@npm:^29.7.0":
+"pretty-format@npm:29.7.0, pretty-format@npm:^29.0.0, pretty-format@npm:^29.7.0":
   version: 29.7.0
   resolution: "pretty-format@npm:29.7.0"
   dependencies:
