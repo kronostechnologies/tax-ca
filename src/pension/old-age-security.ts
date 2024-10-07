@@ -93,7 +93,7 @@ export const OAS: OldAgeSecurity = {
         RATE: 0.1,
         REPAYMENT_MAX: 153771,
     },
-    MONTHLY_PAYMENT_MAX: 718.33,
+    MONTHLY_PAYMENT_MAX: 727.67,
     MONTHLY_DELAY_BONUS: 0.006,
     REPAYMENT: {
         MAX: 148065,
