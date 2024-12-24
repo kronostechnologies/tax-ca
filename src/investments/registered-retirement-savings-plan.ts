@@ -6,7 +6,7 @@ Note
     Must use RRSP dollar limit and not DB limit
 
 Revised
-    2023-12-28
+    2024-12-23
 */
 
 export interface ConversionAge {
@@ -24,5 +24,5 @@ export const RRSP: RegisteredRetirementSavingsPlan = {
         MIN: 0,
         MAX: 71,
     },
-    MAX_CONTRIBUTION: 31560,
+    MAX_CONTRIBUTION: 32490,
 };
