@@ -56,7 +56,8 @@ export type IndexationRateReferenceYear =
     | 2020
     | 2021
     | 2022
-    | 2023;
+    | 2023
+    | 2024;
 export type IndexationRateReference = [IndexationRateReferenceYear, number];
 
 export interface MaxPension {
