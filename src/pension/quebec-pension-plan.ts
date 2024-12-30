@@ -1,7 +1,7 @@
 /*
 Sources
     https://www.retraitequebec.gouv.qc.ca/en/landing/indexation/Pages/montants-donnees-base.aspx
-    
+
 Revised
     2024-12-30
 */
@@ -170,9 +170,11 @@ export const QPP: PublicPensionPlan = {
         2025: 71300,
     },
     MAX_PENSION: {
-        RETIREMENT: 17196, // Max amount at age 65
-        COMBINED_RETIREMENT_SURVIVOR: 24377.52, // Max retirement amount at age 65 + Additional amount for disability for beneficiaries of the retirement pension
-        DEATH_BENEFIT: 2500, 
+        // Max amount at age 65
+        RETIREMENT: 17196,
+        // Max retirement amount at age 65 + Add. amount for disability
+        COMBINED_RETIREMENT_SURVIVOR: 24377.52,
+        DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 72,
     MIN_REQUEST_AGE: 60,
