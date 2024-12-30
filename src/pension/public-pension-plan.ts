@@ -1,5 +1,3 @@
-import { Rate } from '../taxes/income-tax';
-
 export interface Factor {
     FROM: number;
     TO: number;
