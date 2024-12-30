@@ -1,10 +1,9 @@
 /*
 Sources
-    http://www.rrq.gouv.qc.ca/en/programmes/regime_rentes/regime_chiffres/Pages/regime_chiffres.aspx
-    https://www.retraitequebec.gouv.qc.ca/fr/publications/nos-programmes/regime-de-rentes-du-quebec/retraite/Pages/revenus-de-travail-admissibles-et-cotisations.aspx
-
+    https://www.retraitequebec.gouv.qc.ca/en/landing/indexation/Pages/montants-donnees-base.aspx
+    
 Revised
-    2024-01-09
+    2024-12-30
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -14,15 +13,16 @@ import { PublicPensionPlan } from './public-pension-plan';
 export const QPP: PublicPensionPlan = {
     CONTRIBUTIONS: {
         PENSIONABLE_EARNINGS: {
-            MAX: 68500,
+            MAX: 71300,
             MIN: 3500,
             // Average YMPE of the last 5 year (including current year)
-            AVG_MAX: 64060,
-            // Year's additional maximum pensionable earnings (YAMPE), approx. 114% of AVG_MAX
-            SUP_MAX: 73200,
+            AVG_MAX: 66580,
+            // Year's additional maximum pensionable earnings (YAMPE)
+            SUP_MAX: 81200,
+            // SUP_FACTORS is not be applicable anymore from 2025 and onward. To be deleted for 2026.
             SUP_FACTORS: [
                 { FROM: 2024, TO: 2024, FACTOR: 1 },
-                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1.07 },
+                { FROM: 2025, TO: Number.MAX_SAFE_INTEGER, FACTOR: 1 },
             ],
         },
         RATES: {
@@ -40,13 +40,16 @@ export const QPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3529.44,
-        DISABILITY: 19281,
-        UNDER_45: 8026.92,
-        UNDER_45_WITH_CHILD: 12733.44,
-        UNDER_45_DISABLED: 13233.60,
-        FROM_45_TO_64: 13233.60,
-        OVER_64_WITHOUT_PENSION: 9865.68,
+        // Survivors' benefits
+        ORPHAN: 3621.24,
+        // Disability benefits
+        DISABILITY: 20071.44,
+        // Surviving spouse's pension
+        UNDER_45: 8273.16,
+        UNDER_45_WITH_CHILD: 13102.08,
+        UNDER_45_DISABLED: 13615.32,
+        FROM_45_TO_64: 13615.32,
+        OVER_64_WITHOUT_PENSION: 10130.88,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -164,11 +167,12 @@ export const QPP: PublicPensionPlan = {
         2022: 64900,
         2023: 66600,
         2024: 68500,
+        2025: 71300,
     },
     MAX_PENSION: {
-        RETIREMENT: 16375.20, // Max amount at age 65
-        COMBINED_RETIREMENT_SURVIVOR: 19363.68,
-        DEATH_BENEFIT: 2500,
+        RETIREMENT: 17196, // Max amount at age 65
+        COMBINED_RETIREMENT_SURVIVOR: 24377.52, // Max retirement amount at age 65 + Additional amount for disability for beneficiaries of the retirement pension
+        DEATH_BENEFIT: 2500, 
     },
     MAX_REQUEST_AGE: 72,
     MIN_REQUEST_AGE: 60,

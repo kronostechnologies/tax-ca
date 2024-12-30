@@ -42,7 +42,7 @@ export const CPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
-        ORPHAN: 3529.44,
+        ORPHAN: 3621.24,
         DISABILITY: 19281.36,
         UNDER_45: 8871.72,
         UNDER_45_WITH_CHILD: 8871.72,
