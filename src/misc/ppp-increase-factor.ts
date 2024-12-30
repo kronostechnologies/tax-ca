@@ -1,10 +1,11 @@
 /*
 Sources
+    https://www.finance-investissement.com/zone-experts_/martin-dupras/la-valeur-reelle-de-reporter-la-rente-du-rrq-mise-a-jour-2024/
     https://www.finance-investissement.com/zone-experts_/martin-dupras/la-valeur-reelle-de-reporter-la-rente-du-rrq/
 
 Note
     Cumulative difference in %, according to the table calculated by Martin Dupras,
-    from the reference age of 65, divided by 12 months.
+    from the reference age of 65, after 40 years of contributions, divided by 12 months.
     The formula consuming these values is only utilized by kronos-fna.
 
 Revised
