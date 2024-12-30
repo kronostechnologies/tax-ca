@@ -1,3 +1,14 @@
+// tslint:disable:max-line-length
+/*
+Sources
+    https://www.canada.ca/en/department-finance/news/2024/06/capital-gains-inclusion-rate.html
+    https://www.revenuquebec.ca/en/press-room/tax-news/details/2024-06-19/capital-gains-inclusion-rate-increase-1/
+
+Revised
+    2024-12-30
+*/
+// tslint:enable:max-line-length
+
 import { Rate } from '../taxes';
 
 export const CAPITAL_GAINS_BRACKETS: Rate[] = [

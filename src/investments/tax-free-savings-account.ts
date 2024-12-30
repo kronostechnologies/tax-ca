@@ -4,7 +4,7 @@ Sources
     https://www.taxtips.ca/tfsa/tfsa-contribution-rules-and-limits.htm
 
 Revised
-    2024-01-12
+    2024-12-23
  */
 
 export interface TaxFreeSavingsAccount {
@@ -20,7 +20,7 @@ export const TFSA: TaxFreeSavingsAccount = {
      * Latest unrounded contribution change that changed rounded factor bracket
      * (6751 -> 7000, but 2025 will be ~6893 -> 7000)
      */
-    UNROUNDED_MAX_CONTRIBUTION: 6751,
+    UNROUNDED_MAX_CONTRIBUTION: 6893,
     ROUNDING_FACTOR: 500,
     UPDATE_YEAR: 2024,
 };
