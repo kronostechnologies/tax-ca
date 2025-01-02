@@ -1,5 +1,3 @@
-import { Rate } from '../taxes/income-tax';
-
 export interface Factor {
     FROM: number;
     TO: number;
@@ -11,12 +9,10 @@ export interface PensionableEarnings {
     MIN: number;
     AVG_MAX: number;
     SUP_MAX: number;
-    SUP_FACTORS: Factor[];
 }
 
 export interface Rates {
     BASE: number;
-    ENHANCEMENT_STEP_1: Rate[];
     ENHANCEMENT_STEP_2: number;
 }
 
