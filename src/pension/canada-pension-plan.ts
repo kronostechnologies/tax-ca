@@ -5,7 +5,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
 
 Revised
-    2024-12-24
+    2025-01-02
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -30,13 +30,16 @@ export const CPP: PublicPensionPlan = {
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
+        // Survivors' benefits
         ORPHAN: 3621.24,
+        // Disability benefits
         DISABILITY: 19281.36,
-        UNDER_45: 8871.72,
-        UNDER_45_WITH_CHILD: 8871.72,
-        UNDER_45_DISABLED: 8871.72,
-        FROM_45_TO_64: 8871.72,
-        OVER_64_WITHOUT_PENSION: 9825.12,
+        // Surviving spouse's pension
+        UNDER_45: 9250.56,
+        UNDER_45_WITH_CHILD: 9250.56,
+        UNDER_45_DISABLED: 9250.56,
+        FROM_45_TO_64: 9250.56,
+        OVER_64_WITHOUT_PENSION: 10317.60,
     },
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
         const { BONUS, PENALTY } = this.MONTHLY_DELAY;
@@ -157,8 +160,8 @@ export const CPP: PublicPensionPlan = {
         2025: 71300,
     },
     MAX_PENSION: {
-        RETIREMENT: 16375.20, // Max amount at age 65
-        COMBINED_RETIREMENT_SURVIVOR: 19362.48,
+        RETIREMENT: 17196, // Max amount at age 65
+        COMBINED_RETIREMENT_SURVIVOR: 17394.36,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
