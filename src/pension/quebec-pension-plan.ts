@@ -41,42 +41,6 @@ export const QPP: PublicPensionPlan = {
         FROM_45_TO_64: 13615.32,
         OVER_64_WITHOUT_PENSION: 10130.88,
     },
-    getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
-        const { BONUS, PENALTY } = this.MONTHLY_DELAY;
-
-        const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);
-        const maxRequestDate = addYearsToDate(birthDate, this.MAX_REQUEST_AGE);
-        const referenceDate = customReferenceDate || addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
-
-        const monthsToToday = getMonthsDiff(birthDate, now());
-        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
-        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
-        const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
-        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
-        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
-
-        // Request date is before minimum request date
-        if (monthsToRequestDate < monthsToMinRequestDate) {
-            return 0;
-        }
-        // Analysis date is after the maximum request date
-        if (monthsToMaxRequestDate < monthsToToday) {
-            return 1;
-        }
-        // Analysis date is after reference date and request date is before last birthday
-        if (monthsToToday > monthsToReferenceDate && monthsToRequestDate < monthsToLastBirthDay) {
-            return 1;
-        }
-
-        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
-        monthsDelta -= Math.max(monthsToLastBirthDay, monthsToReferenceDate);
-
-        return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
-    },
-    getAverageIndexationRate(): number {
-        const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
-        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
-    },
     INDEXATION_RATE_REFERENCES: [
         [2007, 0.021],
         [2008, 0.020],
@@ -178,4 +142,40 @@ export const QPP: PublicPensionPlan = {
         UNDER_65: 0.375,
     },
     YEARS_TO_FULL_PENSION: 40,
+    getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
+        const { BONUS, PENALTY } = this.MONTHLY_DELAY;
+
+        const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);
+        const maxRequestDate = addYearsToDate(birthDate, this.MAX_REQUEST_AGE);
+        const referenceDate = customReferenceDate || addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
+
+        const monthsToToday = getMonthsDiff(birthDate, now());
+        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
+        const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
+        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
+
+        // Request date is before minimum request date
+        if (monthsToRequestDate < monthsToMinRequestDate) {
+            return 0;
+        }
+        // Analysis date is after the maximum request date
+        if (monthsToMaxRequestDate < monthsToToday) {
+            return 1;
+        }
+        // Analysis date is after reference date and request date is before last birthday
+        if (monthsToToday > monthsToReferenceDate && monthsToRequestDate < monthsToLastBirthDay) {
+            return 1;
+        }
+
+        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
+        monthsDelta -= Math.max(monthsToLastBirthDay, monthsToReferenceDate);
+
+        return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
+    },
+    getAverageIndexationRate(): number {
+        const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);
+        return roundToPrecision(sum / this.INDEXATION_RATE_REFERENCES.length, 2);
+    },
 };
