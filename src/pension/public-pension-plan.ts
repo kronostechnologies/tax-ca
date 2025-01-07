@@ -5,20 +5,16 @@ export interface Factor {
 }
 
 export interface PensionableEarnings {
-    MAX: number;
-    MIN: number;
-    AVG_MAX: number;
-    SUP_MAX: number;
+    BASIC_EXEMPTION: number;
+    YMPE: number;
+    YMPE_AVG_5: number;
+    YAMPE: number;
+    YAMPE_AVG_5: number;
 }
 
-export interface Rates {
+export interface ContributionRates {
     BASE: number;
     ENHANCEMENT_STEP_2: number;
-}
-
-export interface Contributions {
-    PENSIONABLE_EARNINGS: PensionableEarnings;
-    RATES: Rates;
 }
 
 export interface DeathBenefit {
@@ -73,7 +69,8 @@ export interface SurvivorRate {
 }
 
 export interface PublicPensionPlan {
-    CONTRIBUTIONS: Contributions;
+    PENSIONABLE_EARNINGS: PensionableEarnings,
+    CONTRIBUTION_RATES: ContributionRates,
     DEATH_BENEFIT: DeathBenefit;
     DEFAULT_REFERENCE_AGE: number;
     FLAT_BENEFIT: FlatBenefit;

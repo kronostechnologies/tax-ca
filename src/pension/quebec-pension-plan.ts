@@ -11,19 +11,21 @@ import { clamp, roundToPrecision } from '../utils/math';
 import { PublicPensionPlan } from './public-pension-plan';
 
 export const QPP: PublicPensionPlan = {
-    CONTRIBUTIONS: {
-        PENSIONABLE_EARNINGS: {
-            MAX: 71300,
-            MIN: 3500,
-            // Average YMPE of the last 5 year (including current year)
-            AVG_MAX: 66580,
-            // Year's additional maximum pensionable earnings (YAMPE)
-            SUP_MAX: 81200,
-        },
-        RATES: {
-            BASE: 0.064,
-            ENHANCEMENT_STEP_2: 0.04,
-        },
+    PENSIONABLE_EARNINGS: {
+        BASIC_EXEMPTION: 3500,
+        // Year's maximum pensionable earnings (YMPE)
+        YMPE: 71300,
+        // Average YMPE of the last 5 year (including current year)
+        YMPE_AVG_5: 66580,
+        // Year's additional maximum pensionable earnings (YAMPE)
+        YAMPE: 81200,
+        // Year's additional maximum pensionable earnings (YAMPE) of the last 5 year (including current year)
+        // YAMPE * 0.942 (Temporary factor suggested by Martin Dupras, used to estimate until we have the right value)
+        YAMPE_AVG_5: 76490,
+    },
+    CONTRIBUTION_RATES: {
+        BASE: 0.064,
+        ENHANCEMENT_STEP_2: 0.04,
     },
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
