@@ -126,8 +126,8 @@ export const QPP: PublicPensionPlan = {
     MAX_PENSION: {
         // Max amount at age 65
         RETIREMENT: 17196,
-        // Max retirement amount at age 65 + Add. amount for disability
-        COMBINED_RETIREMENT_SURVIVOR: 24377.52,
+        // Value must be the same as Max Retirement for the QPP
+        COMBINED_RETIREMENT_SURVIVOR: 17196,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 72,
