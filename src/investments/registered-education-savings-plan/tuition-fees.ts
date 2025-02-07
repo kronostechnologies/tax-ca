@@ -1,3 +1,10 @@
+/*
+ Sources
+ https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3710004501&cubeTimeFrame.startYear=2024+%2F+2025&cubeTimeFrame.endYear=2024+%2F+2025&referencePeriods=20240101%2C20240101
+ Revised
+ 2024-09-04
+ */
+
 import { ByProvince, ProvinceCode } from '../../misc';
 
 const TuitionFees: ByProvince<number> = {
