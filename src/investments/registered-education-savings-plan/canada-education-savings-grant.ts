@@ -9,7 +9,9 @@
 import { IncomeLevel, IncomeLevelType } from './income-level';
 
 export interface CanadaEducationSavingsGrant {
-    MAXIMUM_AMOUNT_YEARLY_FOR_GRANT: number;
+    MAX_GRANT: number;
+    MAX_BENEFICIARY_AGE: number;
+    MAX_AMOUNT_YEARLY_FOR_GRANT: number;
     YEARLY_GRANT_PERCENT: number;
     MAX_AMOUNT_FOR_SUPP_GRANT: number;
     SUPP_GRANT_PERCENT_FOR_LOW_INCOME: number;
@@ -22,7 +24,9 @@ export interface CanadaEducationSavingsGrant {
     ): number;
 }
 
-const MAXIMUM_AMOUNT_YEARLY_FOR_GRANT = 2500;
+const MAX_GRANT = 7200;
+const MAX_BENEFICIARY_AGE = 17;
+const MAX_AMOUNT_YEARLY_FOR_GRANT = 2500;
 const YEARLY_GRANT_PERCENT = 0.2;
 
 const MAX_AMOUNT_FOR_SUPP_GRANT = 500;
@@ -31,8 +35,8 @@ const SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME = 0.1;
 
 const getBaseGrant = (contribution: number): number => {
     let totalGrantForAYear: number = 0;
-    if (contribution > MAXIMUM_AMOUNT_YEARLY_FOR_GRANT) {
-        totalGrantForAYear = YEARLY_GRANT_PERCENT * MAXIMUM_AMOUNT_YEARLY_FOR_GRANT;
+    if (contribution > MAX_AMOUNT_YEARLY_FOR_GRANT) {
+        totalGrantForAYear = YEARLY_GRANT_PERCENT * MAX_AMOUNT_YEARLY_FOR_GRANT;
     } else {
         totalGrantForAYear = YEARLY_GRANT_PERCENT * contribution;
     }
@@ -40,8 +44,8 @@ const getBaseGrant = (contribution: number): number => {
     return totalGrantForAYear;
 };
 
-const getSuppGrant = (contribution: number, baseGrant: number, incomeLevel: IncomeLevelType): number => {
-    let suppGrant = baseGrant;
+const getSuppGrant = (contribution: number, incomeLevel: IncomeLevelType): number => {
+    let suppGrant = 0;
 
     if (incomeLevel === IncomeLevelType.Low) {
         if (contribution > MAX_AMOUNT_FOR_SUPP_GRANT) {
@@ -66,20 +70,22 @@ const getTotalForAYear = (
     totalGrantAlreadyGiven: number = 0,
     beneficiaryAge: number = 0,
 ): number => {
-    if (totalGrantAlreadyGiven >= 7200 || beneficiaryAge > 17) return 0;
+    if (totalGrantAlreadyGiven >= MAX_GRANT || beneficiaryAge > MAX_BENEFICIARY_AGE) return 0;
 
     // Grant
     let totalGrantForAYear = getBaseGrant(contribution);
 
     // Supp. grant
     const incomeLevel = IncomeLevel.getIncomeLevel(income);
-    totalGrantForAYear += getSuppGrant(contribution, totalGrantForAYear, incomeLevel);
+    totalGrantForAYear += getSuppGrant(contribution, incomeLevel);
 
     return totalGrantForAYear;
 };
 
 export const CanadaEducationSavingsGrant: CanadaEducationSavingsGrant = {
-    MAXIMUM_AMOUNT_YEARLY_FOR_GRANT,
+    MAX_GRANT,
+    MAX_BENEFICIARY_AGE,
+    MAX_AMOUNT_YEARLY_FOR_GRANT,
     YEARLY_GRANT_PERCENT,
     MAX_AMOUNT_FOR_SUPP_GRANT,
     SUPP_GRANT_PERCENT_FOR_LOW_INCOME,
