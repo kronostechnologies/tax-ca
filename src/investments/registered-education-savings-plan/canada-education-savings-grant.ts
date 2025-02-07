@@ -14,7 +14,12 @@ export interface CanadaEducationSavingsGrant {
     MAX_AMOUNT_FOR_SUPP_GRANT: number;
     SUPP_GRANT_PERCENT_FOR_LOW_INCOME: number;
     SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME: number;
-    getTotalForAYear(income: number, contribution: number, totalGrantAlreadyGiven?: number, beneficiaryAge?: number): number;
+    getTotalForAYear(
+        income: number,
+        contribution: number,
+        totalGrantAlreadyGiven?: number,
+        beneficiaryAge?: number
+    ): number;
 }
 
 const MAXIMUM_AMOUNT_YEARLY_FOR_GRANT = 2500;
@@ -33,38 +38,45 @@ const getBaseGrant = (contribution: number): number => {
     }
 
     return totalGrantForAYear;
-}
+};
 
 const getSuppGrant = (contribution: number, baseGrant: number, incomeLevel: IncomeLevelType): number => {
+    let suppGrant = baseGrant;
+
     if (incomeLevel === IncomeLevelType.Low) {
         if (contribution > MAX_AMOUNT_FOR_SUPP_GRANT) {
-            baseGrant += SUPP_GRANT_PERCENT_FOR_LOW_INCOME * MAX_AMOUNT_FOR_SUPP_GRANT;
+            suppGrant = SUPP_GRANT_PERCENT_FOR_LOW_INCOME * MAX_AMOUNT_FOR_SUPP_GRANT;
         } else {
-            baseGrant += SUPP_GRANT_PERCENT_FOR_LOW_INCOME * contribution;
+            suppGrant = SUPP_GRANT_PERCENT_FOR_LOW_INCOME * contribution;
         }
     } else if (incomeLevel === IncomeLevelType.Medium) {
         if (contribution > MAX_AMOUNT_FOR_SUPP_GRANT) {
-            baseGrant += SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME * MAX_AMOUNT_FOR_SUPP_GRANT;
+            suppGrant = SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME * MAX_AMOUNT_FOR_SUPP_GRANT;
         } else {
-            baseGrant += SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME * contribution;
+            suppGrant = SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME * contribution;
         }
     }
 
-    return baseGrant;
-}
+    return suppGrant;
+};
 
-const getTotalForAYear = (income: number, contribution: number, totalGrantAlreadyGiven: number = 0, beneficiaryAge: number = 0): number => {
-    if(totalGrantAlreadyGiven >= 7200 || beneficiaryAge > 17) return 0;
+const getTotalForAYear = (
+    income: number,
+    contribution: number,
+    totalGrantAlreadyGiven: number = 0,
+    beneficiaryAge: number = 0,
+): number => {
+    if (totalGrantAlreadyGiven >= 7200 || beneficiaryAge > 17) return 0;
 
-    //Grant
+    // Grant
     let totalGrantForAYear = getBaseGrant(contribution);
 
-    //Supp. grant
+    // Supp. grant
     const incomeLevel = IncomeLevel.getIncomeLevel(income);
-    totalGrantForAYear = getSuppGrant(contribution, totalGrantForAYear, incomeLevel);
+    totalGrantForAYear += getSuppGrant(contribution, totalGrantForAYear, incomeLevel);
 
     return totalGrantForAYear;
-}
+};
 
 export const CanadaEducationSavingsGrant: CanadaEducationSavingsGrant = {
     MAXIMUM_AMOUNT_YEARLY_FOR_GRANT,
@@ -72,5 +84,5 @@ export const CanadaEducationSavingsGrant: CanadaEducationSavingsGrant = {
     MAX_AMOUNT_FOR_SUPP_GRANT,
     SUPP_GRANT_PERCENT_FOR_LOW_INCOME,
     SUPP_GRANT_PERCENT_FOR_MEDIUM_INCOME,
-    getTotalForAYear
-}
+    getTotalForAYear,
+};

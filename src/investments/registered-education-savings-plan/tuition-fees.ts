@@ -32,11 +32,9 @@ const TuitionFeesData: ByProvince<number> = {
     YT: 4350,
 };
 
-const getTuitionFeesByProvinceCode = (provinceCode: ProvinceCode): number => {
-    return TuitionFees[provinceCode];
-};
+const getTuitionFeesByProvinceCode = (provinceCode: ProvinceCode): number => TuitionFeesData[provinceCode];
 
 export const TuitionFees: TuitionFees = {
     getTuitionFeesByProvinceCode,
     TuitionFeesData,
-}
+};
