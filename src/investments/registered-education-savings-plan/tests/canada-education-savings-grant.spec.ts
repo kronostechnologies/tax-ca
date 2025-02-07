@@ -73,4 +73,14 @@ describe('getTotalForAYear', () => {
         const totalGrant = CanadaEducationSavingsGrant.getTotalForAYear(income, contribution);
         expect(totalGrant).toBe(expectedTotalGrant);
     });
+
+    // eslint-disable-next-line max-len
+    it('should return the correct total grant for a year for high income level with higher than max contribution', () => {
+        const income = IncomeLevel.MEDIUM_INCOME_THRESHOLD + 1;
+        const contribution = CanadaEducationSavingsGrant.MAX_AMOUNT_YEARLY_FOR_GRANT + 1;
+        // eslint-disable-next-line max-len
+        const expectedTotalGrant = CanadaEducationSavingsGrant.MAX_AMOUNT_YEARLY_FOR_GRANT * CanadaEducationSavingsGrant.YEARLY_GRANT_PERCENT;
+        const totalGrant = CanadaEducationSavingsGrant.getTotalForAYear(income, contribution);
+        expect(totalGrant).toBe(expectedTotalGrant);
+    });
 });
