@@ -10,9 +10,9 @@ const LOW_INCOME_THRESHOLD = 55867;
 const MEDIUM_INCOME_THRESHOLD = 111735;
 
 export const enum IncomeLevelType {
-    Low = 'Low',
-    Medium = 'Medium',
-    High = 'High'
+    LOW = 'LOW',
+    MEDIUM = 'MEDIUM',
+    HIGH = 'HIGH'
 }
 
 export interface IncomeLevel {
@@ -23,14 +23,14 @@ export interface IncomeLevel {
 
 const getIncomeLevel = (income: number): IncomeLevelType => {
     if (income <= LOW_INCOME_THRESHOLD) {
-        return IncomeLevelType.Low;
+        return IncomeLevelType.LOW;
     }
 
     if (income <= MEDIUM_INCOME_THRESHOLD) {
-        return IncomeLevelType.Medium;
+        return IncomeLevelType.MEDIUM;
     }
 
-    return IncomeLevelType.High;
+    return IncomeLevelType.HIGH;
 };
 
 export const IncomeLevel: IncomeLevel = {
