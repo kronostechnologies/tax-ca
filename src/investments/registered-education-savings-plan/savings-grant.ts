@@ -45,23 +45,14 @@ export function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): 
 
     const getSuppGrant = (contribution: number, incomeLevel: IncomeLevelType): number => {
         let suppGrant = 0;
+        const cappedContribution = Math.min(contribution, SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT);
 
         switch (incomeLevel) {
             case IncomeLevelType.LOW:
-                if (contribution > SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT) {
-                    // eslint-disable-next-line max-len
-                    suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.LOW_INCOME * SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT;
-                } else {
-                    suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.LOW_INCOME * contribution;
-                }
+                suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.LOW_INCOME * cappedContribution;
                 break;
             case IncomeLevelType.MEDIUM:
-                if (contribution > SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT) {
-                    // eslint-disable-next-line max-len
-                    suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.MEDIUM_INCOME * SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT;
-                } else {
-                    suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.MEDIUM_INCOME * contribution;
-                }
+                suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.MEDIUM_INCOME * cappedContribution;
                 break;
         }
 

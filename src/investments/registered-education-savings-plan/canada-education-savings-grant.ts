@@ -6,7 +6,7 @@
  2025-02-07
  */
 
-import { initializeSavingsGrant, SavingsGrant, SavingsGrantConfig, SuppGrantPercent } from './savings-grant';
+import { initializeSavingsGrant, SavingsGrant, SavingsGrantConfig } from './savings-grant';
 
 const canadaEducationSavingsGrantConfig: SavingsGrantConfig = {
     MAX_GRANT: 7200,
@@ -17,7 +17,7 @@ const canadaEducationSavingsGrantConfig: SavingsGrantConfig = {
     SUPP_GRANT_PERCENT: {
         LOW_INCOME: 0.2,
         MEDIUM_INCOME: 0.1,
-    } as SuppGrantPercent,
+    },
 };
 
 export const CanadaEducationSavingsGrant: SavingsGrant = initializeSavingsGrant(canadaEducationSavingsGrantConfig);
