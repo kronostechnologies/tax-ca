@@ -31,13 +31,21 @@ export interface SavingsGrantConfig {
 }
 
 export function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): SavingsGrant {
+    const {
+        MAX_GRANT,
+        MAX_BENEFICIARY_AGE,
+        MAX_AMOUNT_YEARLY_FOR_GRANT,
+        YEARLY_GRANT_PERCENT,
+        SUPP_GRANT_PERCENT,
+        MAX_AMOUNT_FOR_SUPP_GRANT,
+    } = SavingsGrantConfig;
+
     const getBaseGrant = (contribution: number): number => {
         let totalGrantForAYear: number = 0;
-        if (contribution > SavingsGrantConfig.MAX_AMOUNT_YEARLY_FOR_GRANT) {
-            // eslint-disable-next-line max-len
-            totalGrantForAYear = SavingsGrantConfig.YEARLY_GRANT_PERCENT * SavingsGrantConfig.MAX_AMOUNT_YEARLY_FOR_GRANT;
+        if (contribution > MAX_AMOUNT_YEARLY_FOR_GRANT) {
+            totalGrantForAYear = YEARLY_GRANT_PERCENT * MAX_AMOUNT_YEARLY_FOR_GRANT;
         } else {
-            totalGrantForAYear = SavingsGrantConfig.YEARLY_GRANT_PERCENT * contribution;
+            totalGrantForAYear = YEARLY_GRANT_PERCENT * contribution;
         }
 
         return totalGrantForAYear;
@@ -45,14 +53,14 @@ export function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): 
 
     const getSuppGrant = (contribution: number, incomeLevel: IncomeLevelType): number => {
         let suppGrant = 0;
-        const cappedContribution = Math.min(contribution, SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT);
+        const cappedContribution = Math.min(contribution, MAX_AMOUNT_FOR_SUPP_GRANT);
 
         switch (incomeLevel) {
             case IncomeLevelType.LOW:
-                suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.LOW_INCOME * cappedContribution;
+                suppGrant = SUPP_GRANT_PERCENT.LOW_INCOME * cappedContribution;
                 break;
             case IncomeLevelType.MEDIUM:
-                suppGrant = SavingsGrantConfig.SUPP_GRANT_PERCENT.MEDIUM_INCOME * cappedContribution;
+                suppGrant = SUPP_GRANT_PERCENT.MEDIUM_INCOME * cappedContribution;
                 break;
         }
 
@@ -65,10 +73,7 @@ export function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): 
         totalGrantAlreadyGiven: number = 0,
         beneficiaryAge: number = 0,
     ): number => {
-        if (
-            totalGrantAlreadyGiven >= SavingsGrantConfig.MAX_GRANT
-            || beneficiaryAge > SavingsGrantConfig.MAX_BENEFICIARY_AGE
-        ) return 0;
+        if (totalGrantAlreadyGiven >= MAX_GRANT || beneficiaryAge > MAX_BENEFICIARY_AGE) return 0;
 
         // Grant
         let totalGrantForAYear = getBaseGrant(contribution);
@@ -81,12 +86,12 @@ export function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): 
     };
 
     return {
-        MAX_AMOUNT_FOR_SUPP_GRANT: SavingsGrantConfig.MAX_AMOUNT_FOR_SUPP_GRANT,
-        MAX_AMOUNT_YEARLY_FOR_GRANT: SavingsGrantConfig.MAX_AMOUNT_YEARLY_FOR_GRANT,
-        MAX_BENEFICIARY_AGE: SavingsGrantConfig.MAX_BENEFICIARY_AGE,
-        MAX_GRANT: SavingsGrantConfig.MAX_GRANT,
-        SUPP_GRANT_PERCENT: SavingsGrantConfig.SUPP_GRANT_PERCENT,
-        YEARLY_GRANT_PERCENT: SavingsGrantConfig.YEARLY_GRANT_PERCENT,
+        MAX_AMOUNT_FOR_SUPP_GRANT,
+        MAX_AMOUNT_YEARLY_FOR_GRANT,
+        MAX_BENEFICIARY_AGE,
+        MAX_GRANT,
+        SUPP_GRANT_PERCENT,
+        YEARLY_GRANT_PERCENT,
         getBaseGrant,
         getSuppGrant,
         getTotalForAYear,
