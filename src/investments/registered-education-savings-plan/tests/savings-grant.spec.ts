@@ -3,14 +3,15 @@ import { initializeSavingsGrant } from '../savings-grant';
 import { IncomeLevel } from '../income-level';
 
 describe('getTotalForAYear', () => {
-    const savingsGrant = initializeSavingsGrant(
-        CanadaEducationSavingsGrant.MAX_GRANT,
-        CanadaEducationSavingsGrant.MAX_BENEFICIARY_AGE,
-        CanadaEducationSavingsGrant.MAX_AMOUNT_YEARLY_FOR_GRANT,
-        CanadaEducationSavingsGrant.YEARLY_GRANT_PERCENT,
-        CanadaEducationSavingsGrant.MAX_AMOUNT_FOR_SUPP_GRANT,
-        CanadaEducationSavingsGrant.SUPP_GRANT_PERCENT,
-    );
+    const savingGrantConfig = {
+        MAX_GRANT: CanadaEducationSavingsGrant.MAX_GRANT,
+        MAX_BENEFICIARY_AGE: CanadaEducationSavingsGrant.MAX_BENEFICIARY_AGE,
+        MAX_AMOUNT_YEARLY_FOR_GRANT: CanadaEducationSavingsGrant.MAX_AMOUNT_YEARLY_FOR_GRANT,
+        YEARLY_GRANT_PERCENT: CanadaEducationSavingsGrant.YEARLY_GRANT_PERCENT,
+        MAX_AMOUNT_FOR_SUPP_GRANT: CanadaEducationSavingsGrant.MAX_AMOUNT_FOR_SUPP_GRANT,
+        SUPP_GRANT_PERCENT: CanadaEducationSavingsGrant.SUPP_GRANT_PERCENT,
+    };
+    const savingsGrant = initializeSavingsGrant(savingGrantConfig);
 
     it('should return 0 if total grant already given is greater than or equal to MAX_GRANT', () => {
         const income = 50000;
