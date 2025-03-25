@@ -4,3 +4,4 @@ export * from './quebec-education-savings-incentive';
 export * from './british-columbia-training-and-education-savings-grant';
 export * from './tuition-fees';
 export * from './income-level';
+export * from './beneficiary';
