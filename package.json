@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "eslint": "eslint ./src ./tests/",
+    "eslint": "eq-eslint ./src ./tests/",
     "eslint:ci": "yarn eslint",
     "prepublishOnly": "rm -rf dist/ && yarn build",
     "test": "NODE_ENV=test jest --config=tests/jest.config.js",
