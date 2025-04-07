@@ -37,7 +37,7 @@
     "@babel/core": "7.26.10",
     "@babel/preset-env": "7.26.9",
     "@babel/preset-typescript": "7.26.0",
-    "@equisoft/eslint-config": "3.0.9",
+    "@equisoft/eslint-config": "4.0.1",
     "@equisoft/eslint-config-typescript": "3.0.9",
     "@equisoft/jest-utils": "1.6.0",
     "@equisoft/typescript-config": "2.0.0",
