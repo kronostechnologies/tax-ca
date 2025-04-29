@@ -2030,11 +2030,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 22.14.1
-  resolution: "@types/node@npm:22.14.1"
+  version: 22.15.3
+  resolution: "@types/node@npm:22.15.3"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/d49c4d00403b1c2348cf0701b505fd636d80aabe18102105998dc62fdd36dcaf911e73c7a868c48c21c1022b825c67b475b65b1222d84b704d8244d152bb7f86
+  checksum: 10c0/2879f012d1aeba0bfdb5fed80d165f4f2cb3d1f2e1f98a24b18d4a211b4ace7d64bf2622784c78355982ffc1081ba79d0934efc2fb8353913e5871a63609661f
   languageName: node
   linkType: hard
 
@@ -3119,9 +3119,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.73":
-  version: 1.5.140
-  resolution: "electron-to-chromium@npm:1.5.140"
-  checksum: 10c0/cd0c5a3e0624592494e03b1ae28e04b0d4f8dec0e2ff8fc0f38dc8622fdf795811ef8abe41167f03380f969515c2f4f23297f6e1372ff36aad01c78446565e6d
+  version: 1.5.144
+  resolution: "electron-to-chromium@npm:1.5.144"
+  checksum: 10c0/c0e2be98de5b7c002fa647f6f0ba9a09cccc4c8d4ce967ff2e44e0c7c69b87cb98ef7bd46e4d0d2f93e2e9a7d9c64c7cedb8e525ac1a560cb71b492148ca6c35
   languageName: node
   linkType: hard
 
@@ -5405,11 +5405,11 @@ __metadata:
   linkType: hard
 
 "napi-postinstall@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "napi-postinstall@npm:0.2.2"
+  version: 0.2.3
+  resolution: "napi-postinstall@npm:0.2.3"
   bin:
     napi-postinstall: lib/cli.js
-  checksum: 10c0/215fb63ebf1ff01a0e587fef60a2ed49e61f9cc281f344d3018b595319e6a1b9e6e7a1f0fc83aa09dcb26585ac87d92b8acbc31ce966b56972fd32262b2f0533
+  checksum: 10c0/125cb677d59f284e61cd9b4cd840cf735edd4c325ffc54af4fad16c8726642ffeddaa63c5ca3533b5e7023be4d8e9ff223484c5eea2a8efe2e2498fd063cabbd
   languageName: node
   linkType: hard
 
@@ -6612,9 +6612,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.39.1":
-  version: 4.40.0
-  resolution: "type-fest@npm:4.40.0"
-  checksum: 10c0/b39d4da6f9a154e3db7e714cd05ccf56b53f4f0bbf74dd294cb6be4921b16ecca5cb00cb81b53ab621a31c8e8509c74b5101895ada47af9de368a317d24538a3
+  version: 4.40.1
+  resolution: "type-fest@npm:4.40.1"
+  checksum: 10c0/590cb7d4dcd3da83efe49b5b52cd041661f6fa29f18cb76650fe1fdeb4090688e92955656e9d981e606abb13d25c0418be8c6c6504d80e87fe18dc9ca0888392
   languageName: node
   linkType: hard
 
