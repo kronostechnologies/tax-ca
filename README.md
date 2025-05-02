@@ -96,7 +96,7 @@ Complementary data useful in a tax calculation context.
 ```
 MISC
   |--ConsumerPriceIndex
-  |--IQPFStats
+  |--IPFStats
   |--LifeExpectancy
 ```
 

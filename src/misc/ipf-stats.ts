@@ -17,14 +17,14 @@ export interface ReturnRates {
     DYNAMIC_PORTFOLIO: number;
 }
 
-export interface IQPFStatistics {
+export interface IPFStatistics {
     INFLATION: number;
     PERFORMANCE_RATE: number;
     RETURN_RATES: ReturnRates;
     BORROWING_RATE: number;
 }
 
-export const IQPF: IQPFStatistics = {
+export const IPF: IPFStatistics = {
     INFLATION: 0.021,
     PERFORMANCE_RATE: 0.01,
     RETURN_RATES: {
