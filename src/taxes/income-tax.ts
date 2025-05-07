@@ -516,10 +516,11 @@ export function getFederalTaxAmount(
     grossIncome: number,
     inflationRate = 0,
     yearsToInflate = 0,
+    taxCredit = 0,
 ): number {
     const federalBaseTaxAmount = getFederalBaseTaxAmount(grossIncome, inflationRate, yearsToInflate);
     const baseCredit = getFederalBaseCredit(inflationRate, yearsToInflate);
-    const federalTax = Math.max(federalBaseTaxAmount - baseCredit, 0);
+    const federalTax = Math.max(federalBaseTaxAmount - baseCredit - taxCredit, 0);
     const abatement = getProvincialAbatement(provincialCode, federalTax);
     return Math.max(federalTax - abatement, 0);
 }
@@ -552,10 +553,11 @@ export function getProvincialTaxAmount(
     grossIncome: number,
     inflationRate = 0,
     yearsToInflate = 0,
+    taxCredit = 0,
 ): number {
     const baseTaxAmount = getProvincialBaseTaxAmount(province, grossIncome, inflationRate, yearsToInflate);
     const baseCredit = getProvincialBaseCredit(province, inflationRate, yearsToInflate);
-    const tax = Math.max(baseTaxAmount - baseCredit, 0);
+    const tax = Math.max(baseTaxAmount - baseCredit - taxCredit, 0);
     const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
     return tax + surTax;
 }
