@@ -557,9 +557,9 @@ export function getProvincialTaxAmount(
 ): number {
     const baseTaxAmount = getProvincialBaseTaxAmount(province, grossIncome, inflationRate, yearsToInflate);
     const baseCredit = getProvincialBaseCredit(province, inflationRate, yearsToInflate);
-    const tax = Math.max(baseTaxAmount - baseCredit - taxCredit, 0);
+    const tax = Math.max(baseTaxAmount - baseCredit, 0);
     const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
-    return tax + surTax;
+    return Math.max(tax + surTax - taxCredit, 0);
 }
 
 export function getFederalMarginalRate(
