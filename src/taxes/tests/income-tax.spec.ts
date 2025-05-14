@@ -10,11 +10,11 @@ import {
 describe('getTaxAMount', () => {
     describe('getProvincialTaxAmount', () => {
         it('should calculate operations in the right order', () => {
-            const province = 'QC';
-            const grossIncome = 100000;
-            const inflationRate = 2.1;
+            const province = 'ON';
+            const grossIncome = 207000;
+            const inflationRate = 0.021;
             const yearsToInflate = 0;
-            const taxCredit = 1000;
+            const taxCredit = 20700;
             const baseTaxAmount = getProvincialBaseTaxAmount(
                 province,
                 grossIncome,
@@ -22,8 +22,9 @@ describe('getTaxAMount', () => {
                 yearsToInflate,
             );
             const baseCredit = getProvincialBaseCredit(province, inflationRate, yearsToInflate);
-            const tax = Math.max(baseTaxAmount - baseCredit - taxCredit, 0);
+            const tax = Math.max(baseTaxAmount - baseCredit, 0);
             const surTax = getProvincialSurtaxAmount(province, tax, inflationRate, yearsToInflate);
+            const expectedTax = Math.max(tax + surTax - taxCredit, 0);
 
             const provincialTaxAmount = getProvincialTaxAmount(
                 province,
@@ -33,7 +34,7 @@ describe('getTaxAMount', () => {
                 taxCredit,
             );
 
-            expect(provincialTaxAmount).toBe(tax + surTax);
+            expect(provincialTaxAmount).toBe(expectedTax);
         });
     });
 
