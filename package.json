@@ -57,7 +57,7 @@
     "jest-junit": "16.0.0",
     "ts-jest": "29.3.4",
     "typescript": "5.8.3",
-    "yargs": "17.7.2"
+    "yargs": "18.0.0"
   },
   "resolutions": {
     "@babel/core/json5": "^2.2.2",
