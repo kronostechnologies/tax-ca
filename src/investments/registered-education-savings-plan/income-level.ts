@@ -9,7 +9,7 @@
 const LOW_INCOME_THRESHOLD = 55867;
 const MEDIUM_INCOME_THRESHOLD = 111735;
 
-export const enum IncomeLevelType {
+export enum IncomeLevelType {
     LOW = 'LOW',
     MEDIUM = 'MEDIUM',
     HIGH = 'HIGH'
