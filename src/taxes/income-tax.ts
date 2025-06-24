@@ -7,9 +7,8 @@ Revised
     2024-12-24
 */
 
-import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc/code-types';
-import { roundToPrecision } from '../utils';
-import { maxBy } from '../utils/collections';
+import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
+import { maxBy, now, roundToPrecision } from '../utils';
 
 export interface Rate {
     FROM: number;
@@ -27,15 +26,17 @@ export interface TaxBracket {
 
 export type TaxBrackets = { [key in ProvinceCode | FederalCode]: TaxBracket };
 
+export const CA_LOWEST_TAX_RATE_2025 = 0.145;
+
 export const TAX_BRACKETS: TaxBrackets = {
     CA: {
         ABATEMENT: 0,
-        TAX_CREDIT_RATE: 0.15,
+        TAX_CREDIT_RATE: 0.14,
         BASE_TAX_CREDIT: 16129,
         RATES: [{
             FROM: 0,
             TO: 57375,
-            RATE: 0.15,
+            RATE: 0.14,
         }, {
             FROM: 57375,
             TO: 114750,
@@ -498,12 +499,27 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return TAX_BRACKETS[code].SURTAX_RATES;
 }
 
+export function getFederalTaxRates(yearsToInflate: number): Rate[] {
+    const shouldUse2025Rate = yearsToInflate === 0 && now().getFullYear() === 2025;
+    if (shouldUse2025Rate) {
+        return getTaxRates(FEDERAL_CODE).map(
+            (rate, index) => ({ ...rate, RATE: index === 0 ? CA_LOWEST_TAX_RATE_2025 : rate.RATE }),
+        );
+    }
+    return getTaxRates(FEDERAL_CODE);
+}
+
 export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
-    return getTaxAmount(getTaxRates(FEDERAL_CODE), grossIncome, inflationRate, yearsToInflate);
+    return getTaxAmount(getFederalTaxRates(yearsToInflate), grossIncome, inflationRate, yearsToInflate);
+}
+
+export function getFederalTaxCreditRate(yearsToInflate: number): number {
+    const shouldUse2025Rate = yearsToInflate === 0 && now().getFullYear() === 2025;
+    return shouldUse2025Rate ? CA_LOWEST_TAX_RATE_2025 : TAX_BRACKETS.CA.TAX_CREDIT_RATE;
 }
 
 export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * TAX_BRACKETS.CA.TAX_CREDIT_RATE;
+    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * getFederalTaxCreditRate(yearsToInflate);
     return inflate(baseTaxCredit, inflationRate, yearsToInflate);
 }
 
