@@ -7,6 +7,8 @@ Revised
     2024-12-24
 */
 
+import cloneDeep from 'lodash/cloneDeep';
+
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
 import { maxBy, now, roundToPrecision } from '../utils';
 
@@ -488,7 +490,7 @@ export function getRate(brackets: Rate[], grossIncome: number, inflationRate: nu
 }
 
 export function getTaxRates(code: ProvinceCode | FederalCode): Rate[] {
-    return TAX_BRACKETS[code].RATES;
+    return cloneDeep(TAX_BRACKETS[code].RATES);
 }
 
 function getAbatement(code: ProvinceCode | FederalCode): number {
@@ -496,17 +498,16 @@ function getAbatement(code: ProvinceCode | FederalCode): number {
 }
 
 function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
-    return TAX_BRACKETS[code].SURTAX_RATES;
+    return cloneDeep(TAX_BRACKETS[code].SURTAX_RATES);
 }
 
 export function getFederalTaxRates(yearsToInflate: number): Rate[] {
+    const rates = getTaxRates(FEDERAL_CODE);
     const shouldUse2025Rate = yearsToInflate === 0 && now().getFullYear() === 2025;
     if (shouldUse2025Rate) {
-        return getTaxRates(FEDERAL_CODE).map(
-            (rate, index) => ({ ...rate, RATE: index === 0 ? CA_LOWEST_TAX_RATE_2025 : rate.RATE }),
-        );
+        rates[0].RATE = CA_LOWEST_TAX_RATE_2025;
     }
-    return getTaxRates(FEDERAL_CODE);
+    return rates;
 }
 
 export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
