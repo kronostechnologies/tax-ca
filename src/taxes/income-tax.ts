@@ -6,8 +6,7 @@ Sources
 Revised
     2024-12-24
 */
-
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
 import { maxBy, now, roundToPrecision } from '../utils';

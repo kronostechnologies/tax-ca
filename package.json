@@ -45,7 +45,7 @@
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/jest": "30.0.0",
-    "@types/lodash": "4.17.19",
+    "@types/lodash.clonedeep": "4.5.9",
     "@types/node": "22.15.32",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
@@ -67,6 +67,6 @@
   },
   "packageManager": "yarn@4.9.2",
   "dependencies": {
-    "lodash": "4.17.21"
+    "lodash.clonedeep": "4.5.0"
   }
 }
