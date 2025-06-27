@@ -5,7 +5,11 @@ import {
     getProvincialBaseTaxAmount,
     getProvincialSurtaxAmount,
     getProvincialTaxAmount,
+    getFederalTaxCreditRate,
+    getFederalTaxRates,
 } from '../income-tax';
+
+import * as Date from '../../utils/date';
 
 describe('getTaxAMount', () => {
     describe('getProvincialTaxAmount', () => {
@@ -87,6 +91,78 @@ describe('getTaxAMount', () => {
             );
 
             expect(federalTaxAmount).toBe(federalTax - abatement);
+        });
+    });
+
+    describe('getFederalTaxCreditRate', () => {
+        beforeEach(() => {
+            jest.restoreAllMocks();
+        });
+
+        it('should return special tax credit rate when now is 2025', () => {
+            const yearsToInflate = 0;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2025, 0, 1));
+
+            const result = getFederalTaxCreditRate(yearsToInflate);
+
+            expect(result).toBe(0.145);
+        });
+
+        it('should return special tax credit rate when now is 2025 but inflating', () => {
+            const yearsToInflate = 1;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2025, 0, 1));
+
+            const result = getFederalTaxCreditRate(yearsToInflate);
+
+            expect(result).toBe(0.14);
+        });
+
+        it('should return regular tax credit rate when now is after 2025', () => {
+            const yearsToInflate = 0;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2026, 0, 1));
+
+            const result = getFederalTaxCreditRate(yearsToInflate);
+
+            expect(result).toBe(0.14);
+        });
+    });
+
+    describe('getFederalTaxRates', () => {
+        beforeEach(() => {
+            jest.restoreAllMocks();
+        });
+
+        it('should return the correct rate for the first bracket when now is 2025', () => {
+            const yearsToInflate = 0;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2025, 0, 1));
+
+            const result = getFederalTaxRates(yearsToInflate);
+
+            expect(result[0].RATE).toBe(0.145);
+        });
+
+        it('should return the correct rate for the first bracket when now is 2025 but inflating', () => {
+            const yearsToInflate = 1;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2025, 0, 1));
+
+            const result = getFederalTaxRates(yearsToInflate);
+
+            expect(result[0].RATE).toBe(0.14);
+        });
+
+        it('should return the correct rate for the first bracket when now is after 2025', () => {
+            const yearsToInflate = 0;
+
+            jest.spyOn(Date, 'now').mockImplementation(() => new global.Date(2026, 0, 1));
+
+            const result = getFederalTaxRates(yearsToInflate);
+
+            expect(result[0].RATE).toBe(0.14);
         });
     });
 });
