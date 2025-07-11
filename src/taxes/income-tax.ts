@@ -6,8 +6,6 @@ Sources
 Revised
     2024-12-24
 */
-import cloneDeep from 'lodash.clonedeep';
-
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
 import { maxBy, now, roundToPrecision } from '../utils';
 
@@ -489,7 +487,7 @@ export function getRate(brackets: Rate[], grossIncome: number, inflationRate: nu
 }
 
 export function getTaxRates(code: ProvinceCode | FederalCode): Rate[] {
-    return cloneDeep(TAX_BRACKETS[code].RATES);
+    return structuredClone(TAX_BRACKETS[code].RATES);
 }
 
 function getAbatement(code: ProvinceCode | FederalCode): number {
@@ -497,7 +495,7 @@ function getAbatement(code: ProvinceCode | FederalCode): number {
 }
 
 function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
-    return cloneDeep(TAX_BRACKETS[code].SURTAX_RATES);
+    return structuredClone(TAX_BRACKETS[code].SURTAX_RATES);
 }
 
 export function getFederalTaxRates(yearsToInflate: number): Rate[] {
