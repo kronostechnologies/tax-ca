@@ -45,7 +45,7 @@
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/jest": "30.0.0",
-    "@types/node": "22.17.0",
+    "@types/node": "22.17.1",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "babel-jest": "30.0.5",
