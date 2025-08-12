@@ -12,7 +12,7 @@ export interface ConversionRule {
 
 export const MAX_CONVERSION_AGE = 71;
 
-export const conversionRules: ByJurisdiction<ConversionRule | null> = {
+const conversionRules: ByJurisdiction<ConversionRule | null> = {
     CA: { minimumAge: 55, maximumAge: MAX_CONVERSION_AGE },
     AB: { minimumAge: 50, maximumAge: MAX_CONVERSION_AGE },
     BC: { minimumAge: 50, maximumAge: MAX_CONVERSION_AGE },
@@ -29,7 +29,7 @@ export const conversionRules: ByJurisdiction<ConversionRule | null> = {
     YT: null,
 };
 
-export const unlockingPct: ByJurisdiction<number | null> = {
+const unlockingPct: ByJurisdiction<number | null> = {
     CA: 0.50,
     AB: 0.50,
     BC: null,
@@ -46,14 +46,22 @@ export const unlockingPct: ByJurisdiction<number | null> = {
     YT: null,
 };
 
+export const getUnlockingPct = (
+    jurisdiction: ProvinceCode | FederalCode,
+): number | null => unlockingPct[jurisdiction];
+
+export const getConversionRules = (
+    jurisdiction: ProvinceCode | FederalCode,
+): ConversionRule | null => conversionRules[jurisdiction];
+
 export const canUnlock = (jurisdiction: ProvinceCode | FederalCode): boolean => {
-    const pct = unlockingPct[jurisdiction];
+    const pct = getUnlockingPct(jurisdiction);
     if (!pct) return false;
     return pct > 0;
 };
 
 export const canConvert = (jurisdiction: ProvinceCode | FederalCode, age: number): boolean => {
-    const rule = conversionRules[jurisdiction];
+    const rule = getConversionRules(jurisdiction);
     if (!rule) return false;
     return age >= rule.minimumAge && age <= rule.maximumAge;
 };
