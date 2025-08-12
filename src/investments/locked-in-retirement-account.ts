@@ -41,7 +41,7 @@ export const unlockingPct: ByJurisdiction<number> = {
 };
 
 export const getUnlockingPct = (jurisdiction: ProvinceCode | FederalCode): number => {
-    const rule = unlockingRules[jurisdiction];
+    const rule = unlockingPct[jurisdiction];
     if (!rule) {
         throw new Error(`Unlocking rules not defined for jurisdiction: ${jurisdiction}`);
     }
@@ -49,7 +49,7 @@ export const getUnlockingPct = (jurisdiction: ProvinceCode | FederalCode): numbe
 };
 
 export const canUnlock = (jurisdiction: ProvinceCode | FederalCode): boolean => {
-    const rule = unlockingRules[jurisdiction];
+    const rule = unlockingPct[jurisdiction];
     if (!rule) return false;
     return rule.percentage > 0;
 };
