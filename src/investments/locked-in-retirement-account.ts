@@ -5,7 +5,7 @@ Revised
 
 import { ByJurisdiction, FederalCode, ProvinceCode } from '../misc';
 
-interface ConversionRule {
+export interface ConversionRule {
     minimumAge: number;
     maximumAge: number;
 }
