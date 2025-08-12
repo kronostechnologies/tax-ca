@@ -4,10 +4,20 @@ import {
     canUnlock,
 } from '../locked-in-retirement-account';
 import {
+    jurisdictions,
     mockedConversionRules,
 } from './fixtures/locked-in-retirement-account';
 
 describe('locked-in-retirement-account', () => {
+    describe('getUnlockingPct', () => {
+        it('should return a value between 0 and 1 or null', () => {
+            jurisdictions.forEach((jurisdiction) => {
+                const result = LiraModule.getUnlockingPct(jurisdiction);
+                expect(result === null || (typeof result === 'number' && result >= 0 && result <= 1)).toBe(true);
+            });
+        });
+    });
+
     describe('canUnlock', () => {
         afterEach(() => {
             jest.restoreAllMocks();

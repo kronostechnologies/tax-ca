@@ -1,4 +1,4 @@
-import { ByJurisdiction } from '../../../misc';
+import { ByJurisdiction, FederalCode, ProvinceCode } from '../../../misc';
 import { ConversionRule } from '../../locked-in-retirement-account';
 
 const MOCKED_MAX_CONVERSION_AGE = 71;
@@ -36,3 +36,20 @@ export const mockedConversionRules: ByJurisdiction<ConversionRule | null> = {
     SK: { minimumAge: 55, maximumAge: MOCKED_MAX_CONVERSION_AGE },
     YT: null,
 };
+
+export const jurisdictions: (ProvinceCode | FederalCode)[] = [
+    'CA',
+    'AB',
+    'BC',
+    'MB',
+    'NB',
+    'NL',
+    'NS',
+    'NT',
+    'NU',
+    'ON',
+    'PE',
+    'QC',
+    'SK',
+    'YT',
+];
