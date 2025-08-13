@@ -34,3 +34,4 @@ export const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode } = {
 
 export const FEDERAL_CODE: FederalCode = 'CA';
 export type ByProvince<T> = { [key in ProvinceCode]: T };
+export type ByJurisdiction<T> = { [key in ProvinceCode | FederalCode]: T };
