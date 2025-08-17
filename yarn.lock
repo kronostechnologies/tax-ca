@@ -1391,6 +1391,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@equisoft/eslint-config@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@equisoft/eslint-config@npm:5.0.0"
+  dependencies:
+    eslint-config-airbnb-base: "npm:^15.0.0"
+  peerDependencies:
+    "@microsoft/eslint-formatter-sarif": ^3
+    "@stylistic/eslint-plugin": ^5
+    eslint: ^8
+    eslint-import-resolver-node: ^0.3
+    eslint-plugin-import: ^2
+    yargs: ^17 || ^18.0.0
+  bin:
+    eq-eslint: eslint.js
+  checksum: 10c0/9077333b04e208d464ea8f8127f664380719d616e1830503b2518d5b9e63e387c44d97661702167d805e38badcac87a3975c5ec276df61acdbb37fb452184e8c
+  languageName: node
+  linkType: hard
+
 "@equisoft/jest-utils@npm:1.7.2":
   version: 1.7.2
   resolution: "@equisoft/jest-utils@npm:1.7.2"
@@ -1411,7 +1429,7 @@ __metadata:
     "@babel/core": "npm:7.28.0"
     "@babel/preset-env": "npm:7.28.0"
     "@babel/preset-typescript": "npm:7.27.1"
-    "@equisoft/eslint-config": "npm:4.0.2"
+    "@equisoft/eslint-config": "npm:5.0.0"
     "@equisoft/eslint-config-typescript": "npm:4.0.2"
     "@equisoft/jest-utils": "npm:1.7.2"
     "@equisoft/typescript-config": "npm:2.0.0"
