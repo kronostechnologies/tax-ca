@@ -1354,13 +1354,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config-typescript@npm:4.0.2":
-  version: 4.0.2
-  resolution: "@equisoft/eslint-config-typescript@npm:4.0.2"
+"@equisoft/eslint-config-typescript@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@equisoft/eslint-config-typescript@npm:5.0.0"
   dependencies:
-    "@equisoft/eslint-config": "npm:4.0.2"
+    "@equisoft/eslint-config": "npm:5.0.0"
   peerDependencies:
     "@microsoft/eslint-formatter-sarif": ^3
+    "@stylistic/eslint-plugin": ^5
     "@typescript-eslint/eslint-plugin": ^7.0.0 || ^8.0.0
     "@typescript-eslint/parser": ^7.0.0 || ^8.0.0
     eslint: ^8
@@ -1370,24 +1371,25 @@ __metadata:
     yargs: ^17 || ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/ae631f522876326dcae74a502f7f5cc20b4aede188abbf761491776b39999bf2be5815b78b69cc55f3df63c1c765146c708a82070c99ada15e77e62e77478928
+  checksum: 10c0/b875d4935429a2efde2901d7dfc3e34cf3f66effa530e73e922d8598b11cc19265efef6245cdb9d58a91f83bb4277d82ec9148b0687ecd2eb18e7a40c4353c8b
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config@npm:4.0.2":
-  version: 4.0.2
-  resolution: "@equisoft/eslint-config@npm:4.0.2"
+"@equisoft/eslint-config@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@equisoft/eslint-config@npm:5.0.0"
   dependencies:
     eslint-config-airbnb-base: "npm:^15.0.0"
   peerDependencies:
     "@microsoft/eslint-formatter-sarif": ^3
+    "@stylistic/eslint-plugin": ^5
     eslint: ^8
     eslint-import-resolver-node: ^0.3
     eslint-plugin-import: ^2
     yargs: ^17 || ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/525fbe88615ad4ece9283077787388f191ca95dca3b1687b37506f6f5b35546ac09bc5d355af3b005c84d1c903778872056ca326b2e89593e0905f5eeed3ab58
+  checksum: 10c0/9077333b04e208d464ea8f8127f664380719d616e1830503b2518d5b9e63e387c44d97661702167d805e38badcac87a3975c5ec276df61acdbb37fb452184e8c
   languageName: node
   linkType: hard
 
@@ -1411,11 +1413,12 @@ __metadata:
     "@babel/core": "npm:7.28.3"
     "@babel/preset-env": "npm:7.28.3"
     "@babel/preset-typescript": "npm:7.27.1"
-    "@equisoft/eslint-config": "npm:4.0.2"
-    "@equisoft/eslint-config-typescript": "npm:4.0.2"
+    "@equisoft/eslint-config": "npm:5.0.0"
+    "@equisoft/eslint-config-typescript": "npm:5.0.0"
     "@equisoft/jest-utils": "npm:1.7.2"
     "@equisoft/typescript-config": "npm:2.0.0"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
+    "@stylistic/eslint-plugin": "npm:5.2.3"
     "@types/babel__core": "npm:^7"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:30.0.0"
@@ -1443,7 +1446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
+"@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0, @eslint-community/eslint-utils@npm:^4.7.0":
   version: 4.7.0
   resolution: "@eslint-community/eslint-utils@npm:4.7.0"
   dependencies:
@@ -1971,6 +1974,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stylistic/eslint-plugin@npm:5.2.3":
+  version: 5.2.3
+  resolution: "@stylistic/eslint-plugin@npm:5.2.3"
+  dependencies:
+    "@eslint-community/eslint-utils": "npm:^4.7.0"
+    "@typescript-eslint/types": "npm:^8.38.0"
+    eslint-visitor-keys: "npm:^4.2.1"
+    espree: "npm:^10.4.0"
+    estraverse: "npm:^5.3.0"
+    picomatch: "npm:^4.0.3"
+  peerDependencies:
+    eslint: ">=9.0.0"
+  checksum: 10c0/335cdb779e0afd2d2dc40ee58eb9f04c1d7ac51317c46834e3f0c0839746b8810a18af4268853a0f3c2b330976b9e5cf2753c3fac22a42e8976c0575602b2985
+  languageName: node
+  linkType: hard
+
 "@tybys/wasm-util@npm:^0.10.0":
   version: 0.10.0
   resolution: "@tybys/wasm-util@npm:0.10.0"
@@ -2186,6 +2205,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/types@npm:^8.38.0":
+  version: 8.40.0
+  resolution: "@typescript-eslint/types@npm:8.40.0"
+  checksum: 10c0/225374fff36d59288a5780667a7a1316c75090d5d60b70a8035ac18786120333ccd08dfdf0e05e30d5a82217e44c57b8708b769dd1eed89f12f2ac4d3a769f76
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/typescript-estree@npm:7.18.0":
   version: 7.18.0
   resolution: "@typescript-eslint/typescript-estree@npm:7.18.0"
@@ -2387,7 +2413,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.9.0":
+"acorn@npm:^8.15.0, acorn@npm:^8.9.0":
   version: 8.15.0
   resolution: "acorn@npm:8.15.0"
   bin:
@@ -3471,6 +3497,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-visitor-keys@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "eslint-visitor-keys@npm:4.2.1"
+  checksum: 10c0/fcd43999199d6740db26c58dbe0c2594623e31ca307e616ac05153c9272f12f1364f5a0b1917a8e962268fdecc6f3622c1c2908b4fcc2e047a106fe6de69dc43
+  languageName: node
+  linkType: hard
+
 "eslint@npm:8.57.1, eslint@npm:^8.9.0":
   version: 8.57.1
   resolution: "eslint@npm:8.57.1"
@@ -3519,6 +3552,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"espree@npm:^10.4.0":
+  version: 10.4.0
+  resolution: "espree@npm:10.4.0"
+  dependencies:
+    acorn: "npm:^8.15.0"
+    acorn-jsx: "npm:^5.3.2"
+    eslint-visitor-keys: "npm:^4.2.1"
+  checksum: 10c0/c63fe06131c26c8157b4083313cb02a9a54720a08e21543300e55288c40e06c3fc284bdecf108d3a1372c5934a0a88644c98714f38b6ae8ed272b40d9ea08d6b
+  languageName: node
+  linkType: hard
+
 "espree@npm:^9.6.0, espree@npm:^9.6.1":
   version: 9.6.1
   resolution: "espree@npm:9.6.1"
@@ -3558,7 +3602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estraverse@npm:^5.1.0, estraverse@npm:^5.2.0":
+"estraverse@npm:^5.1.0, estraverse@npm:^5.2.0, estraverse@npm:^5.3.0":
   version: 5.3.0
   resolution: "estraverse@npm:5.3.0"
   checksum: 10c0/1ff9447b96263dec95d6d67431c5e0771eb9776427421260a3e2f0fdd5d6bd4f8e37a7338f5ad2880c9f143450c9b1e4fc2069060724570a49cf9cf0312bd107
@@ -5764,7 +5808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^4.0.2":
+"picomatch@npm:^4.0.2, picomatch@npm:^4.0.3":
   version: 4.0.3
   resolution: "picomatch@npm:4.0.3"
   checksum: 10c0/9582c951e95eebee5434f59e426cddd228a7b97a0161a375aed4be244bd3fe8e3a31b846808ea14ef2c8a2527a6eeab7b3946a67d5979e81694654f939473ae2
