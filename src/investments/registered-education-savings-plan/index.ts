@@ -5,3 +5,7 @@ export * from './british-columbia-training-and-education-savings-grant';
 export * from './tuition-fees';
 export * from './income-level';
 export * from './beneficiary';
+
+export const RESP = {
+    MAX_CONTRIBUTION: 50000,
+};
