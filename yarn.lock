@@ -1383,16 +1383,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equisoft/jest-utils@npm:1.7.2":
-  version: 1.7.2
-  resolution: "@equisoft/jest-utils@npm:1.7.2"
+"@equisoft/jest-utils@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@equisoft/jest-utils@npm:1.8.0"
   dependencies:
     pretty-format: "npm:30.0.5"
   peerDependencies:
     jest-junit: "*"
     jest-util: "*"
     ts-jest: "*"
-  checksum: 10c0/ccfa612cd1ecb1bc6cfe13b79b97e3366b2c8b5a21696261a9629d7085a476575f7f288fbd97cfe9e1b6a18287fef60ec4a9a1f6d969410b4ecaf47e4ac18468
+  checksum: 10c0/0ac1fa3cc12e7eec015aafd6d48f1732a375ce1ee4999efa7dc2c4af45995fbe16116de2d249d61a468e1198e1a450d85b18095dbf00976bbd896ac5443e8bd0
   languageName: node
   linkType: hard
 
@@ -1405,14 +1405,14 @@ __metadata:
     "@babel/preset-typescript": "npm:7.27.1"
     "@equisoft/eslint-config": "npm:5.0.0"
     "@equisoft/eslint-config-typescript": "npm:5.0.0"
-    "@equisoft/jest-utils": "npm:1.7.2"
+    "@equisoft/jest-utils": "npm:1.8.0"
     "@equisoft/typescript-config": "npm:2.0.0"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
     "@stylistic/eslint-plugin": "npm:5.2.3"
     "@types/babel__core": "npm:^7"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:30.0.0"
-    "@types/node": "npm:22.18.3"
+    "@types/node": "npm:22.18.6"
     "@typescript-eslint/eslint-plugin": "npm:7.18.0"
     "@typescript-eslint/parser": "npm:7.18.0"
     babel-jest: "npm:30.1.2"
@@ -1423,7 +1423,7 @@ __metadata:
     jest: "npm:30.1.3"
     jest-junit: "npm:16.0.0"
     jest-util: "npm:30.0.5"
-    ts-jest: "npm:29.4.1"
+    ts-jest: "npm:29.4.4"
     typescript: "npm:5.9.2"
     yargs: "npm:18.0.0"
   languageName: unknown
@@ -2098,12 +2098,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.18.3":
-  version: 22.18.3
-  resolution: "@types/node@npm:22.18.3"
+"@types/node@npm:22.18.6":
+  version: 22.18.6
+  resolution: "@types/node@npm:22.18.6"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/29ec5674a7eaac50c4c779e937c4449e813ff70c411eb525b6e12837e7b88c39219c3c2f29e39ea8f72cd6b7975f8696dc05f78c07bce35a241e0c9eaf5523a8
+  checksum: 10c0/7ba190da2e64e56c59270661af8cd682c830a1375b6f965ab153be90baabfdaa867aa1d63f87b42de80956996d46dfe1cf93ecefe982d9a16e485b6756949f9a
   languageName: node
   linkType: hard
 
@@ -6572,9 +6572,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:29.4.1":
-  version: 29.4.1
-  resolution: "ts-jest@npm:29.4.1"
+"ts-jest@npm:29.4.4":
+  version: 29.4.4
+  resolution: "ts-jest@npm:29.4.4"
   dependencies:
     bs-logger: "npm:^0.2.6"
     fast-json-stable-stringify: "npm:^2.1.0"
@@ -6608,7 +6608,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: 10c0/e4881717323c9e03ba9ad2f8726872cd0bede7f3f34095754aa850688b319f50294211cfd330edad878005e70601cbbbb0bb489ed0949a9aa545491e1083e923
+  checksum: 10c0/f99d612704cda98369f4a54d3db771bad5edd1390fded4f1691f3182f0c8ce8b7f827e5846952bd8bcd26df26c9fb18f11089de760956bdf357875a5f1d49fcc
   languageName: node
   linkType: hard
 

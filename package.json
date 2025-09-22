@@ -39,14 +39,14 @@
     "@babel/preset-typescript": "7.27.1",
     "@equisoft/eslint-config": "5.0.0",
     "@equisoft/eslint-config-typescript": "5.0.0",
-    "@equisoft/jest-utils": "1.7.2",
+    "@equisoft/jest-utils": "1.8.0",
     "@equisoft/typescript-config": "2.0.0",
     "@microsoft/eslint-formatter-sarif": "3.1.0",
     "@stylistic/eslint-plugin": "5.2.3",
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/jest": "30.0.0",
-    "@types/node": "22.18.3",
+    "@types/node": "22.18.6",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "babel-jest": "30.1.2",
@@ -57,7 +57,7 @@
     "jest": "30.1.3",
     "jest-junit": "16.0.0",
     "jest-util": "30.0.5",
-    "ts-jest": "29.4.1",
+    "ts-jest": "29.4.4",
     "typescript": "5.9.2",
     "yargs": "18.0.0"
   },
@@ -65,5 +65,5 @@
     "@babel/core/json5": "^2.2.2",
     "ts-jest/json5": "^2.2.2"
   },
-  "packageManager": "yarn@4.9.4"
+  "packageManager": "yarn@4.10.0"
 }
