@@ -106,6 +106,9 @@ jobs:
     name: Publish to npm
     environment: npm-deployment
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs:
       - setup
       - jest
@@ -135,12 +138,6 @@ jobs:
           VERSION: ${{ needs.setup.outputs.version }}
         run: |
           contents="$(jq ".version = \"${VERSION}\"" ./package.json)" && echo "${contents}" > ./package.json
-
-      - name: NPM Login
-        uses: equisoft-actions/yarn-npm-login@v1
-        with:
-          registry: registry.yarnpkg.com
-          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Yarn publish
         env:
