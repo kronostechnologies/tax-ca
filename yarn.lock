@@ -1344,11 +1344,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config-typescript@npm:6.0.1":
-  version: 6.0.1
-  resolution: "@equisoft/eslint-config-typescript@npm:6.0.1"
+"@equisoft/eslint-config-typescript@npm:6.0.2":
+  version: 6.0.2
+  resolution: "@equisoft/eslint-config-typescript@npm:6.0.2"
   dependencies:
-    "@equisoft/eslint-config": "npm:6.0.1"
+    "@equisoft/eslint-config": "npm:6.0.2"
   peerDependencies:
     "@microsoft/eslint-formatter-sarif": ^3
     "@stylistic/eslint-plugin": ^5
@@ -1361,13 +1361,13 @@ __metadata:
     yargs: ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/cc2e327af31010eb3464782f7ace3d7a0223707778dd34f559af15f7ffb3d61a49bf14e87744e8e9af2ac680bb41706b8673c37fc2cdf3fb02ac958cb45a777c
+  checksum: 10c0/48decc0548dfd288eee67d19deeab16325e24a1a66c09879e48db3911c3f112aaa8f008ab5b8767581c5a7d55c1c340144acc265ea4eb1e5e5cf9800dda8948b
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config@npm:6.0.1":
-  version: 6.0.1
-  resolution: "@equisoft/eslint-config@npm:6.0.1"
+"@equisoft/eslint-config@npm:6.0.2":
+  version: 6.0.2
+  resolution: "@equisoft/eslint-config@npm:6.0.2"
   dependencies:
     eslint-config-airbnb-base: "npm:^15.0.0"
   peerDependencies:
@@ -1379,7 +1379,7 @@ __metadata:
     yargs: ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/486d1c1e846316f96b215d810eb6671613ffbb8c297c3970262a93dfec6124f35f453946777ae70ccd30472b849d7c2af1b185d19cc9f116b3e32e958ee2d952
+  checksum: 10c0/3812255e5b0e7caa6f7192c3316081977a4f639b12270676f57b673f78c300f637e66d375cc248a52167da0f383d59501c73baf203df74aef81c3d7eaa73c672
   languageName: node
   linkType: hard
 
@@ -1403,8 +1403,8 @@ __metadata:
     "@babel/core": "npm:7.28.4"
     "@babel/preset-env": "npm:7.28.3"
     "@babel/preset-typescript": "npm:7.27.1"
-    "@equisoft/eslint-config": "npm:6.0.1"
-    "@equisoft/eslint-config-typescript": "npm:6.0.1"
+    "@equisoft/eslint-config": "npm:6.0.2"
+    "@equisoft/eslint-config-typescript": "npm:6.0.2"
     "@equisoft/jest-utils": "npm:1.8.0"
     "@equisoft/typescript-config": "npm:2.0.0"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
