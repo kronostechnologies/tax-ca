@@ -63,7 +63,8 @@
   },
   "resolutions": {
     "@babel/core/json5": "^2.2.2",
-    "ts-jest/json5": "^2.2.2"
+    "ts-jest/json5": "^2.2.2",
+    "glob": "^10.4.5"
   },
   "packageManager": "yarn@4.11.0"
 }
