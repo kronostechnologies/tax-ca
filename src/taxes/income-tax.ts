@@ -7,7 +7,7 @@ Revised
     2024-12-24
 */
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
-import { maxBy, now, roundToPrecision } from '../utils';
+import { maxBy, roundToPrecision } from '../utils';
 
 export interface Rate {
     FROM: number;
@@ -24,8 +24,6 @@ export interface TaxBracket {
 }
 
 export type TaxBrackets = { [key in ProvinceCode | FederalCode]: TaxBracket };
-
-export const CA_LOWEST_TAX_RATE_2025 = 0.145;
 
 export const TAX_BRACKETS: TaxBrackets = {
     CA: {
@@ -498,26 +496,20 @@ function getSurtaxRates(code: ProvinceCode | FederalCode): Rate[] {
     return structuredClone(TAX_BRACKETS[code].SURTAX_RATES);
 }
 
-export function getFederalTaxRates(yearsToInflate: number): Rate[] {
-    const rates = getTaxRates(FEDERAL_CODE);
-    const shouldUse2025Rate = yearsToInflate === 0 && now().getFullYear() === 2025;
-    if (shouldUse2025Rate) {
-        rates[0].RATE = CA_LOWEST_TAX_RATE_2025;
-    }
-    return rates;
+export function getFederalTaxRates(): Rate[] {
+    return getTaxRates(FEDERAL_CODE);
 }
 
 export function getFederalBaseTaxAmount(grossIncome: number, inflationRate = 0, yearsToInflate = 0): number {
-    return getTaxAmount(getFederalTaxRates(yearsToInflate), grossIncome, inflationRate, yearsToInflate);
+    return getTaxAmount(getFederalTaxRates(), grossIncome, inflationRate, yearsToInflate);
 }
 
-export function getFederalTaxCreditRate(yearsToInflate: number): number {
-    const shouldUse2025Rate = yearsToInflate === 0 && now().getFullYear() === 2025;
-    return shouldUse2025Rate ? CA_LOWEST_TAX_RATE_2025 : TAX_BRACKETS.CA.TAX_CREDIT_RATE;
+export function getFederalTaxCreditRate(): number {
+    return TAX_BRACKETS.CA.TAX_CREDIT_RATE;
 }
 
 export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * getFederalTaxCreditRate(yearsToInflate);
+    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * getFederalTaxCreditRate();
     return inflate(baseTaxCredit, inflationRate, yearsToInflate);
 }
 
