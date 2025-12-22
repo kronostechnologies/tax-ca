@@ -1,10 +1,10 @@
 /*
 Sources
-    https://institutpf.org/assets/Documents/Normes-projection/InstitutPF-NHP-feuillet_fr.pdf
+https://institutpf.org/assets/Documents/Normes-projection/InstitutPF-NHP-feuillet_fr.pdf
  
 Revised
-    2025-04-25
- */
+2025-04-25
+*/
 
 export interface ReturnRates {
     SHORT_TERM: number;
