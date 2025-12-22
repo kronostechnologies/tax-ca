@@ -1,12 +1,12 @@
 /*
 Sources
-    https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/premium-reduction-program/2025-maximum-insurable-earnings.html
+    https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/ei-employers/premium-reduction-program/2026-maximum-insurable-earnings.html
 
 Notes
     The URL is based on a specific year.
 
 Revised
-    2024-12-24
+    2025-12-22
  */
 
 export interface PremiumRate {
@@ -20,9 +20,9 @@ export interface EmploymentInsurance {
 }
 
 export const EI: EmploymentInsurance = {
-    MAX_INSURABLE_EARNINGS: 65700,
+    MAX_INSURABLE_EARNINGS: 68900,
     PREMIUM_RATES: {
-        CA: 0.0164,
-        QC: 0.0131,
+        CA: 0.0163,
+        QC: 0.013,
     },
 };

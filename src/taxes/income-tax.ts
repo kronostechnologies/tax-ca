@@ -1,10 +1,11 @@
 /*
 Sources
-    http://www.taxtips.ca/marginaltaxrates.htm
+    https://www.taxtips.ca/marginal-tax-rates-in-canada.htm
     Abattement QC: http://www.cra-arc.gc.ca/tx/ndvdls/tpcs/ncm-tx/rtrn/cmpltng/ddctns/lns409-485/440-fra.html
+    Yukon: https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/payroll-deductions-contributions/income-tax/reducing-remuneration-subject-income-tax.html
 
 Revised
-    2024-12-24
+    2025-12-22
 */
 import { FEDERAL_CODE, FederalCode, ProvinceCode } from '../misc';
 import { maxBy, now, roundToPrecision } from '../utils';
@@ -31,25 +32,25 @@ export const TAX_BRACKETS: TaxBrackets = {
     CA: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.14,
-        BASE_TAX_CREDIT: 16129,
+        BASE_TAX_CREDIT: 16452,
         RATES: [{
             FROM: 0,
-            TO: 57375,
+            TO: 58523,
             RATE: 0.14,
         }, {
-            FROM: 57375,
-            TO: 114750,
+            FROM: 58523,
+            TO: 117045,
             RATE: 0.205,
         }, {
-            FROM: 114750,
-            TO: 177882,
+            FROM: 117045,
+            TO: 181440,
             RATE: 0.26,
         }, {
-            FROM: 177882,
-            TO: 253414,
-            RATE: 0.2932,
+            FROM: 181440,
+            TO: 258482,
+            RATE: 0.2929,
         }, {
-            FROM: 253414,
+            FROM: 258482,
             TO: 999999999,
             RATE: 0.33,
         }],
@@ -61,26 +62,30 @@ export const TAX_BRACKETS: TaxBrackets = {
     },
     AB: {
         ABATEMENT: 0,
-        TAX_CREDIT_RATE: 0.10,
-        BASE_TAX_CREDIT: 22323,
+        TAX_CREDIT_RATE: 0.08,
+        BASE_TAX_CREDIT: 22769,
         RATES: [{
             FROM: 0,
-            TO: 151234,
+            TO: 61200,
+            RATE: 0.08,
+        }, {
+            FROM: 61200,
+            TO: 154259,
             RATE: 0.10,
         }, {
-            FROM: 151234,
-            TO: 181481,
+            FROM: 154259,
+            TO: 185111,
             RATE: 0.12,
         }, {
-            FROM: 181481,
-            TO: 241974,
+            FROM: 185111,
+            TO: 246813,
             RATE: 0.13,
         }, {
-            FROM: 241974,
-            TO: 362961,
+            FROM: 246813,
+            TO: 370220,
             RATE: 0.14,
         }, {
-            FROM: 362961,
+            FROM: 370220,
             TO: 999999999,
             RATE: 0.15,
         }],
@@ -93,33 +98,33 @@ export const TAX_BRACKETS: TaxBrackets = {
     BC: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0506,
-        BASE_TAX_CREDIT: 12932,
+        BASE_TAX_CREDIT: 13216,
         RATES: [{
             FROM: 0,
-            TO: 49279,
+            TO: 50363,
             RATE: 0.0506,
         }, {
-            FROM: 49279,
-            TO: 98560,
+            FROM: 50363,
+            TO: 100728,
             RATE: 0.077,
         }, {
-            FROM: 98560,
-            TO: 113158,
+            FROM: 100728,
+            TO: 115648,
             RATE: 0.105,
         }, {
-            FROM: 113158,
-            TO: 137407,
+            FROM: 115648,
+            TO: 140430,
             RATE: 0.1229,
         }, {
-            FROM: 137407,
-            TO: 186306,
+            FROM: 140430,
+            TO: 190405,
             RATE: 0.147,
         }, {
-            FROM: 186306,
-            TO: 259829,
+            FROM: 190405,
+            TO: 265545,
             RATE: 0.168,
         }, {
-            FROM: 259829,
+            FROM: 265545,
             TO: 999999999,
             RATE: 0.205,
         }],
@@ -132,17 +137,17 @@ export const TAX_BRACKETS: TaxBrackets = {
     MB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.108,
-        BASE_TAX_CREDIT: 15969,
+        BASE_TAX_CREDIT: 15780,
         RATES: [{
             FROM: 0,
-            TO: 47564,
+            TO: 47000,
             RATE: 0.108,
         }, {
-            FROM: 47564,
-            TO: 101200,
+            FROM: 47000,
+            TO: 100000,
             RATE: 0.1275,
         }, {
-            FROM: 101200,
+            FROM: 100000,
             TO: 999999999,
             RATE: 0.174,
         }],
@@ -155,21 +160,21 @@ export const TAX_BRACKETS: TaxBrackets = {
     NB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.094,
-        BASE_TAX_CREDIT: 13396,
+        BASE_TAX_CREDIT: 13664,
         RATES: [{
             FROM: 0,
-            TO: 51306,
+            TO: 52333,
             RATE: 0.0940,
         }, {
-            FROM: 51306,
-            TO: 102614,
+            FROM: 52333,
+            TO: 104666,
             RATE: 0.14,
         }, {
-            FROM: 102614,
-            TO: 190060,
+            FROM: 104666,
+            TO: 193861,
             RATE: 0.16,
         }, {
-            FROM: 190060,
+            FROM: 193861,
             TO: 999999999,
             RATE: 0.195,
         }],
@@ -182,37 +187,37 @@ export const TAX_BRACKETS: TaxBrackets = {
     NL: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.087,
-        BASE_TAX_CREDIT: 11067,
+        BASE_TAX_CREDIT: 11188,
         RATES: [{
             FROM: 0,
-            TO: 44192,
+            TO: 44678,
             RATE: 0.087,
         }, {
-            FROM: 44192,
-            TO: 88382,
+            FROM: 44678,
+            TO: 89354,
             RATE: 0.145,
         }, {
-            FROM: 88382,
-            TO: 157792,
+            FROM: 89354,
+            TO: 159528,
             RATE: 0.158,
         }, {
-            FROM: 157792,
-            TO: 220910,
+            FROM: 159528,
+            TO: 223340,
             RATE: 0.178,
         }, {
-            FROM: 220910,
-            TO: 282214,
+            FROM: 223340,
+            TO: 285319,
             RATE: 0.198,
         }, {
-            FROM: 282214,
-            TO: 564429,
+            FROM: 285319,
+            TO: 570638,
             RATE: 0.208,
         }, {
-            FROM: 564429,
-            TO: 1128858,
+            FROM: 570638,
+            TO: 1141275,
             RATE: 0.213,
         }, {
-            FROM: 1128858,
+            FROM: 1141275,
             TO: 999999999,
             RATE: 0.218,
         }],
@@ -225,25 +230,25 @@ export const TAX_BRACKETS: TaxBrackets = {
     NS: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0879,
-        BASE_TAX_CREDIT: 8744,
+        BASE_TAX_CREDIT: 11932,
         RATES: [{
             FROM: 0,
-            TO: 30507,
+            TO: 30995,
             RATE: 0.0879,
         }, {
-            FROM: 30507,
-            TO: 61015,
+            FROM: 30995,
+            TO: 61991,
             RATE: 0.1495,
         }, {
-            FROM: 61015,
-            TO: 95883,
+            FROM: 61991,
+            TO: 97417,
             RATE: 0.1667,
         }, {
-            FROM: 95883,
-            TO: 154650,
+            FROM: 97417,
+            TO: 157124,
             RATE: 0.175,
         }, {
-            FROM: 154650,
+            FROM: 157124,
             TO: 999999999,
             RATE: 0.21,
         }],
@@ -256,25 +261,25 @@ export const TAX_BRACKETS: TaxBrackets = {
     PE: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.095,
-        BASE_TAX_CREDIT: 14250,
+        BASE_TAX_CREDIT: 15000,
         RATES: [{
             FROM: 0,
-            TO: 33328,
+            TO: 33928,
             RATE: 0.095,
         }, {
-            FROM: 33328,
-            TO: 64656,
+            FROM: 33928,
+            TO: 65820,
             RATE: 0.1347,
         }, {
-            FROM: 64656,
-            TO: 105000,
+            FROM: 65820,
+            TO: 106890,
             RATE: 0.166,
         }, {
-            FROM: 105000,
-            TO: 140000,
+            FROM: 106890,
+            TO: 142250,
             RATE: 0.1762,
         }, {
-            FROM: 140000,
+            FROM: 142250,
             TO: 999999999,
             RATE: 0.19,
         }],
@@ -287,17 +292,17 @@ export const TAX_BRACKETS: TaxBrackets = {
     ON: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0505,
-        BASE_TAX_CREDIT: 12747,
+        BASE_TAX_CREDIT: 12989,
         RATES: [{
             FROM: 0,
-            TO: 52886,
+            TO: 53891,
             RATE: 0.0505,
         }, {
-            FROM: 52886,
-            TO: 105775,
+            FROM: 53891,
+            TO: 107785,
             RATE: 0.0915,
         }, {
-            FROM: 105775,
+            FROM: 107785,
             TO: 150000,
             RATE: 0.1116,
         }, {
@@ -311,14 +316,14 @@ export const TAX_BRACKETS: TaxBrackets = {
         }],
         SURTAX_RATES: [{
             FROM: 0,
-            TO: 5710,
+            TO: 5818,
             RATE: 0,
         }, {
-            FROM: 5710,
-            TO: 7307,
+            FROM: 5818,
+            TO: 7446,
             RATE: 0.20,
         }, {
-            FROM: 7307,
+            FROM: 7446,
             TO: 999999999,
             RATE: 0.56, // 0.20 + 0.36
         }],
@@ -326,21 +331,21 @@ export const TAX_BRACKETS: TaxBrackets = {
     QC: {
         ABATEMENT: 0.165,
         TAX_CREDIT_RATE: 0.14,
-        BASE_TAX_CREDIT: 18571,
+        BASE_TAX_CREDIT: 18952,
         RATES: [{
             FROM: 0,
-            TO: 53255,
+            TO: 54345,
             RATE: 0.14,
         }, {
-            FROM: 53255,
-            TO: 106495,
+            FROM: 54345,
+            TO: 108680,
             RATE: 0.19,
         }, {
-            FROM: 106495,
-            TO: 129590,
+            FROM: 108680,
+            TO: 132245,
             RATE: 0.24,
         }, {
-            FROM: 129590,
+            FROM: 132245,
             TO: 999999999,
             RATE: 0.2575,
         }],
@@ -353,17 +358,17 @@ export const TAX_BRACKETS: TaxBrackets = {
     SK: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.105,
-        BASE_TAX_CREDIT: 18991,
+        BASE_TAX_CREDIT: 20381,
         RATES: [{
             FROM: 0,
-            TO: 53463,
+            TO: 54532,
             RATE: 0.105,
         }, {
-            FROM: 53463,
-            TO: 152750,
+            FROM: 54532,
+            TO: 155805,
             RATE: 0.125,
         }, {
-            FROM: 152750,
+            FROM: 155805,
             TO: 999999999,
             RATE: 0.145,
         }],
@@ -376,21 +381,21 @@ export const TAX_BRACKETS: TaxBrackets = {
     NT: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.059,
-        BASE_TAX_CREDIT: 17842,
+        BASE_TAX_CREDIT: 18198,
         RATES: [{
             FROM: 0,
-            TO: 51964,
+            TO: 53003,
             RATE: 0.059,
         }, {
-            FROM: 51964,
-            TO: 103930,
+            FROM: 53003,
+            TO: 106009,
             RATE: 0.086,
         }, {
-            FROM: 103930,
-            TO: 168967,
+            FROM: 106009,
+            TO: 172346,
             RATE: 0.122,
         }, {
-            FROM: 168967,
+            FROM: 172346,
             TO: 999999999,
             RATE: 0.1405,
         }],
@@ -403,21 +408,21 @@ export const TAX_BRACKETS: TaxBrackets = {
     NU: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.04,
-        BASE_TAX_CREDIT: 19274,
+        BASE_TAX_CREDIT: 19659,
         RATES: [{
             FROM: 0,
-            TO: 54707,
+            TO: 55801,
             RATE: 0.04,
         }, {
-            FROM: 54707,
-            TO: 109413,
+            FROM: 55801,
+            TO: 111602,
             RATE: 0.07,
         }, {
-            FROM: 109413,
-            TO: 177881,
+            FROM: 111602,
+            TO: 181439,
             RATE: 0.09,
         }, {
-            FROM: 177881,
+            FROM: 181439,
             TO: 999999999,
             RATE: 0.115,
         }],
@@ -429,26 +434,22 @@ export const TAX_BRACKETS: TaxBrackets = {
     },
     YT: {
         ABATEMENT: 0,
-        TAX_CREDIT_RATE: 0.064,
-        BASE_TAX_CREDIT: 14538,
+        TAX_CREDIT_RATE: 0.14,
+        BASE_TAX_CREDIT: 16452,
         RATES: [{
             FROM: 0,
-            TO: 57375,
+            TO: 58523,
             RATE: 0.064,
         }, {
-            FROM: 57375,
-            TO: 114750,
+            FROM: 58523,
+            TO: 117045,
             RATE: 0.09,
         }, {
-            FROM: 114750,
-            TO: 177882,
+            FROM: 117045,
+            TO: 181440,
             RATE: 0.109,
         }, {
-            FROM: 177882,
-            TO: 253414,
-            RATE: 0.1293,
-        }, {
-            FROM: 253414,
+            FROM: 181440,
             TO: 500000,
             RATE: 0.128,
         }, {
