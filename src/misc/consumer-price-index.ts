@@ -1,11 +1,10 @@
 /*
+=== DEPRECATED, NOT USED BY FNA-ENGINE =============================================
 Sources
     https://www.bankofcanada.ca/rates/price-indexes/cpi/
     Use column v41690973
 
-NOT USED BY FNA-ENGINE
-
-Revised
+Last revision
     2024-12-23
 */
 

@@ -1,13 +1,13 @@
 /*
  Sources
- https://www.canada.ca/fr/services/prestations/education/epargne-etudes/estimation-montants.html?utm_source=chatgpt.com#_faible-rev
+ https://www.canada.ca/en/services/benefits/education/education-savings/estimating-amounts.html#_clb_income
 
  Last updated
- 2025-02-07
+ 2025-12-21
  */
 
-const LOW_INCOME_THRESHOLD = 55867;
-const MEDIUM_INCOME_THRESHOLD = 111735;
+const LOW_INCOME_THRESHOLD = 57375;
+const MEDIUM_INCOME_THRESHOLD = 114750;
 
 export enum IncomeLevelType {
     LOW = 'LOW',

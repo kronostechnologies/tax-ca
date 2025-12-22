@@ -3,7 +3,7 @@ Sources
     https://www.retraitequebec.gouv.qc.ca/en/landing/indexation/Pages/montants-donnees-base.aspx
 
 Revised
-    2024-12-30
+    2025-12-22
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -14,32 +14,32 @@ export const QPP: PublicPensionPlan = {
     PENSIONABLE_EARNINGS: {
         BASIC_EXEMPTION: 3500,
         // Year's maximum pensionable earnings (YMPE)
-        YMPE: 71300,
+        YMPE: 74600,
         // Average YMPE of the last 5 year (including current year)
-        YMPE_AVG_5: 66580,
+        YMPE_AVG_5: 69180,
         // Year's additional maximum pensionable earnings (YAMPE)
-        YAMPE: 81200,
+        YAMPE: 85000,
         // Year's additional maximum pensionable earnings (YAMPE) of the last 5 year (including current year)
-        // YAMPE * 0.942 (Temporary factor suggested by Martin Dupras, used to estimate until we have the right value)
-        YAMPE_AVG_5: 76490,
+        // YMPE to YAMPE factore used is 1.139 + rounded, to stay conservative in our projections.
+        YAMPE_AVG_5: 77800,
     },
     CONTRIBUTION_RATES: {
-        BASE: 0.064,
+        BASE: 0.063,
         ENHANCEMENT_STEP_2: 0.04,
     },
     DEATH_BENEFIT: { RATE: 0.5 },
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         // Survivors' benefits
-        ORPHAN: 3621.24,
+        ORPHAN: 3693.72,
         // Disability benefits
-        DISABILITY: 20071.44,
+        DISABILITY: 20852.04,
         // Surviving spouse's pension
-        UNDER_45: 8273.16,
-        UNDER_45_WITH_CHILD: 13102.08,
-        UNDER_45_DISABLED: 13615.32,
-        FROM_45_TO_64: 13615.32,
-        OVER_64_WITHOUT_PENSION: 10130.88,
+        UNDER_45: 8634.00,
+        UNDER_45_WITH_CHILD: 13559.40,
+        UNDER_45_DISABLED: 14082.96,
+        FROM_45_TO_64: 14082.96,
+        OVER_64_WITHOUT_PENSION: 10577.76,
     },
     INDEXATION_RATE_REFERENCES: [
         [2007, 0.021],
@@ -122,12 +122,13 @@ export const QPP: PublicPensionPlan = {
         2023: 66600,
         2024: 68500,
         2025: 71300,
+        2026: 74600,
     },
     MAX_PENSION: {
         // Max amount at age 65
-        RETIREMENT: 17196,
+        RETIREMENT: 18091.80,
         // Value must be the same as Max Retirement for the QPP
-        COMBINED_RETIREMENT_SURVIVOR: 17196,
+        COMBINED_RETIREMENT_SURVIVOR: 18091.80,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 72,

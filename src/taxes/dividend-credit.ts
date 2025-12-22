@@ -4,7 +4,7 @@ Sources
     Eligible Dividends: https://www.taxtips.ca/dtc/eligible-dividends/eligible-dividend-tax-credit-rates.htm
 
 Revised
-    2024-12-24
+    2025-12-22
 */
 
 import { FederalCode, ProvinceCode } from '../misc';
@@ -21,13 +21,13 @@ export const NON_ELIGIBLE_DIVIDEND: DividendTaxCreditRate = {
     MB: 0.007835,
     NB: 0.0275,
     NL: 0.032,
-    NS: 0.0299,
+    NS: 0.015,
     NT: 0.06,
     NU: 0.0261,
     ON: 0.029863,
     PE: 0.013,
     QC: 0.0342,
-    SK: 0.02938,
+    SK: 0.02519,
     YT: 0.0067,
 };
 

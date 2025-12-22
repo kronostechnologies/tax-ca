@@ -1,3 +1,11 @@
+/*
+ Sources
+ https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/registered-education-savings-plans-resps/canada-education-savings-programs-cesp/canada-learning-bond.html
+
+ Last updated
+ 2025-12-21
+ */
+
 import { IncomeLevel, IncomeLevelType } from './income-level';
 
 export interface CanadaLearningBond {

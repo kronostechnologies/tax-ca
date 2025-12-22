@@ -1,11 +1,12 @@
 /*
 Sources
     https://www.canada.ca/en/revenue-agency/services/tax/registered-plans-administrators/pspa/mp-rrsp-dpsp-tfsa-limits-ympe.html
+    https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/payroll-deductions-contributions/canada-pension-plan-cpp/cpp-contribution-rates-maximums-exemptions.html
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/payment-amounts.html
-    https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
+    Decomissionned https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
 
 Revised
-    2025-01-02
+    2025-12-22
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -16,14 +17,14 @@ export const CPP: PublicPensionPlan = {
     PENSIONABLE_EARNINGS: {
         BASIC_EXEMPTION: 3500,
         // Year's maximum pensionable earnings (YMPE)
-        YMPE: 71300,
+        YMPE: 74600,
         // Average YMPE of the last 5 year (including current year)
-        YMPE_AVG_5: 66580,
+        YMPE_AVG_5: 69180,
         // Year's additional maximum pensionable earnings (YAMPE)
-        YAMPE: 81200,
+        YAMPE: 85000,
         // Year's additional maximum pensionable earnings (YAMPE) of the last 5 year (including current year)
-        // YAMPE * 0.942 (Temporary factor suggested by Martin Dupras, used to estimate until we have the right value)
-        YAMPE_AVG_5: 76490,
+        // YMPE to YAMPE factore used is 1.139 + rounded, to stay conservative in our projections.
+        YAMPE_AVG_5: 77800,
     },
     CONTRIBUTION_RATES: {
         BASE: 0.0595,
@@ -33,9 +34,9 @@ export const CPP: PublicPensionPlan = {
     DEFAULT_REFERENCE_AGE: 65,
     FLAT_BENEFIT: {
         // Survivors' benefits
-        ORPHAN: 3621.24,
+        ORPHAN: 3693.72,
         // Disability benefits
-        DISABILITY: 19281.36,
+        DISABILITY: 20078.88,
         // Surviving spouse's pension
         UNDER_45: 9250.56,
         UNDER_45_WITH_CHILD: 9250.56,
@@ -125,6 +126,7 @@ export const CPP: PublicPensionPlan = {
         2023: 66600,
         2024: 68500,
         2025: 71300,
+        2026: 74600,
     },
     MAX_PENSION: {
         RETIREMENT: 17196, // Max amount at age 65

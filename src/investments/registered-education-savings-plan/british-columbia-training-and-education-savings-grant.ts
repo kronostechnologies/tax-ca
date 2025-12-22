@@ -3,7 +3,7 @@
  https://www.canada.ca/en/employment-social-development/services/student-financial-aid/education-savings/resp/resp-promoters/infocapsules/bc.html
 
  Last updated
- 2025-02-11
+ 2025-12-21
  */
 
 export interface BritishColumbiaTrainingAndEducationSavingsGrant {
