@@ -6,7 +6,7 @@ Sources
     Decomissionned https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/cpp-price.html
 
 Revised
-    2025-12-22
+    2026-01-05
 */
 
 import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
@@ -36,13 +36,13 @@ export const CPP: PublicPensionPlan = {
         // Survivors' benefits
         ORPHAN: 3693.72,
         // Disability benefits
-        DISABILITY: 20078.88,
+        DISABILITY: 20894.40,
         // Surviving spouse's pension
-        UNDER_45: 9250.56,
-        UNDER_45_WITH_CHILD: 9250.56,
-        UNDER_45_DISABLED: 9250.56,
-        FROM_45_TO_64: 9250.56,
-        OVER_64_WITHOUT_PENSION: 10317.60,
+        UNDER_45: 9642.48,
+        UNDER_45_WITH_CHILD: 9642.48,
+        UNDER_45_DISABLED: 9642.48,
+        FROM_45_TO_64: 9642.48,
+        OVER_64_WITHOUT_PENSION: 10855.08,
     },
 
     INDEXATION_RATE_REFERENCES: [ // Previous year inflation used as indexation
@@ -129,8 +129,8 @@ export const CPP: PublicPensionPlan = {
         2026: 74600,
     },
     MAX_PENSION: {
-        RETIREMENT: 17196, // Max amount at age 65
-        COMBINED_RETIREMENT_SURVIVOR: 17394.36,
+        RETIREMENT: 18091.80, // Max amount at age 65
+        COMBINED_RETIREMENT_SURVIVOR: 18378.72,
         DEATH_BENEFIT: 2500,
     },
     MAX_REQUEST_AGE: 70,
