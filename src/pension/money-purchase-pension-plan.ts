@@ -6,10 +6,10 @@ Revised
     2026-01-06
  */
 
-export interface MoneyPurchasePlan {
+export interface MoneyPurchasePensionPlan {
     MAX_CONTRIBUTION: number;
 }
 
-export const MONEY_PURCHASE: MoneyPurchasePlan = {
+export const MONEY_PURCHASE: MoneyPurchasePensionPlan = {
     MAX_CONTRIBUTION: 35390,
 };

@@ -6,10 +6,10 @@ Revised
     2026-01-06
  */
 
-export interface DefinedBenefitPlan {
+export interface DefinedBenefitPensionPlan {
     MAX_CONTRIBUTION: number;
 }
 
-export const DEFINED_BENEFIT: DefinedBenefitPlan = {
+export const DEFINED_BENEFIT: DefinedBenefitPensionPlan = {
     MAX_CONTRIBUTION: 3932.22,
 };

@@ -5,5 +5,3 @@ export * from './registered-retirement-savings-plan';
 export * from './tax-free-savings-account';
 export * from './non-registered-savings-plan';
 export * from './registered-education-savings-plan';
-export * from './defined-benefit-plan';
-export * from './money-purchase-plan';
