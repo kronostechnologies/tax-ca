@@ -169,3 +169,21 @@ describe('getRepaymentMax', () => {
         expect(amount).toBe(OAS.INCREASE.REPAYMENT_MAX);
     });
 });
+describe('getMinimumRequestAge', () => {
+    it('should return 65 when no years outside Canada', () => {
+        const age = OAS.getMinimumRequestAge(new Date('1980-01-01'), 0);
+        expect(age).toBe(65);
+    });
+    it('should return 68 when 40 years outside Canada', () => {
+        const age = OAS.getMinimumRequestAge(new Date('1980-01-01'), 40);
+        expect(age).toBe(68);
+    });
+    it('should return 88 when 60 years outside Canada', () => {
+        const age = OAS.getMinimumRequestAge(new Date('1980-01-01'), 60);
+        expect(age).toBe(88);
+    });
+    it('should return 65 when 35 years outside Canada', () => {
+        const age = OAS.getMinimumRequestAge(new Date('1980-01-01'), 35);
+        expect(age).toBe(65);
+    });
+});
