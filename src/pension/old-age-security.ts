@@ -25,7 +25,7 @@ export interface OldAgeSecurity {
     }
     MAX_AGE: number;
     MIN_AGE: number;
-    RESIDENCY_AGE_START: number;
+    AGE_OF_MAJORITY: number;
     MIN_RESIDENCY: number;
     MAX_RESIDENCY: number;
     MONTHLY_PAYMENT_MAX: number;
@@ -38,7 +38,7 @@ export interface OldAgeSecurity {
 
     getRepaymentMax(startOfYearAge: number): number;
 
-    getMinimumRequestAge(birthDate: Date, yearsOutsideCanada: number): number;
+    getMinimumRequestAge(yearsOutsideCanada: number): number;
 }
 
 export const OAS: OldAgeSecurity = {
@@ -90,20 +90,15 @@ export const OAS: OldAgeSecurity = {
     getRepaymentMax(startOfYearAge: number): number {
         return startOfYearAge >= OAS.INCREASE.AGE - 1 ? OAS.INCREASE.REPAYMENT_MAX : OAS.REPAYMENT.MAX;
     },
-    getMinimumRequestAge(birthDate: Date, yearsOutsideCanada: number): number {
-        const currentAge = getMonthsDiff(birthDate, now()) / 12;
-        const currentResidency = currentAge - this.RESIDENCY_AGE_START - yearsOutsideCanada;
+    getMinimumRequestAge(yearsOutsideCanada: number): number {
+        const effectiveResidencyStart = this.AGE_OF_MAJORITY + yearsOutsideCanada;
+        const minAgeForResidency = effectiveResidencyStart + this.MIN_RESIDENCY;
 
-        if (currentResidency < this.MIN_RESIDENCY) {
-            const minResidencyNeeded = this.MIN_RESIDENCY - currentResidency;
-            return Math.max(currentAge + minResidencyNeeded, this.MIN_AGE);
-        }
-
-        return Math.max(currentAge, this.MIN_AGE);
+        return Math.max(minAgeForResidency, this.MIN_AGE);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
-    RESIDENCY_AGE_START: 18,
+    AGE_OF_MAJORITY: 18,
     MIN_RESIDENCY: 10,
     MAX_RESIDENCY: 40,
     INCREASE: {
