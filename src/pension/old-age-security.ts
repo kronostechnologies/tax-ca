@@ -8,7 +8,7 @@ Revised
     2026-01-05
 */
 
-import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
+import { addYearsToDate, getAge, getMonthsDiff, now, removeTime } from '../utils/date';
 import { clamp } from '../utils/math';
 
 export interface Repayment {
@@ -31,14 +31,17 @@ export interface OldAgeSecurity {
     MONTHLY_PAYMENT_MAX: number;
     MONTHLY_DELAY_BONUS: number;
     REPAYMENT: Repayment;
-
     getMinRequestDateFactor(birthDate: Date, requestDate: Date): number,
-
     getRequestDateFactor(birthDate: Date, requestDate: Date): number;
-
     getRepaymentMax(startOfYearAge: number): number;
-
     getMinimumRequestAge(yearsOutsideCanada: number): number;
+    getMinimumRequestDate(birthDate: Date, yearsOutsideCanadaAtRequest: number): Date;
+    validateRequestDate(requestDate: Date, birthDate: Date, yearsOutsideCanadaAtRequest: number): void;
+    getResidencyYearsAtRequest(birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: number): number;
+    getRequestDateMonthsDeferred(birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: number): number;
+    isFullResidencyAtMinOASAge(birthDate: Date, yearsOutsideCanadaAtRequest: number): boolean;
+    getMonthlyOASAmount(birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: number): number;
+    getDeferredRequestAmount(monthsDeferred: number, ratio?: number): number;
 }
 
 export const OAS: OldAgeSecurity = {
@@ -95,6 +98,87 @@ export const OAS: OldAgeSecurity = {
         const minAgeForResidency = effectiveResidencyStart + this.MIN_RESIDENCY;
 
         return Math.max(minAgeForResidency, this.MIN_AGE);
+    },
+    getMinimumRequestDate(birthDate: Date, yearsOutsideCanadaAtRequest: number = 0): Date {
+        return addYearsToDate(birthDate, this.getMinimumRequestAge(yearsOutsideCanadaAtRequest));
+    },
+    validateRequestDate(
+        requestDate: Date,
+        birthDate: Date,
+        yearsOutsideCanadaAtRequest: number,
+    ): void {
+        const minRequestDate = this.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest);
+        const requestDateFormatted = removeTime(requestDate);
+        const minRequestDateFormatted = removeTime(minRequestDate);
+        if (requestDateFormatted < minRequestDateFormatted) {
+            throw new Error('Invalid request date');
+        }
+    },
+    getResidencyYearsAtRequest(
+        birthDate: Date,
+        requestDate: Date,
+        yearsOutsideCanadaAtRequest: number,
+    ): number {
+        const ageAtRequest = getAge(birthDate, requestDate) as number;
+        const residencyYearsAtRequest = ageAtRequest - this.AGE_OF_MAJORITY - yearsOutsideCanadaAtRequest;
+
+        return Math.max(residencyYearsAtRequest, 0);
+    },
+    getRequestDateMonthsDeferred(
+        birthDate: Date,
+        requestDate: Date,
+        yearsOutsideCanadaAtRequest: number = 0,
+    ): number {
+        this.validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest);
+
+        const minRequestDate = this.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest);
+        const maximumAgeDeferredDate = addYearsToDate(birthDate, this.MIN_AGE);
+        const maxDeferredDate = new Date(Math.min(maximumAgeDeferredDate.getTime(), requestDate.getTime()));
+        return Math.abs(getMonthsDiff(maxDeferredDate, minRequestDate));
+    },
+    isFullResidencyAtMinOASAge(birthDate: Date, yearsOutsideCanadaAtRequest: number): boolean {
+        const minRequestDate = addYearsToDate(birthDate, OAS.MIN_AGE);
+        const residencyYearsAtMinRequestAge = this.getResidencyYearsAtRequest(
+            birthDate,
+            minRequestDate,
+            yearsOutsideCanadaAtRequest,
+        );
+        return residencyYearsAtMinRequestAge >= OAS.MAX_RESIDENCY;
+    },
+    getDeferredRequestAmount(monthsDeferred: number, ratio: number = 1): number {
+        return (ratio * OAS.MONTHLY_PAYMENT_MAX) * (1 + (OAS.MONTHLY_DELAY_BONUS * monthsDeferred));
+    },
+    getMonthlyOASAmount(birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: number = 0): number {
+        this.validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest);
+
+        const monthsDeferred = this.getRequestDateMonthsDeferred(birthDate, requestDate, yearsOutsideCanadaAtRequest);
+
+        const isFullResidency = this.isFullResidencyAtMinOASAge(birthDate, yearsOutsideCanadaAtRequest);
+        if (isFullResidency) {
+            return this.getDeferredRequestAmount(monthsDeferred);
+        }
+
+        // PSV partielle
+        // Solution pour report de la date de demande
+        const minRequestDate = this.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest) as Date;
+        const residencyYearsAtMinRequest = this.getResidencyYearsAtRequest(
+            birthDate,
+            minRequestDate,
+            yearsOutsideCanadaAtRequest,
+        );
+        const ratioAtMinRequestDate = Math.min(residencyYearsAtMinRequest / OAS.MAX_RESIDENCY, 1);
+        const requestDateReportAmount = this.getDeferredRequestAmount(monthsDeferred, ratioAtMinRequestDate);
+
+        // Solution pour report année de résidence
+        const residencyYearsAtRequest = this.getResidencyYearsAtRequest(
+            birthDate,
+            requestDate,
+            yearsOutsideCanadaAtRequest,
+        );
+        const ratioAtRequestDate = Math.min(residencyYearsAtRequest / OAS.MAX_RESIDENCY, 1);
+        const deferredResidenceRequestAmount = OAS.MONTHLY_PAYMENT_MAX * ratioAtRequestDate;
+
+        return Math.max(deferredResidenceRequestAmount, requestDateReportAmount);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
