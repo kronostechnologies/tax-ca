@@ -132,7 +132,7 @@ export const OAS: OldAgeSecurity = {
         this.validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest);
 
         const minRequestDate = this.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest);
-        const maximumAgeDeferredDate = addYearsToDate(birthDate, this.MIN_AGE);
+        const maximumAgeDeferredDate = addYearsToDate(birthDate, this.MAX_AGE);
         const maxDeferredDate = new Date(Math.min(maximumAgeDeferredDate.getTime(), requestDate.getTime()));
         return Math.abs(getMonthsDiff(maxDeferredDate, minRequestDate));
     },
