@@ -187,3 +187,287 @@ describe('getMinimumRequestAge', () => {
         expect(age).toBe(88);
     });
 });
+describe('getMinimumRequestDate', () => {
+    it('should return 65th birthday when no years outside Canada', () => {
+        const birthDate = new Date('1980-01-15');
+        const result = OAS.getMinimumRequestDate(birthDate, 0);
+        expect(result).toEqual(new Date('2045-01-15'));
+    });
+
+    it('should return 65th birthday when 35 years outside Canada', () => {
+        const birthDate = new Date('1980-06-01');
+        const result = OAS.getMinimumRequestDate(birthDate, 35);
+        expect(result).toEqual(new Date('2045-06-01'));
+    });
+
+    it('should return later date when more years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const result = OAS.getMinimumRequestDate(birthDate, 40);
+        expect(result).toEqual(new Date('2048-01-01')); // 68th birthday
+    });
+
+    it('should default to 0 years outside Canada when providing 0', () => {
+        const birthDate = new Date('1980-03-15');
+        const result = OAS.getMinimumRequestDate(birthDate, 0);
+        expect(result).toEqual(new Date('2045-03-15'));
+    });
+});
+describe('validateRequestDate', () => {
+    it('should not throw when request date is after minimum request date', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2046-01-01'); // 66th birthday
+
+        expect(() => OAS.validateRequestDate(requestDate, birthDate, 0)).not.toThrow();
+    });
+
+    it('should not throw when request date equals minimum request date', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        expect(() => OAS.validateRequestDate(requestDate, birthDate, 0)).not.toThrow();
+    });
+
+    it('should throw when request date is before minimum request date', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2044-01-01'); // 64th birthday
+
+        expect(() => OAS.validateRequestDate(requestDate, birthDate, 0)).toThrow('Invalid request date');
+    });
+
+    it('should throw when request date is before adjusted minimum for years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2046-01-01'); // 66th birthday, but needs 68 with 40 years outside
+
+        expect(() => OAS.validateRequestDate(requestDate, birthDate, 40)).toThrow('Invalid request date');
+    });
+
+    it('should not throw when request date meets adjusted minimum for years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2048-01-01'); // 68th birthday
+
+        expect(() => OAS.validateRequestDate(requestDate, birthDate, 40)).not.toThrow();
+    });
+});
+describe('getResidencyYearsAtRequest', () => {
+    it('should return full residency when no years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getResidencyYearsAtRequest(birthDate, requestDate, 0);
+
+        expect(result).toBe(47); // 65 - 18 = 47 years
+    });
+
+    it('should return reduced residency when years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getResidencyYearsAtRequest(birthDate, requestDate, 10);
+
+        expect(result).toBe(37); // 65 - 18 - 10 = 37 years
+    });
+
+    it('should return 0 when years outside Canada exceed possible residency', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getResidencyYearsAtRequest(birthDate, requestDate, 50);
+
+        expect(result).toBe(0);
+    });
+
+    it('should increase residency years with later request date', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2050-01-01'); // 70th birthday
+
+        const result = OAS.getResidencyYearsAtRequest(birthDate, requestDate, 10);
+
+        expect(result).toBe(42); // 70 - 18 - 10 = 42 years
+    });
+});
+describe('getRequestDateMonthsDeferred', () => {
+    it('should return 0 when requesting at minimum age', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 0);
+
+        expect(result).toBe(0);
+    });
+
+    it('should return 12 when requesting 1 year after minimum age', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2046-01-01'); // 66th birthday
+
+        const result = OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 0);
+
+        expect(result).toBe(12);
+    });
+
+    it('should return 60 when requesting at maximum age (70)', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2050-01-01'); // 70th birthday
+
+        const result = OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 0);
+
+        expect(result).toBe(60);
+    });
+
+    it('should cap at 60 months when requesting after maximum age', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2055-01-01'); // 75th birthday
+
+        const result = OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 0);
+
+        expect(result).toBe(60);
+    });
+
+    it('should throw when request date is before minimum', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2044-01-01'); // 64th birthday
+
+        expect(() => OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 0)).toThrow('Invalid request date');
+    });
+
+    it('should calculate correctly with years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2050-01-01'); // 70th birthday, minimum is 68 with 40 years outside
+
+        const result = OAS.getRequestDateMonthsDeferred(birthDate, requestDate, 40);
+
+        expect(result).toBe(24); // 70 - 68 = 2 years = 24 months
+    });
+});
+describe('isFullResidencyAtMinOASAge', () => {
+    it('should return true when residency years at 65 is >= 40', () => {
+        const birthDate = new Date('1980-01-01');
+
+        const result = OAS.isFullResidencyAtMinOASAge(birthDate, 0);
+
+        expect(result).toBe(true); // 65 - 18 = 47 years residency
+    });
+
+    it('should return true when residency years at 65 is exactly 40', () => {
+        const birthDate = new Date('1980-01-01');
+
+        const result = OAS.isFullResidencyAtMinOASAge(birthDate, 7);
+
+        expect(result).toBe(true); // 65 - 18 - 7 = 40 years residency
+    });
+
+    it('should return false when residency years at 65 is less than 40', () => {
+        const birthDate = new Date('1980-01-01');
+
+        const result = OAS.isFullResidencyAtMinOASAge(birthDate, 10);
+
+        expect(result).toBe(false); // 65 - 18 - 10 = 37 years residency
+    });
+
+    it('should return false when many years outside Canada', () => {
+        const birthDate = new Date('1980-01-01');
+
+        const result = OAS.isFullResidencyAtMinOASAge(birthDate, 30);
+
+        expect(result).toBe(false); // 65 - 18 - 30 = 17 years residency
+    });
+});
+describe('getDeferredRequestAmount', () => {
+    it('should return base monthly payment when no deferral', () => {
+        const result = OAS.getDeferredRequestAmount(0);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX);
+    });
+
+    it('should increase payment for each month deferred', () => {
+        const result = OAS.getDeferredRequestAmount(12);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * (1 + (OAS.MONTHLY_DELAY_BONUS * 12)));
+    });
+
+    it('should apply ratio for partial residency', () => {
+        const ratio = 0.5;
+        const result = OAS.getDeferredRequestAmount(0, ratio);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * ratio);
+    });
+
+    it('should apply both ratio and deferral bonus', () => {
+        const ratio = 0.75;
+        const monthsDeferred = 24;
+        const result = OAS.getDeferredRequestAmount(monthsDeferred, ratio);
+
+        expect(result).toBe((ratio * OAS.MONTHLY_PAYMENT_MAX) * (1 + (OAS.MONTHLY_DELAY_BONUS * monthsDeferred)));
+    });
+
+    it('should return maximum deferral bonus at 60 months', () => {
+        const result = OAS.getDeferredRequestAmount(60);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * (1 + (OAS.MONTHLY_DELAY_BONUS * 60)));
+    });
+});
+describe('getMonthlyOASAmount', () => {
+    it('should return full payment at minimum age with full residency', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 0);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX);
+    });
+
+    it('should return increased payment when deferring with full residency', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2050-01-01'); // 70th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 0);
+
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * (1 + (OAS.MONTHLY_DELAY_BONUS * 60)));
+    });
+
+    it('should throw when request date is before minimum', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2044-01-01'); // 64th birthday
+
+        expect(() => OAS.getMonthlyOASAmount(birthDate, requestDate, 0)).toThrow('Invalid request date');
+    });
+
+    it('should return partial payment with partial residency', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 27);
+
+        // residency = 65 - 18 - 27 = 20 years
+        // ratio = 20 / 40 = 0.5
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * 0.5);
+    });
+
+    it('should choose best option between deferral and residency accumulation', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2050-01-01'); // 70th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 27);
+
+        // Option 1: Deferral from min age (65) with ratio at min age
+        // residency at 65 = 65 - 18 - 27 = 20 years, ratio = 0.5
+        // deferral bonus for 60 months = (0.5 * MONTHLY_MAX) * (1 + 0.006 * 60)
+        const deferralOption = (0.5 * OAS.MONTHLY_PAYMENT_MAX) * (1 + (OAS.MONTHLY_DELAY_BONUS * 60));
+
+        // Option 2: Residency at request date
+        // residency at 70 = 70 - 18 - 27 = 25 years, ratio = 25/40 = 0.625
+        const residencyOption = OAS.MONTHLY_PAYMENT_MAX * 0.625;
+
+        expect(result).toBe(Math.max(deferralOption, residencyOption));
+    });
+
+    it('should handle case where residency ratio maxes out before max residency years', () => {
+        const birthDate = new Date('1980-01-01');
+        const requestDate = new Date('2045-01-01'); // 65th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 5);
+
+        // residency = 65 - 18 - 5 = 42 years, but capped at 40
+        // ratio = min(42/40, 1) = 1
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX);
+    });
+});
