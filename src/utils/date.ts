@@ -15,15 +15,8 @@ export function now(): Date {
     return process.env.NODE_ENV === 'test' ? new Date('2020-01-01T12:00:00Z') : new Date();
 }
 
-export const removeTime = (date: Date): Date => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+export const resetTime = (date: Date): Date => new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
 export function getAge(birthDate: Date, atDate: Date = now()): number {
-    let age = atDate.getUTCFullYear() - birthDate.getUTCFullYear();
-    const monthDiff = atDate.getUTCMonth() - birthDate.getUTCMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && atDate.getUTCDate() < birthDate.getUTCDate())) {
-        age -= 1;
-    }
-
-    return age;
+    return Math.trunc(getMonthsDiff(birthDate, atDate) / 12);
 }

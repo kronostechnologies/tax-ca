@@ -8,7 +8,7 @@ Revised
     2026-01-05
 */
 
-import { addYearsToDate, getAge, getMonthsDiff, now, removeTime } from '../utils/date';
+import { addYearsToDate, getAge, getMonthsDiff, now, resetTime } from '../utils/date';
 import { clamp } from '../utils/math';
 
 export interface Repayment {
@@ -108,8 +108,8 @@ export const OAS: OldAgeSecurity = {
         yearsOutsideCanadaAtRequest: number,
     ): void {
         const minRequestDate = this.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest);
-        const requestDateFormatted = removeTime(requestDate);
-        const minRequestDateFormatted = removeTime(minRequestDate);
+        const requestDateFormatted = resetTime(requestDate);
+        const minRequestDateFormatted = resetTime(minRequestDate);
         if (requestDateFormatted < minRequestDateFormatted) {
             throw new Error('Invalid request date');
         }
@@ -167,7 +167,7 @@ export const OAS: OldAgeSecurity = {
             yearsOutsideCanadaAtRequest,
         );
         const ratioAtMinRequestDate = Math.min(residencyYearsAtMinRequest / OAS.MAX_RESIDENCY, 1);
-        const requestDateReportAmount = this.getDeferredRequestAmount(monthsDeferred, ratioAtMinRequestDate);
+        const requestDateDeferralAmount = this.getDeferredRequestAmount(monthsDeferred, ratioAtMinRequestDate);
 
         // Solution pour report année de résidence
         const residencyYearsAtRequest = this.getResidencyYearsAtRequest(
@@ -178,7 +178,7 @@ export const OAS: OldAgeSecurity = {
         const ratioAtRequestDate = Math.min(residencyYearsAtRequest / OAS.MAX_RESIDENCY, 1);
         const deferredResidenceRequestAmount = OAS.MONTHLY_PAYMENT_MAX * ratioAtRequestDate;
 
-        return Math.max(deferredResidenceRequestAmount, requestDateReportAmount);
+        return Math.max(deferredResidenceRequestAmount, requestDateDeferralAmount);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
