@@ -470,4 +470,15 @@ describe('getMonthlyOASAmount', () => {
         // ratio = min(42/40, 1) = 1
         expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX);
     });
+
+    it('should only consider the request residency defferal amount when request is after MAX_AGE', () => {
+        const birthDate = new Date('1984-01-01');
+        const requestDate = new Date('2060-01-01'); // 65th birthday
+
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 48);
+
+        // residency = 76 - 18 - 48 = 10 years
+        // ratio = min(10/40, 1) = 0.25
+        expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX * 0.25);
+    });
 });

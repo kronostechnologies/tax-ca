@@ -176,9 +176,13 @@ export const OAS: OldAgeSecurity = {
             yearsOutsideCanadaAtRequest,
         );
         const ratioAtRequestDate = Math.min(residencyYearsAtRequest / OAS.MAX_RESIDENCY, 1);
-        const deferredResidenceRequestAmount = OAS.MONTHLY_PAYMENT_MAX * ratioAtRequestDate;
 
-        return Math.max(deferredResidenceRequestAmount, requestDateDeferralAmount);
+        const deferredResidenceRequestAmount = OAS.MONTHLY_PAYMENT_MAX * ratioAtRequestDate;
+        const ageAtRequest = getAge(birthDate, requestDate) as number;
+
+        return ageAtRequest > OAS.MAX_AGE
+            ? deferredResidenceRequestAmount
+            : Math.max(deferredResidenceRequestAmount, requestDateDeferralAmount);
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
