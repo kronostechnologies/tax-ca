@@ -501,9 +501,9 @@ describe('getMonthlyOASAmount', () => {
 
     it('should only consider the request residency defferal amount when request is after MAX_AGE', () => {
         const birthDate = new Date('1984-01-01');
-        const requestDate = new Date('2060-01-01'); // 65th birthday
+        const requestDate = new Date('2059-01-01'); // 75th birthday
 
-        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 48);
+        const result = OAS.getMonthlyOASAmount(birthDate, requestDate, 47);
 
         // residency = 76 - 18 - 48 = 10 years
         // ratio = min(10/40, 1) = 0.25
