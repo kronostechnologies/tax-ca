@@ -180,9 +180,13 @@ export const OAS: OldAgeSecurity = {
         const deferredResidenceRequestAmount = OAS.MONTHLY_PAYMENT_MAX * ratioAtRequestDate;
         const ageAtRequest = getAge(birthDate, requestDate) as number;
 
-        return ageAtRequest > OAS.MAX_AGE
+        const increaseFromAge = getAge(birthDate, requestDate) > OAS.INCREASE.AGE ? 1 + OAS.INCREASE.RATE : 1;
+
+        const amount = ageAtRequest > OAS.MAX_AGE
             ? deferredResidenceRequestAmount
             : Math.max(deferredResidenceRequestAmount, requestDateDeferralAmount);
+
+        return amount * increaseFromAge;
     },
     MAX_AGE: 70,
     MIN_AGE: 65,
