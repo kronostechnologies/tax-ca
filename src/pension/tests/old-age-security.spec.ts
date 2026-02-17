@@ -471,6 +471,34 @@ describe('getMonthlyOASAmount', () => {
         expect(result).toBe(OAS.MONTHLY_PAYMENT_MAX);
     });
 
+    it('should increase payment by 10% when recipient is over 75 years old', () => {
+        const cases = [
+            {
+                birthDate: new Date('1953-01-01T00:00:00Z'),
+                requestDate: new Date('2036-01-01T00:00:00Z'),
+                yearsOutsideCanadaBeforeOAS: 55,
+                expected: (10 / 40) * OAS.MONTHLY_PAYMENT_MAX * 1.1,
+            },
+            {
+                birthDate: new Date('1950-01-01T00:00:00Z'),
+                requestDate: new Date('2055-01-01T00:00:00Z'),
+                yearsOutsideCanadaBeforeOAS: 76,
+                expected: (11 / 40) * OAS.MONTHLY_PAYMENT_MAX * 1.1,
+            },
+        ];
+
+        cases.forEach(({
+            birthDate,
+            requestDate,
+            yearsOutsideCanadaBeforeOAS,
+            expected,
+        }) => {
+            const result = OAS.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanadaBeforeOAS);
+
+            expect(result).toBe(expected);
+        });
+    });
+
     it('should only consider the request residency defferal amount when request is after MAX_AGE', () => {
         const birthDate = new Date('1984-01-01');
         const requestDate = new Date('2060-01-01'); // 65th birthday
