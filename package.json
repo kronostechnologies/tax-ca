@@ -42,7 +42,7 @@
     "@equisoft/jest-utils": "1.8.1",
     "@equisoft/typescript-config": "2.0.0",
     "@microsoft/eslint-formatter-sarif": "3.1.0",
-    "@stylistic/eslint-plugin": "5.8.0",
+    "@stylistic/eslint-plugin": "5.9.0",
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/jest": "30.0.0",
