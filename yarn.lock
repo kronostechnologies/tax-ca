@@ -1383,16 +1383,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equisoft/jest-utils@npm:1.8.1":
-  version: 1.8.1
-  resolution: "@equisoft/jest-utils@npm:1.8.1"
+"@equisoft/jest-utils@npm:1.8.2":
+  version: 1.8.2
+  resolution: "@equisoft/jest-utils@npm:1.8.2"
   dependencies:
     pretty-format: "npm:30.2.0"
   peerDependencies:
     jest-junit: "*"
     jest-util: "*"
     ts-jest: "*"
-  checksum: 10c0/429c651e9312f7a98e550ccfd9bac355c44cedf620db0bcc739b19463ac065de0548783970728a3814a0b3e4cd8612d59d0377e9a4a4bbd456309bc6851ba0e7
+  checksum: 10c0/ebbb397c02ef5bc71f77edc891621c85d5186741266d29ca72135d3571340eb7fa54ebbcdd87f6c2eb3a4c4c93a22e901cbefca37c6a545c4b43aa10094ebe9a
   languageName: node
   linkType: hard
 
@@ -1405,14 +1405,14 @@ __metadata:
     "@babel/preset-typescript": "npm:7.28.5"
     "@equisoft/eslint-config": "npm:6.0.2"
     "@equisoft/eslint-config-typescript": "npm:6.0.2"
-    "@equisoft/jest-utils": "npm:1.8.1"
+    "@equisoft/jest-utils": "npm:1.8.2"
     "@equisoft/typescript-config": "npm:2.0.0"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
-    "@stylistic/eslint-plugin": "npm:5.9.0"
+    "@stylistic/eslint-plugin": "npm:5.10.0"
     "@types/babel__core": "npm:^7"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:30.0.0"
-    "@types/node": "npm:24.11.0"
+    "@types/node": "npm:24.12.0"
     "@typescript-eslint/eslint-plugin": "npm:8.56.1"
     "@typescript-eslint/parser": "npm:8.56.1"
     babel-jest: "npm:30.2.0"
@@ -1969,9 +1969,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylistic/eslint-plugin@npm:5.9.0":
-  version: 5.9.0
-  resolution: "@stylistic/eslint-plugin@npm:5.9.0"
+"@stylistic/eslint-plugin@npm:5.10.0":
+  version: 5.10.0
+  resolution: "@stylistic/eslint-plugin@npm:5.10.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.9.1"
     "@typescript-eslint/types": "npm:^8.56.0"
@@ -1981,7 +1981,7 @@ __metadata:
     picomatch: "npm:^4.0.3"
   peerDependencies:
     eslint: ^9.0.0 || ^10.0.0
-  checksum: 10c0/d1953a08ea3df6b5a885509c9763b08d59c173e9c512146e1d2b99a7a377dab94aaabc81369d329c38b7e8434eb80a080a6973c0fd7003d7a8c69a4ccb6f5d05
+  checksum: 10c0/2cc6e592d5b2ab691290cc39ed377c0f6226667b367ffc6a0bf3a4bf6dd36b011d17c83f377600a48946f6bb037390b35a8b3c273b3c40d161c00b44512a129e
   languageName: node
   linkType: hard
 
@@ -2093,12 +2093,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.11.0":
-  version: 24.11.0
-  resolution: "@types/node@npm:24.11.0"
+"@types/node@npm:24.12.0":
+  version: 24.12.0
+  resolution: "@types/node@npm:24.12.0"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10c0/4fb7390259e3b158d25dbecf52de8ce70fa18a4ed0949c9444bb6384517c361fa19781e6821ca8c18dc5f6af43eab72e9e159e07000e6b1286d082e8585d8c41
+  checksum: 10c0/8b31c0af5b5474f13048a4e77c57f22cd4f8fe6e58c4b6fde9456b0c13f46a5bfaf5744ff88fd089581de9f0d6e99c584e022681de7acb26a58d258c654c4843
   languageName: node
   linkType: hard
 
