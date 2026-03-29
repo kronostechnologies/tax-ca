@@ -58,7 +58,7 @@
     "jest-junit": "16.0.0",
     "jest-util": "30.3.0",
     "ts-jest": "29.4.6",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "yargs": "18.0.0"
   },
   "resolutions": {
