@@ -17,11 +17,17 @@ const config = {
 
     transformIgnorePatterns: ['/node_modules/'],
     transform: {
-        '^.+\\.ts?$': ['ts-jest', {
-            tsconfig: './tsconfig.json',
-        },
-        ],
-        '^.+\\.(js)$': 'babel-jest',
+        '^.+\\.[tj]s$': ['@swc/jest', {
+            jsc: {
+                parser: {
+                    syntax: 'typescript',
+                },
+                target: 'es2022',
+            },
+            module: {
+                type: 'commonjs',
+            },
+        }],
     },
 
 };
