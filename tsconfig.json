@@ -3,11 +3,13 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
+    "types": ["node", "jest"],
     "noEmitOnError": true,
+    "rootDir": "./src",
     "outDir": "dist",
-    "baseUrl": "./src/",
-    "paths": {},
     "declaration": true,
     "declarationDir": "dist"
   },
@@ -15,6 +17,6 @@
     "src/**/*"
   ],
   "exclude": [
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
   ]
 }
