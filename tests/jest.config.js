@@ -22,7 +22,7 @@ const config = {
                 parser: {
                     syntax: 'typescript',
                 },
-                target: 'es2022',
+                target: 'esnext',
             },
             module: {
                 type: 'commonjs',
