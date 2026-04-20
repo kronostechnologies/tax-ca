@@ -57,7 +57,7 @@
     "yargs": "18.0.0"
   },
   "resolutions": {
-    "glob": "^11.1.0"
+    "glob": "^13.0.0"
   },
   "packageManager": "yarn@4.14.1"
 }
