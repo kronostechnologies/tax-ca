@@ -28,6 +28,7 @@ export interface IPFStatistics {
     BORROWING_RATE: number;
 }
 
+const foreignMarketEquities = 0.066;
 export const IPF: IPFStatistics = {
     INFLATION: 0.021,
     PERFORMANCE_RATE: 0.01,
@@ -37,8 +38,8 @@ export const IPF: IPFStatistics = {
         FIXED_INCOME: 0.032,
         CANADIAN_EQUITIES: 0.063,
         US_EQUITIES: 0.064,
-        INTL_DEVELOPED_MARKET_EQUITIES: 0.065,
-        FOREIGN_DEVELOPED_MARKET_EQUITIES: 0.065,
+        INTL_DEVELOPED_MARKET_EQUITIES: foreignMarketEquities,
+        FOREIGN_DEVELOPED_MARKET_EQUITIES: foreignMarketEquities,
         EMERGING_MARKET_EQUITIES: 0.075,
         CONSERVATIVE_PORTFOLIO: 0.027,
         BALANCED_PORTFOLIO: 0.034,
