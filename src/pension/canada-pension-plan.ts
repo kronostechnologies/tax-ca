@@ -23,8 +23,9 @@ export const CPP: PublicPensionPlan = {
         // Year's additional maximum pensionable earnings (YAMPE)
         YAMPE: 85000,
         // Year's additional maximum pensionable earnings (YAMPE) of the last 5 year (including current year)
-        // YMPE to YAMPE factore used is 1.139 + rounded, to stay conservative in our projections.
-        YAMPE_AVG_5: 77800,
+        // eslint-disable-next-line max-len
+        // YMPE growth factor of a specific year is used to project YAMPE of that specific year + rounded, to stay conservative in our projections.
+        YAMPE_AVG_5: 75985,
     },
     CONTRIBUTION_RATES: {
         BASE: 0.0595,
