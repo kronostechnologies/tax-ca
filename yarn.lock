@@ -409,42 +409,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config-typescript@npm:6.0.2":
-  version: 6.0.2
-  resolution: "@equisoft/eslint-config-typescript@npm:6.0.2"
+"@equisoft/eslint-config-typescript@npm:6.0.3":
+  version: 6.0.3
+  resolution: "@equisoft/eslint-config-typescript@npm:6.0.3"
   dependencies:
-    "@equisoft/eslint-config": "npm:6.0.2"
+    "@equisoft/eslint-config": "npm:6.0.3"
   peerDependencies:
     "@microsoft/eslint-formatter-sarif": ^3
     "@stylistic/eslint-plugin": ^5
     "@typescript-eslint/eslint-plugin": ^8.0.0
     "@typescript-eslint/parser": ^8.0.0
     eslint: ^8
-    eslint-import-resolver-node: ^0.3
+    eslint-import-resolver-node: ^0.3 || ^0.4.0
     eslint-import-resolver-typescript: ^4.0.0
     eslint-plugin-import: ^2
     yargs: ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/48decc0548dfd288eee67d19deeab16325e24a1a66c09879e48db3911c3f112aaa8f008ab5b8767581c5a7d55c1c340144acc265ea4eb1e5e5cf9800dda8948b
+  checksum: 10c0/02b01fd4add71849b5d64eada1594919d95f2e03706db1536b3d7be25b19f67d331c2c5be519280f5dab176aed256cd43e760bd9fa09e808acba93d2f4aad95c
   languageName: node
   linkType: hard
 
-"@equisoft/eslint-config@npm:6.0.2":
-  version: 6.0.2
-  resolution: "@equisoft/eslint-config@npm:6.0.2"
+"@equisoft/eslint-config@npm:6.0.3":
+  version: 6.0.3
+  resolution: "@equisoft/eslint-config@npm:6.0.3"
   dependencies:
     eslint-config-airbnb-base: "npm:^15.0.0"
   peerDependencies:
     "@microsoft/eslint-formatter-sarif": ^3
     "@stylistic/eslint-plugin": ^5
     eslint: ^8
-    eslint-import-resolver-node: ^0.3
+    eslint-import-resolver-node: ^0.3 || ^0.4.0
     eslint-plugin-import: ^2
     yargs: ^18.0.0
   bin:
     eq-eslint: eslint.js
-  checksum: 10c0/3812255e5b0e7caa6f7192c3316081977a4f639b12270676f57b673f78c300f637e66d375cc248a52167da0f383d59501c73baf203df74aef81c3d7eaa73c672
+  checksum: 10c0/4fc5b1cbe659a98b428e129441f281c821c49d1df31188761a9c67d4a012a99998dadace1a224d71cb763d2735ac3a7eed4be6480e7866639f3cd6928b16aa63
   languageName: node
   linkType: hard
 
@@ -465,8 +465,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@equisoft/tax-ca@workspace:."
   dependencies:
-    "@equisoft/eslint-config": "npm:6.0.2"
-    "@equisoft/eslint-config-typescript": "npm:6.0.2"
+    "@equisoft/eslint-config": "npm:6.0.3"
+    "@equisoft/eslint-config-typescript": "npm:6.0.3"
     "@equisoft/jest-utils": "npm:1.8.4"
     "@equisoft/typescript-config": "npm:2.0.1"
     "@microsoft/eslint-formatter-sarif": "npm:3.1.0"
