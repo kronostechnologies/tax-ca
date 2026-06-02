@@ -1,11 +1,14 @@
 import {
     getFederalBaseCredit, getFederalBaseTaxAmount,
-    getFederalTaxAmount, getProvincialAbatement,
+    getFederalBasicPersonalAmount,
+    getFederalTaxAmount,
+    getProvincialAbatement,
     getProvincialBaseCredit,
     getProvincialBaseTaxAmount,
     getProvincialSurtaxAmount,
     getProvincialTaxAmount,
 } from '../income-tax';
+import { roundToPrecision } from '../../utils';
 
 describe('getTaxAMount', () => {
     describe('getProvincialTaxAmount', () => {
@@ -74,7 +77,7 @@ describe('getTaxAMount', () => {
             const yearsToInflate = 0;
             const taxCredit = 1000;
             const federalBaseTaxAmount = getFederalBaseTaxAmount(grossIncome, inflationRate, yearsToInflate);
-            const baseCredit = getFederalBaseCredit(inflationRate, yearsToInflate);
+            const baseCredit = getFederalBaseCredit(grossIncome, inflationRate, yearsToInflate);
             const federalTax = Math.max(federalBaseTaxAmount - baseCredit - taxCredit, 0);
             const abatement = getProvincialAbatement(province, federalTax);
 
@@ -88,5 +91,41 @@ describe('getTaxAMount', () => {
 
             expect(federalTaxAmount).toBe(federalTax - abatement);
         });
+    });
+
+    describe('getFederalBasePersonalAmount', () => {
+        it.each([
+            { grossIncome: 60000, expectedBPA: 16452.00 },
+            { grossIncome: 150000, expectedBPA: 16452.00 },
+            { grossIncome: 181440, expectedBPA: 16452.00 },
+            { grossIncome: 210000, expectedBPA: 15850.34 },
+            { grossIncome: 221435, expectedBPA: 15609.45 },
+            { grossIncome: 258482, expectedBPA: 14829.00 },
+            { grossIncome: 300000, expectedBPA: 14829.00 },
+        ])(
+            'should return BPA=$expectedBPA for income $grossIncome',
+            ({ grossIncome, expectedBPA }) => {
+                const bpa = getFederalBasicPersonalAmount(grossIncome, 0, 0);
+                expect(roundToPrecision(bpa, 2)).toBe(expectedBPA);
+            },
+        );
+    });
+
+    describe('getFederalBaseCredit', () => {
+        it.each([
+            { grossIncome: 60000, expectedCredit: 2303.28 },
+            { grossIncome: 150000, expectedCredit: 2303.28 },
+            { grossIncome: 181440, expectedCredit: 2303.28 },
+            { grossIncome: 210000, expectedCredit: 2219.05 },
+            { grossIncome: 221435, expectedCredit: 2185.32 },
+            { grossIncome: 258482, expectedCredit: 2076.06 },
+            { grossIncome: 300000, expectedCredit: 2076.06 },
+        ])(
+            'should return credit=$expectedCredit for income $grossIncome',
+            ({ grossIncome, expectedCredit }) => {
+                const credit = getFederalBaseCredit(grossIncome, 0, 0);
+                expect(roundToPrecision(credit, 2)).toBe(expectedCredit);
+            },
+        );
     });
 });

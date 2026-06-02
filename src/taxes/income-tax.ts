@@ -19,7 +19,7 @@ export interface Rate {
 export interface TaxBracket {
     ABATEMENT: number;
     TAX_CREDIT_RATE: number;
-    BASE_TAX_CREDIT: number;
+    BASIC_PERSONAL_AMOUNT: number | { MIN: number; MAX: number };
     RATES: Rate[];
     SURTAX_RATES: Rate[];
 }
@@ -30,7 +30,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     CA: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.14,
-        BASE_TAX_CREDIT: 16452,
+        BASIC_PERSONAL_AMOUNT: { MIN: 14829, MAX: 16452 },
         RATES: [{
             FROM: 0,
             TO: 58523,
@@ -61,7 +61,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     AB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.08,
-        BASE_TAX_CREDIT: 22769,
+        BASIC_PERSONAL_AMOUNT: 22769,
         RATES: [{
             FROM: 0,
             TO: 61200,
@@ -96,7 +96,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     BC: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0506,
-        BASE_TAX_CREDIT: 13216,
+        BASIC_PERSONAL_AMOUNT: 13216,
         RATES: [{
             FROM: 0,
             TO: 50363,
@@ -135,7 +135,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     MB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.108,
-        BASE_TAX_CREDIT: 15780,
+        BASIC_PERSONAL_AMOUNT: 15780,
         RATES: [{
             FROM: 0,
             TO: 47000,
@@ -158,7 +158,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     NB: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.094,
-        BASE_TAX_CREDIT: 13664,
+        BASIC_PERSONAL_AMOUNT: 13664,
         RATES: [{
             FROM: 0,
             TO: 52333,
@@ -185,7 +185,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     NL: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.087,
-        BASE_TAX_CREDIT: 11188,
+        BASIC_PERSONAL_AMOUNT: 11188,
         RATES: [{
             FROM: 0,
             TO: 44678,
@@ -228,7 +228,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     NS: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0879,
-        BASE_TAX_CREDIT: 11932,
+        BASIC_PERSONAL_AMOUNT: 11932,
         RATES: [{
             FROM: 0,
             TO: 30995,
@@ -259,7 +259,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     PE: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.095,
-        BASE_TAX_CREDIT: 15000,
+        BASIC_PERSONAL_AMOUNT: 15000,
         RATES: [{
             FROM: 0,
             TO: 33928,
@@ -290,7 +290,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     ON: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.0505,
-        BASE_TAX_CREDIT: 12989,
+        BASIC_PERSONAL_AMOUNT: 12989,
         RATES: [{
             FROM: 0,
             TO: 53891,
@@ -329,7 +329,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     QC: {
         ABATEMENT: 0.165,
         TAX_CREDIT_RATE: 0.14,
-        BASE_TAX_CREDIT: 18952,
+        BASIC_PERSONAL_AMOUNT: 18952,
         RATES: [{
             FROM: 0,
             TO: 54345,
@@ -356,7 +356,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     SK: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.105,
-        BASE_TAX_CREDIT: 20381,
+        BASIC_PERSONAL_AMOUNT: 20381,
         RATES: [{
             FROM: 0,
             TO: 54532,
@@ -379,7 +379,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     NT: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.059,
-        BASE_TAX_CREDIT: 18198,
+        BASIC_PERSONAL_AMOUNT: 18198,
         RATES: [{
             FROM: 0,
             TO: 53003,
@@ -406,7 +406,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     NU: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.04,
-        BASE_TAX_CREDIT: 19659,
+        BASIC_PERSONAL_AMOUNT: 19659,
         RATES: [{
             FROM: 0,
             TO: 55801,
@@ -433,7 +433,7 @@ export const TAX_BRACKETS: TaxBrackets = {
     YT: {
         ABATEMENT: 0,
         TAX_CREDIT_RATE: 0.14,
-        BASE_TAX_CREDIT: 16452,
+        BASIC_PERSONAL_AMOUNT: 16452,
         RATES: [{
             FROM: 0,
             TO: 58523,
@@ -509,8 +509,32 @@ export function getFederalTaxCreditRate(): number {
     return TAX_BRACKETS.CA.TAX_CREDIT_RATE;
 }
 
-export function getFederalBaseCredit(inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS.CA.BASE_TAX_CREDIT * getFederalTaxCreditRate();
+export function getFederalBasicPersonalAmount(
+    grossIncome: number,
+    inflationRate: number,
+    yearsToInflate: number,
+): number {
+    const bpaConfig = TAX_BRACKETS.CA.BASIC_PERSONAL_AMOUNT;
+    const maxBPA = typeof bpaConfig === 'number' ? bpaConfig : bpaConfig.MAX;
+    const minBPA = typeof bpaConfig === 'number' ? bpaConfig : bpaConfig.MIN;
+    const bonus = maxBPA - minBPA;
+    const rates = TAX_BRACKETS.CA.RATES;
+    const lowerThreshold = inflate(rates[rates.length - 2].FROM, inflationRate, yearsToInflate);
+    const upperThreshold = inflate(rates[rates.length - 2].TO, inflationRate, yearsToInflate);
+
+    if (grossIncome <= lowerThreshold) {
+        return maxBPA;
+    }
+    if (grossIncome >= upperThreshold) {
+        return minBPA;
+    }
+    const reduction = bonus * (grossIncome - lowerThreshold) / (upperThreshold - lowerThreshold);
+    return maxBPA - reduction;
+}
+
+export function getFederalBaseCredit(grossIncome: number, inflationRate: number, yearsToInflate: number): number {
+    const bpa = getFederalBasicPersonalAmount(grossIncome, inflationRate, yearsToInflate);
+    const baseTaxCredit = bpa * getFederalTaxCreditRate();
     return inflate(baseTaxCredit, inflationRate, yearsToInflate);
 }
 
@@ -526,7 +550,7 @@ export function getFederalTaxAmount(
     taxCredit = 0,
 ): number {
     const federalBaseTaxAmount = getFederalBaseTaxAmount(grossIncome, inflationRate, yearsToInflate);
-    const baseCredit = getFederalBaseCredit(inflationRate, yearsToInflate);
+    const baseCredit = getFederalBaseCredit(grossIncome, inflationRate, yearsToInflate);
     const federalTax = Math.max(federalBaseTaxAmount - baseCredit - taxCredit, 0);
     const abatement = getProvincialAbatement(provincialCode, federalTax);
     return Math.max(federalTax - abatement, 0);
@@ -551,7 +575,9 @@ export function getProvincialBaseTaxAmount(
 }
 
 export function getProvincialBaseCredit(province: ProvinceCode, inflationRate: number, yearsToInflate: number): number {
-    const baseTaxCredit = TAX_BRACKETS[province].BASE_TAX_CREDIT * TAX_BRACKETS[province].RATES[0].RATE;
+    const bpaConfig = TAX_BRACKETS[province].BASIC_PERSONAL_AMOUNT;
+    const bpa = typeof bpaConfig === 'number' ? bpaConfig : bpaConfig.MAX;
+    const baseTaxCredit = bpa * TAX_BRACKETS[province].RATES[0].RATE;
     return inflate(baseTaxCredit, inflationRate, yearsToInflate);
 }
 
