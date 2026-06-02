@@ -1,6 +1,6 @@
 import {
     getFederalBaseCredit, getFederalBaseTaxAmount,
-    getFederalBasePersonalAmount,
+    getFederalBasicPersonalAmount,
     getFederalTaxAmount,
     getProvincialAbatement,
     getProvincialBaseCredit,
@@ -105,7 +105,7 @@ describe('getTaxAMount', () => {
         ])(
             'should return BPA=$expectedBPA for income $grossIncome',
             ({ grossIncome, expectedBPA }) => {
-                const bpa = getFederalBasePersonalAmount(grossIncome, 0, 0);
+                const bpa = getFederalBasicPersonalAmount(grossIncome, 0, 0);
                 expect(roundToPrecision(bpa, 2)).toBe(expectedBPA);
             },
         );
