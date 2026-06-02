@@ -519,8 +519,8 @@ export function getFederalBasicPersonalAmount(
     const minBPA = typeof bpaConfig === 'number' ? bpaConfig : bpaConfig.MIN;
     const bonus = maxBPA - minBPA;
     const rates = TAX_BRACKETS.CA.RATES;
-    const lowerThreshold = inflate(rates[rates.length - 1].FROM, inflationRate, yearsToInflate);
-    const upperThreshold = inflate(rates[rates.length - 1].TO, inflationRate, yearsToInflate);
+    const lowerThreshold = inflate(rates[rates.length - 2].FROM, inflationRate, yearsToInflate);
+    const upperThreshold = inflate(rates[rates.length - 2].TO, inflationRate, yearsToInflate);
 
     if (grossIncome <= lowerThreshold) {
         return maxBPA;
