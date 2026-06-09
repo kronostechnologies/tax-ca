@@ -310,18 +310,39 @@ export function getMaxWithdrawalPct(jurisdiction: ProvinceCode | FederalCode, ag
     }
 }
 
-export const YMPEUnlockingSmallBalance: ByProvince<number> = {
-    AB: 0.4,
-    BC: 0.4,
-    MB: 0.4,
-    NB: 0.4,
-    NL: 0.4,
-    NS: 0.5,
-    PE: 0.4,
-    ON: 0.4,
-    QC: 0.4,
-    SK: 0.4,
-    NT: 0.4,
-    NU: 0.4,
-    YT: 0.4,
+export interface SmallBalanceUnlockingRule {
+    // Minimum age required to be eligible. null means there is no minimum age.
+    minAge: number | null;
+    // Balance threshold, expressed as a fraction of the YMPE, below which the
+    // account is eligible for small-balance unlocking. May depend on age.
+    getThresholdPct: (age: number) => number;
+}
+
+const smallBalanceUnlockingRules: ByProvince<SmallBalanceUnlockingRule | null> = {
+    AB: { minAge: null, getThresholdPct: (age) => (age < 65 ? 0.20 : 0.40) },
+    BC: { minAge: null, getThresholdPct: (age) => (age < 65 ? 0.20 : 0.40) },
+    MB: { minAge: 65, getThresholdPct: () => 0.40 },
+    NB: { minAge: 65, getThresholdPct: () => 0.40 },
+    NL: { minAge: 65, getThresholdPct: () => 0.40 },
+    NS: { minAge: 65, getThresholdPct: () => 0.50 },
+    PE: null,
+    ON: { minAge: 55, getThresholdPct: () => 0.40 },
+    QC: { minAge: 65, getThresholdPct: () => 0.40 },
+    SK: { minAge: null, getThresholdPct: () => 0.20 },
+    NT: { minAge: 55, getThresholdPct: () => 0.50 },
+    NU: { minAge: 55, getThresholdPct: () => 0.50 },
+    YT: { minAge: 55, getThresholdPct: () => 0.50 },
+};
+
+// Returns the YMPE balance threshold (as a fraction of the YMPE) for small-balance
+// unlocking at the given age, or null when the jurisdiction has no small-balance
+// unlocking mechanism or the age requirement is not met.
+export const getYMPEUnlockingSmallBalancePct = (
+    jurisdiction: ProvinceCode,
+    age: number,
+): number | null => {
+    const rule = smallBalanceUnlockingRules[jurisdiction];
+    if (!rule) return null;
+    if (rule.minAge !== null && age < rule.minAge) return null;
+    return rule.getThresholdPct(age);
 };
