@@ -1,3 +1,6 @@
+import { addYearsToDate, getMonthsDiff } from '../utils/date';
+import { clamp } from '../utils/math';
+
 export interface Factor {
     FROM: number;
     TO: number;
@@ -87,4 +90,43 @@ export interface PublicPensionPlan {
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number;
 
     getAverageIndexationRate(): number;
+}
+
+/**
+ * Deferral/penalty factor applied to a CPP/QPP retirement pension, anchored at the reference age
+ * (65 by default, or `customReferenceDate`).
+ *
+ * The factor is a pure function of the birth date and the request date: it does not depend on the
+ * current date. For each month the request is deferred past the reference age it adds
+ * `MONTHLY_DELAY.BONUS` (up to `MAX_REQUEST_AGE`); for each month before the reference age it removes
+ * `MONTHLY_DELAY.PENALTY` (down to `MIN_REQUEST_AGE`).
+ *
+ * Returns 0 when the request date is before the minimum request age.
+ */
+export function getPublicPensionRequestDateFactor(
+    plan: PublicPensionPlan,
+    birthDate: Date,
+    requestDate: Date,
+    customReferenceDate?: Date,
+): number {
+    const { BONUS, PENALTY } = plan.MONTHLY_DELAY;
+
+    const minRequestDate = addYearsToDate(birthDate, plan.MIN_REQUEST_AGE);
+    const maxRequestDate = addYearsToDate(birthDate, plan.MAX_REQUEST_AGE);
+    const referenceDate = customReferenceDate || addYearsToDate(birthDate, plan.DEFAULT_REFERENCE_AGE);
+
+    const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
+    const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
+    const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
+    const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
+
+    // Request date is before the minimum request date
+    if (monthsToRequestDate < monthsToMinRequestDate) {
+        return 0;
+    }
+
+    const monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate)
+        - monthsToReferenceDate;
+
+    return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
 }
