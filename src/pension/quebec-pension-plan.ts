@@ -6,9 +6,8 @@ Revised
     2025-12-22
 */
 
-import { addYearsToDate, getMonthsDiff, now } from '../utils/date';
-import { clamp, roundToPrecision } from '../utils/math';
-import { PublicPensionPlan } from './public-pension-plan';
+import { roundToPrecision } from '../utils/math';
+import { getPublicPensionRequestDateFactor, PublicPensionPlan } from './public-pension-plan';
 
 export const QPP: PublicPensionPlan = {
     PENSIONABLE_EARNINGS: {
@@ -145,36 +144,7 @@ export const QPP: PublicPensionPlan = {
     },
     YEARS_TO_FULL_PENSION: 40,
     getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate?: Date): number {
-        const { BONUS, PENALTY } = this.MONTHLY_DELAY;
-
-        const minRequestDate = addYearsToDate(birthDate, this.MIN_REQUEST_AGE);
-        const maxRequestDate = addYearsToDate(birthDate, this.MAX_REQUEST_AGE);
-        const referenceDate = customReferenceDate || addYearsToDate(birthDate, this.DEFAULT_REFERENCE_AGE);
-
-        const monthsToToday = getMonthsDiff(birthDate, now());
-        const monthsToMinRequestDate = getMonthsDiff(birthDate, minRequestDate);
-        const monthsToMaxRequestDate = getMonthsDiff(birthDate, maxRequestDate);
-        const monthsToReferenceDate = getMonthsDiff(birthDate, referenceDate);
-        const monthsToRequestDate = getMonthsDiff(birthDate, requestDate);
-        const monthsToLastBirthDay = monthsToToday - (monthsToToday % 12);
-
-        // Request date is before minimum request date
-        if (monthsToRequestDate < monthsToMinRequestDate) {
-            return 0;
-        }
-        // Analysis date is after the maximum request date
-        if (monthsToMaxRequestDate < monthsToToday) {
-            return 1;
-        }
-        // Analysis date is after reference date and request date is before last birthday
-        if (monthsToToday > monthsToReferenceDate && monthsToRequestDate < monthsToLastBirthDay) {
-            return 1;
-        }
-
-        let monthsDelta = clamp(monthsToRequestDate, monthsToMinRequestDate, monthsToMaxRequestDate);
-        monthsDelta -= Math.max(monthsToLastBirthDay, monthsToReferenceDate);
-
-        return 1 + (monthsDelta * (monthsDelta >= 0 ? BONUS : PENALTY));
+        return getPublicPensionRequestDateFactor(this, birthDate, requestDate, customReferenceDate);
     },
     getAverageIndexationRate(): number {
         const sum = this.INDEXATION_RATE_REFERENCES.reduce((previous, current) => previous + current[1], 0);

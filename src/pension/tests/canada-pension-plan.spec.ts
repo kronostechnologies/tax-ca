@@ -1,7 +1,7 @@
 import { CPP } from '../canada-pension-plan';
 
 describe('getRequestDateFactor', () => {
-    it('should return 0 when request date is before the participant 65th (minimum age) birthday', () => {
+    it('should return 0 when request date is before the participant 60th (minimum age) birthday', () => {
         const birthDate = new Date('1980-01-01');
         const requestDate = new Date('2039-01-01'); // at his 59th birthday
 
@@ -10,7 +10,7 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(0);
     });
 
-    it('should return 1 when request date is exactly the same as the participant 65th (minimum age) birthday', () => {
+    it('should return 1 when request date is exactly the same as the participant 65th (reference age) birthday', () => {
         const birthDate = new Date('1980-01-01');
         const requestDate = new Date('2045-01-01'); // at his 65th birthday
 
@@ -19,27 +19,27 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1);
     });
 
-    it('should return 1 when request date is before last birthday (CPP already requested)', () => {
+    it('should count the bonus from the reference age even when the request date is in the past', () => {
         const birthDate = new Date('1953-07-01');
-        const requestDate = new Date('2019-07-01');
+        const requestDate = new Date('2019-07-01'); // on his 66th birthday, 12 months after the reference age
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1);
+        expect(ratio).toBe(1 + (12 * CPP.MONTHLY_DELAY.BONUS));
     });
 
-    it('should return factor relating to last birthday', () => {
+    it('should count the bonus from the reference age, not from the last birthday', () => {
         const birthDate = new Date('1953-07-01');
-        const requestDate = new Date('2019-09-01'); // 2 months after 66ht birthDay
+        const requestDate = new Date('2019-09-01'); // 14 months after the 65th birthday (reference age)
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + (2 * CPP.MONTHLY_DELAY.BONUS));
+        expect(ratio).toBe(1 + (14 * CPP.MONTHLY_DELAY.BONUS));
     });
 
-    it('should return factor relating to last birthday ONLY after the reference age (65 yo)', () => {
+    it('should apply the penalty when the request date is before the reference age', () => {
         const birthDate = new Date('1957-06-06');
-        const requestDate = new Date('2018-06-06'); // on 61th birthDay
+        const requestDate = new Date('2018-06-06'); // on 61th birthDay, 48 months before the reference age
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
@@ -112,22 +112,22 @@ describe('getRequestDateFactor', () => {
         expect(ratio).toBe(1 - (12 * CPP.MONTHLY_DELAY.PENALTY));
     });
 
-    it('should compute bonus from analysis year when analysis year > reference age', () => {
-        const birthDate = new Date('1953-01-01'); // 67 years old
-        const requestDate = new Date('2020-09-15'); // 8 months after 67th birthday
+    it('should count the bonus from the reference age for a request several years past 65', () => {
+        const birthDate = new Date('1953-01-01');
+        const requestDate = new Date('2020-09-15'); // 32 months after the 65th birthday (reference age)
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1 + (8 * CPP.MONTHLY_DELAY.BONUS));
+        expect(ratio).toBe(1 + (32 * CPP.MONTHLY_DELAY.BONUS));
     });
 
-    it('should return 1 when analysis year is > than MAX date', () => {
-        const birthDate = new Date('1948-01-01'); // 72 years old
-        const requestDate = new Date('2020-01-01');
+    it('should clamp to the max bonus when the request date is past the maximum request age', () => {
+        const birthDate = new Date('1948-01-01');
+        const requestDate = new Date('2020-01-01'); // on his 72nd birthday, past the 70 max request age
 
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
 
-        expect(ratio).toBe(1);
+        expect(ratio).toBe(1 + (60 * CPP.MONTHLY_DELAY.BONUS));
     });
 
     it('should use a custom reference date on calculation when given', () => {
@@ -138,5 +138,48 @@ describe('getRequestDateFactor', () => {
         const ratio = CPP.getRequestDateFactor(birthDate, requestDate, referenceDate);
 
         expect(ratio).toBe(1 + (6 * CPP.MONTHLY_DELAY.BONUS));
+    });
+
+    describe('ABF-13000 regression: bonus for clients already past the reference age', () => {
+        it('should bonify a request on the 66th birthday (DOB 1960-01-01)', () => {
+            const birthDate = new Date('1960-01-01');
+            const requestDate = new Date('2026-01-01'); // 66th birthday, 12 months past the reference age
+
+            const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
+
+            expect(ratio).toBe(1 + (12 * CPP.MONTHLY_DELAY.BONUS)); // 1.084
+        });
+
+        it('should bonify a request on the 68th birthday (DOB 1958-01-01)', () => {
+            const birthDate = new Date('1958-01-01');
+            const requestDate = new Date('2026-01-01'); // 68th birthday, 36 months past the reference age
+
+            const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
+
+            expect(ratio).toBe(1 + (36 * CPP.MONTHLY_DELAY.BONUS)); // 1.252
+        });
+
+        it('should bonify a request on the 68th birthday for a mid-year birth date (DOB 1958-08-01)', () => {
+            const birthDate = new Date('1958-08-01');
+            const requestDate = new Date('2026-08-01'); // 68th birthday, 36 months past the reference age
+
+            const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
+
+            expect(ratio).toBe(1 + (36 * CPP.MONTHLY_DELAY.BONUS)); // 1.252
+        });
+
+        it('should be independent of the current system date', () => {
+            jest.useFakeTimers().setSystemTime(new Date('2030-06-15T00:00:00Z'));
+            try {
+                const birthDate = new Date('1960-01-01');
+                const requestDate = new Date('2026-01-01'); // 66th birthday, 12 months past the reference age
+
+                const ratio = CPP.getRequestDateFactor(birthDate, requestDate);
+
+                expect(ratio).toBe(1 + (12 * CPP.MONTHLY_DELAY.BONUS));
+            } finally {
+                jest.useRealTimers();
+            }
+        });
     });
 });
