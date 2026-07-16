@@ -10,6 +10,7 @@
 build/
 node_modules/
 dist/
+.gradle/
 
 # misc
 .DS_Store
