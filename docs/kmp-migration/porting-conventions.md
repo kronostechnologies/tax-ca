@@ -44,6 +44,29 @@ comment verbatim at the top of each ported data file.
 
 ## JS facade (compatibility layer)
 
+**REVISED after consumer testing (2026-07-17):** exported data objects MUST be plain JS
+objects, NOT `@JsExport` class instances. Real consumers (kronos-fna) spread them
+(`{ ...QPP }`) and mutate them in tests (`OAS.MONTHLY_PAYMENT_MAX = 1000`); Kotlin class
+instances keep properties on the prototype as read-only getters, silently breaking both.
+Rules:
+
+- Every exported data const is `@JsExport val NAME: dynamic = buildX()` where `buildX()`
+  is a private function creating a `js("{}")` object and assigning every legacy property
+  (own, enumerable, writable). Nested objects are also plain `js("{}")` objects.
+- Methods on data objects are lambdas assigned as properties. A method must RE-READ the
+  object's current property values on every call (rebuild the common data class from the
+  JS object, e.g. `Oas.copy(monthlyPaymentMax = o.MONTHLY_PAYMENT_MAX as Double, ...)`)
+  so consumer mutations affect computations exactly like legacy `this.X` reads did.
+- Optional trailing parameters in method lambdas: type them nullable and default inside
+  (`val y = yearsOutside ?: 0`) — JS callers omit them (undefined ≈ null in Kotlin/JS).
+- Structured function OUTPUTS (e.g. `getTaxRates` rate arrays, `getConversionRules`)
+  are fresh plain-JS objects/arrays per call (legacy used structuredClone — mutable copies).
+- The generated d.ts will type these exports `any`; build.gradle.kts patches each const
+  to its legacy type and dts/overlay.d.ts declares the interfaces (copied from
+  docs/kmp-migration/api-baseline.md). Adding a new `dynamic` export without a patch
+  entry fails the build on purpose.
+
+
 Every legacy export (see `docs/kmp-migration/api-baseline.md` for the contract) gets a
 facade declaration in the module's `<Module>Facade.kt`:
 

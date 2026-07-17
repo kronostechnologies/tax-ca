@@ -54,50 +54,34 @@ val CONSUMER_PRICE_INDEX: dynamic = run {
 
 // ipf-stats
 
-@JsExport
-class ReturnRates internal constructor(
-    val SHORT_TERM: Double,
-    val FIXED_INCOME: Double,
-    val CANADIAN_EQUITIES: Double,
-    val US_EQUITIES: Double,
-    @Deprecated("Use FOREIGN_DEVELOPED_MARKET_EQUITIES instead. Will be removed in a future version.")
-    val INTL_DEVELOPED_MARKET_EQUITIES: Double,
-    val FOREIGN_DEVELOPED_MARKET_EQUITIES: Double,
-    val EMERGING_MARKET_EQUITIES: Double,
-    val CONSERVATIVE_PORTFOLIO: Double,
-    val BALANCED_PORTFOLIO: Double,
-    val DYNAMIC_PORTFOLIO: Double,
-)
+private fun buildReturnRates(): dynamic {
+    val obj = js("{}")
+    obj.SHORT_TERM = CommonIpf.returnRates.shortTerm
+    obj.FIXED_INCOME = CommonIpf.returnRates.fixedIncome
+    obj.CANADIAN_EQUITIES = CommonIpf.returnRates.canadianEquities
+    obj.US_EQUITIES = CommonIpf.returnRates.usEquities
+    // Deprecated legacy alias: same value as FOREIGN_DEVELOPED_MARKET_EQUITIES.
+    obj.INTL_DEVELOPED_MARKET_EQUITIES = CommonIpf.returnRates.foreignDevelopedMarketEquities
+    obj.FOREIGN_DEVELOPED_MARKET_EQUITIES = CommonIpf.returnRates.foreignDevelopedMarketEquities
+    obj.EMERGING_MARKET_EQUITIES = CommonIpf.returnRates.emergingMarketEquities
+    obj.CONSERVATIVE_PORTFOLIO = CommonIpf.returnRates.conservativePortfolio
+    obj.BALANCED_PORTFOLIO = CommonIpf.returnRates.balancedPortfolio
+    obj.DYNAMIC_PORTFOLIO = CommonIpf.returnRates.dynamicPortfolio
+    return obj
+}
+
+private fun buildIpf(): dynamic {
+    val obj = js("{}")
+    obj.INFLATION = CommonIpf.inflation
+    obj.PERFORMANCE_RATE = CommonIpf.performanceRate
+    obj.YMPE_GROWTH_RATE = CommonIpf.ympeGrowthRate
+    obj.RETURN_RATES = buildReturnRates()
+    obj.BORROWING_RATE = CommonIpf.borrowingRate
+    return obj
+}
 
 @JsExport
-class IPFStatistics internal constructor(
-    val INFLATION: Double,
-    val PERFORMANCE_RATE: Double,
-    val YMPE_GROWTH_RATE: Double,
-    val RETURN_RATES: ReturnRates,
-    val BORROWING_RATE: Double,
-)
-
-@JsExport
-val IPF: IPFStatistics = IPFStatistics(
-    INFLATION = CommonIpf.inflation,
-    PERFORMANCE_RATE = CommonIpf.performanceRate,
-    YMPE_GROWTH_RATE = CommonIpf.ympeGrowthRate,
-    RETURN_RATES = ReturnRates(
-        SHORT_TERM = CommonIpf.returnRates.shortTerm,
-        FIXED_INCOME = CommonIpf.returnRates.fixedIncome,
-        CANADIAN_EQUITIES = CommonIpf.returnRates.canadianEquities,
-        US_EQUITIES = CommonIpf.returnRates.usEquities,
-        // Deprecated legacy alias: same value as FOREIGN_DEVELOPED_MARKET_EQUITIES.
-        INTL_DEVELOPED_MARKET_EQUITIES = CommonIpf.returnRates.foreignDevelopedMarketEquities,
-        FOREIGN_DEVELOPED_MARKET_EQUITIES = CommonIpf.returnRates.foreignDevelopedMarketEquities,
-        EMERGING_MARKET_EQUITIES = CommonIpf.returnRates.emergingMarketEquities,
-        CONSERVATIVE_PORTFOLIO = CommonIpf.returnRates.conservativePortfolio,
-        BALANCED_PORTFOLIO = CommonIpf.returnRates.balancedPortfolio,
-        DYNAMIC_PORTFOLIO = CommonIpf.returnRates.dynamicPortfolio,
-    ),
-    BORROWING_RATE = CommonIpf.borrowingRate,
-)
+val IPF: dynamic = buildIpf()
 
 // life-expectancy
 
@@ -109,38 +93,29 @@ private fun ageMapToJsObject(map: Map<Int, Int>): dynamic {
     return obj
 }
 
-@JsExport
-class CombinedLifeExpectancy internal constructor(
-    val MALE: dynamic,
-    val FEMALE: dynamic,
-)
+private fun buildLifeExpectancy(): dynamic {
+    val obj = js("{}")
+    obj.MALE = ageMapToJsObject(CommonLifeExpectancy.male)
+    obj.FEMALE = ageMapToJsObject(CommonLifeExpectancy.female)
+    return obj
+}
 
 @JsExport
-val LIFE_EXPECTANCY: CombinedLifeExpectancy = CombinedLifeExpectancy(
-    MALE = ageMapToJsObject(CommonLifeExpectancy.male),
-    FEMALE = ageMapToJsObject(CommonLifeExpectancy.female),
-)
+val LIFE_EXPECTANCY: dynamic = buildLifeExpectancy()
 
 // ppp-increase-factor
 
-@JsExport
-class PPPIncreaseFactor internal constructor(
-    val FIRST_YEAR: Double,
-    val SECOND_YEAR: Double,
-    val THIRD_YEAR: Double,
-    val FOURTH_YEAR: Double,
-    val FIFTH_YEAR: Double,
-    val SIXTH_YEAR: Double,
-    val SEVENTH_YEAR: Double,
-)
+private fun buildPppIncreaseFactor(): dynamic {
+    val obj = js("{}")
+    obj.FIRST_YEAR = CommonPppIncreaseFactor.firstYear
+    obj.SECOND_YEAR = CommonPppIncreaseFactor.secondYear
+    obj.THIRD_YEAR = CommonPppIncreaseFactor.thirdYear
+    obj.FOURTH_YEAR = CommonPppIncreaseFactor.fourthYear
+    obj.FIFTH_YEAR = CommonPppIncreaseFactor.fifthYear
+    obj.SIXTH_YEAR = CommonPppIncreaseFactor.sixthYear
+    obj.SEVENTH_YEAR = CommonPppIncreaseFactor.seventhYear
+    return obj
+}
 
 @JsExport
-val PPP_INCREASE_FACTOR: PPPIncreaseFactor = PPPIncreaseFactor(
-    FIRST_YEAR = CommonPppIncreaseFactor.firstYear,
-    SECOND_YEAR = CommonPppIncreaseFactor.secondYear,
-    THIRD_YEAR = CommonPppIncreaseFactor.thirdYear,
-    FOURTH_YEAR = CommonPppIncreaseFactor.fourthYear,
-    FIFTH_YEAR = CommonPppIncreaseFactor.fifthYear,
-    SIXTH_YEAR = CommonPppIncreaseFactor.sixthYear,
-    SEVENTH_YEAR = CommonPppIncreaseFactor.seventhYear,
-)
+val PPP_INCREASE_FACTOR: dynamic = buildPppIncreaseFactor()

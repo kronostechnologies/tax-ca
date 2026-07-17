@@ -1,5 +1,7 @@
 // JS compatibility facade for src/investments (excluding registered-education-savings-plan,
 // which lives in its own facade). See docs/kmp-migration/api-baseline.md for the contract.
+// Exported data consts are plain JS objects (own, enumerable, writable properties) so
+// consumers can spread and mutate them exactly like the legacy build.
 
 @file:OptIn(ExperimentalJsExport::class)
 @file:Suppress("ClassName", "PropertyName", "NON_EXPORTABLE_TYPE")
@@ -61,20 +63,19 @@ fun getYMPEUnlockingSmallBalancePct(jurisdiction: String, age: Int): Double? {
 val MAX_CONVERSION_AGE: Int = MaxConversionAge
 
 @JsExport
-class ConversionRule internal constructor(
-    val minimumAge: Int,
-    val maximumAge: Int,
-)
-
-@JsExport
 fun getUnlockingPct(jurisdiction: String): Double? =
     commonGetUnlockingPct(Jurisdiction.fromCode(jurisdiction))
 
 @JsExport
-fun getConversionRules(jurisdiction: String): ConversionRule? =
-    commonGetConversionRules(Jurisdiction.fromCode(jurisdiction))?.let {
-        ConversionRule(minimumAge = it.minimumAge, maximumAge = it.maximumAge)
-    }
+fun getConversionRules(jurisdiction: String): dynamic {
+    // Fresh plain object per call: consumers receive a mutable { minimumAge, maximumAge }
+    // copy, so mutating one result never affects the shared rule tables.
+    val rule = commonGetConversionRules(Jurisdiction.fromCode(jurisdiction)) ?: return null
+    val obj = js("{}")
+    obj.minimumAge = rule.minimumAge
+    obj.maximumAge = rule.maximumAge
+    return obj
+}
 
 @JsExport
 fun canUnlock(jurisdiction: String): Boolean =
@@ -86,14 +87,21 @@ fun canConvert(jurisdiction: String, age: Int): Boolean =
 
 // ----- non-registered-savings-plan -----
 
+private fun buildCapitalGainsBrackets(): dynamic {
+    val arr = js("[]")
+    for (bracket in CapitalGainsBrackets) {
+        val obj = js("{}")
+        obj.FROM = bracket.from
+        // Double.POSITIVE_INFINITY compiles to JS Infinity, matching the legacy TO.
+        obj.TO = bracket.to
+        obj.RATE = bracket.rate
+        arr.push(obj)
+    }
+    return arr
+}
+
 @JsExport
-val CAPITAL_GAINS_BRACKETS: Array<dynamic> = CapitalGainsBrackets.map { bracket ->
-    val obj = js("{}")
-    obj.FROM = bracket.from
-    obj.TO = bracket.to
-    obj.RATE = bracket.rate
-    obj
-}.toTypedArray()
+val CAPITAL_GAINS_BRACKETS: dynamic = buildCapitalGainsBrackets()
 
 @JsExport
 fun getCapitalGainsTaxableAmount(totalCapitalGains: Double): Double =
@@ -101,15 +109,14 @@ fun getCapitalGainsTaxableAmount(totalCapitalGains: Double): Double =
 
 // ----- registered-retirement-income-fund -----
 
-@JsExport
-class RegisteredRetirementIncomeFund internal constructor(
-    val MIN_WITHDRAWAL_PCT: dynamic,
-)
+private fun buildRrif(): dynamic {
+    val obj = js("{}")
+    obj.MIN_WITHDRAWAL_PCT = yearMapToJsObject(Rrif.minWithdrawalPct)
+    return obj
+}
 
 @JsExport
-val RRIF: RegisteredRetirementIncomeFund = RegisteredRetirementIncomeFund(
-    MIN_WITHDRAWAL_PCT = yearMapToJsObject(Rrif.minWithdrawalPct),
-)
+val RRIF: dynamic = buildRrif()
 
 @JsExport
 fun getMinimumWithdrawalPercentage(beginningOfYearAge: Int): Double =
@@ -117,41 +124,29 @@ fun getMinimumWithdrawalPercentage(beginningOfYearAge: Int): Double =
 
 // ----- registered-retirement-savings-plan -----
 
-@JsExport
-class ConversionAge internal constructor(
-    val MIN: Int,
-    val MAX: Int,
-)
+private fun buildRrsp(): dynamic {
+    val obj = js("{}")
+    val conversionAge = js("{}")
+    conversionAge.MIN = Rrsp.conversionAge.min
+    conversionAge.MAX = Rrsp.conversionAge.max
+    obj.CONVERSION_AGE = conversionAge
+    obj.MAX_CONTRIBUTION = Rrsp.maxContribution
+    return obj
+}
 
 @JsExport
-class RegisteredRetirementSavingsPlan internal constructor(
-    val CONVERSION_AGE: ConversionAge,
-    val MAX_CONTRIBUTION: Double,
-)
-
-@JsExport
-val RRSP: RegisteredRetirementSavingsPlan = RegisteredRetirementSavingsPlan(
-    CONVERSION_AGE = ConversionAge(
-        MIN = Rrsp.conversionAge.min,
-        MAX = Rrsp.conversionAge.max,
-    ),
-    MAX_CONTRIBUTION = Rrsp.maxContribution,
-)
+val RRSP: dynamic = buildRrsp()
 
 // ----- tax-free-savings-account -----
 
-@JsExport
-class TaxFreeSavingsAccount internal constructor(
-    val MAX_CONTRIBUTION: Double,
-    val UNROUNDED_MAX_CONTRIBUTION: Double,
-    val ROUNDING_FACTOR: Double,
-    val UPDATE_YEAR: Int,
-)
+private fun buildTfsa(): dynamic {
+    val obj = js("{}")
+    obj.MAX_CONTRIBUTION = Tfsa.maxContribution
+    obj.UNROUNDED_MAX_CONTRIBUTION = Tfsa.unroundedMaxContribution
+    obj.ROUNDING_FACTOR = Tfsa.roundingFactor
+    obj.UPDATE_YEAR = Tfsa.updateYear
+    return obj
+}
 
 @JsExport
-val TFSA: TaxFreeSavingsAccount = TaxFreeSavingsAccount(
-    MAX_CONTRIBUTION = Tfsa.maxContribution,
-    UNROUNDED_MAX_CONTRIBUTION = Tfsa.unroundedMaxContribution,
-    ROUNDING_FACTOR = Tfsa.roundingFactor,
-    UPDATE_YEAR = Tfsa.updateYear,
-)
+val TFSA: dynamic = buildTfsa()

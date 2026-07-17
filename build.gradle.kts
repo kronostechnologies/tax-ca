@@ -39,39 +39,70 @@ kotlin {
     }
 }
 
-// Hand-maintained TypeScript declaration overlay:
-// 1. dts/overlay.d.ts is APPENDED to the generated definitions (external-interface input
-//    types, literal unions, mapped types the Kotlin compiler cannot express).
-// 2. dtsPatches retypes specific generated declarations (dynamic -> any, String vs
-//    literal unions) with exact-match replacements. A missing match fails the build so
-//    Kotlin-compiler output drift is caught instead of silently shipping `any`.
-val dtsPatches = mapOf(
+// Hand-maintained TypeScript declaration overlay (dts/overlay.d.ts, appended) plus
+// declaration patches. The facade exports data as PLAIN JS objects (consumers spread and
+// mutate them), so the generated d.ts types them `any`; every such const must be mapped
+// to its legacy type below — an unmapped `any` const fails the build on purpose, as does
+// a patch line the generator no longer emits (drift detection both ways).
+val dtsConstTypes = mapOf(
+    "province1MaxWithdrawalPct" to "MaxWithdrawalPctByAge",
+    "province2MaxWithdrawalPct" to "MaxWithdrawalPctByAge",
+    "othersMaxWithdrawalPct" to "MaxWithdrawalPctByAge",
+    "federalMaxWithdrawalPct" to "MaxWithdrawalPctByAge",
+    "CAPITAL_GAINS_BRACKETS" to "Rate[]",
+    "RRIF" to "RegisteredRetirementIncomeFund",
+    "RRSP" to "RegisteredRetirementSavingsPlan",
+    "TFSA" to "TaxFreeSavingsAccount",
+    "PROVINCIAL_CODES" to "{ [key in ProvinceName]: ProvinceCode }",
+    "CONSUMER_PRICE_INDEX" to "ConsumerPriceIndex",
+    "IPF" to "IPFStatistics",
+    "LIFE_EXPECTANCY" to "CombinedLifeExpectancy",
+    "PPP_INCREASE_FACTOR" to "PPPIncreaseFactor",
+    "OAS" to "OldAgeSecurity",
+    "CPP" to "PublicPensionPlan",
+    "QPP" to "PublicPensionPlan",
+    "MONEY_PURCHASE" to "MoneyPurchasePensionPlan",
+    "SPP" to "SupplementalPensionPlan",
+    "RESP" to "{ MAX_CONTRIBUTION: number }",
+    "Beneficiary" to "Beneficiary",
+    "IncomeLevel" to "IncomeLevel",
+    "CanadaEducationSavingsGrant" to "SavingsGrant",
+    "QuebecEducationSavingsIncentive" to "SavingsGrant",
+    "CanadaLearningBond" to "CanadaLearningBond",
+    "BritishColumbiaTrainingAndEducationSavingsGrant" to "BritishColumbiaTrainingAndEducationSavingsGrant",
+    "TuitionFees" to "TuitionFees",
+    "DEFINED_BENEFIT" to "DefinedBenefitPensionPlan",
+    "TAX_BRACKETS" to "TaxBrackets",
+    "EI" to "EmploymentInsurance",
+    "QPIP" to "QuebecParentalInsurancePlan",
+    "NON_ELIGIBLE_DIVIDEND" to "DividendTaxCreditRate",
+    "ELIGIBLE_DIVIDEND" to "DividendTaxCreditRate",
+)
+
+// Exact-line signature patches (legacy signatures; overlay declares the types).
+val dtsLinePatches = mapOf(
     "export declare const FEDERAL_CODE: string;"
         to "export declare const FEDERAL_CODE: FederalCode;",
-    "export declare const PROVINCIAL_CODES: any;"
-        to "export declare const PROVINCIAL_CODES: { [key in ProvinceName]: ProvinceCode };",
-    "export declare const CONSUMER_PRICE_INDEX: any;"
-        to "export declare const CONSUMER_PRICE_INDEX: { [year: number]: { [month: string]: number } };",
-    "export declare const province1MaxWithdrawalPct: any;"
-        to "export declare const province1MaxWithdrawalPct: MaxWithdrawalPctByAge;",
-    "export declare const province2MaxWithdrawalPct: any;"
-        to "export declare const province2MaxWithdrawalPct: MaxWithdrawalPctByAge;",
-    "export declare const othersMaxWithdrawalPct: any;"
-        to "export declare const othersMaxWithdrawalPct: MaxWithdrawalPctByAge;",
-    "export declare const federalMaxWithdrawalPct: any;"
-        to "export declare const federalMaxWithdrawalPct: MaxWithdrawalPctByAge;",
-    "    get MIN_WITHDRAWAL_PCT(): any;"
-        to "    get MIN_WITHDRAWAL_PCT(): MaxWithdrawalPctByAge;",
-    "    get MALE(): any;"
-        to "    get MALE(): IndividualLifeExpectancy;",
-    "    get FEMALE(): any;"
-        to "    get FEMALE(): IndividualLifeExpectancy;",
-    "    get MAX_INCOME(): any;"
-        to "    get MAX_INCOME(): NumberByYear;",
-    "    get TuitionFeesData(): any;"
-        to "    get TuitionFeesData(): ByProvince<number>;",
-    "    get BASIC_PERSONAL_AMOUNT(): any;"
-        to "    get BASIC_PERSONAL_AMOUNT(): number | { MIN: number; MAX: number };",
+    "export declare function getConversionRules(jurisdiction: string): any;"
+        to "export declare function getConversionRules(jurisdiction: string): ConversionRule | null;",
+    "export declare function getPublicPensionRequestDateFactor(plan: any, birthDate: Date, requestDate: Date, customReferenceDate?: Nullable<Date>): number;"
+        to "export declare function getPublicPensionRequestDateFactor(plan: PublicPensionPlan, birthDate: Date, requestDate: Date, customReferenceDate?: Nullable<Date>): number;",
+    "export declare function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfigInput): any;"
+        to "export declare function initializeSavingsGrant(SavingsGrantConfig: SavingsGrantConfig): SavingsGrant;",
+    "export declare function getTaxAmount(rates: Array<RateInput>, income: number, inflationRate: number, yearsToInflate: number): number;"
+        to "export declare function getTaxAmount(rates: Rate[], income: number, inflationRate: number, yearsToInflate: number): number;",
+    "export declare function getRate(brackets: Array<RateInput>, grossIncome: number, inflationRate: number, yearsToInflate: number): number;"
+        to "export declare function getRate(brackets: Rate[], grossIncome: number, inflationRate: number, yearsToInflate: number): number;",
+    "export declare function getTaxRates(code: string): any;"
+        to "export declare function getTaxRates(code: string): Rate[];",
+    "export declare function getFederalTaxRates(): any;"
+        to "export declare function getFederalTaxRates(): Rate[];",
+)
+
+// The overlay declares `export declare enum IncomeLevelType` (value + type), so the
+// generated any-const must be removed rather than retyped.
+val dtsDeletedLines = listOf(
+    "export declare const IncomeLevelType: any;",
 )
 
 tasks.named("jsNodeProductionLibraryDistribution") {
@@ -79,11 +110,24 @@ tasks.named("jsNodeProductionLibraryDistribution") {
     doLast {
         val dts = layout.buildDirectory.file("dist/js/productionLibrary/tax-ca.d.ts").get().asFile
         var content = dts.readText()
-        for ((from, into) in dtsPatches) {
-            require(content.contains(from)) {
-                "d.ts patch target not found (generator output drifted?): $from"
-            }
+        for ((from, into) in dtsLinePatches) {
+            require(content.contains(from)) { "d.ts patch target not found (generator drifted?): $from" }
             content = content.replace(from, into)
+        }
+        for (line in dtsDeletedLines) {
+            require(content.contains(line)) { "d.ts deletion target not found (generator drifted?): $line" }
+            content = content.replace(line + "\n", "")
+        }
+        val anyConst = Regex("^export declare const (\\w+): any;$", RegexOption.MULTILINE)
+        content = anyConst.replace(content) { m ->
+            val name = m.groupValues[1]
+            val type = dtsConstTypes[name]
+                ?: error("any-typed export '$name' has no entry in dtsConstTypes — type it deliberately")
+            "export declare const $name: $type;"
+        }
+        require(!content.contains(": any;")) {
+            "untyped declarations remain in tax-ca.d.ts:\n" +
+                content.lines().filter { it.contains(": any;") }.joinToString("\n")
         }
         dts.writeText(content + "\n" + file("dts/overlay.d.ts").readText())
     }

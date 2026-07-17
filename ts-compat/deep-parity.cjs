@@ -50,10 +50,16 @@ function compareValues(label, a, b, seen = new Set()) {
         if (b === null || typeof b !== 'object') return fail(label, `object vs ${b === null ? 'null' : typeof b}`);
         if (seen.has(a)) return;
         seen.add(a);
+        const bOwnKeys = new Set(Object.keys(b));
         for (const key of Object.keys(a)) {
             if (b[key] === undefined && a[key] !== undefined) {
                 fail(`${label}.${key}`, 'missing in next build');
                 continue;
+            }
+            // Own-enumerability matters: consumers spread these objects ({...QPP}), so a
+            // property reachable only via the prototype chain is a compatibility break.
+            if (!bOwnKeys.has(key)) {
+                fail(`${label}.${key}`, 'not an own enumerable property in next build (prototype-only?)');
             }
             compareValues(`${label}.${key}`, a[key], b[key], seen);
         }
@@ -207,6 +213,66 @@ for (const j of JURISDICTIONS) {
         compareCall('getMaxWithdrawalPct', [j, age]);
         compareCall('getYMPEUnlockingSmallBalancePct', [j, age]);
     }
+}
+
+// ---------- 3. Consumer-pattern probes (spread + mutation, observed in kronos-fna) ----------
+{
+    // {...QPP} spread must keep methods and data (plain-object facade requirement)
+    const spreadLegacy = { ...legacy.QPP };
+    const spreadNext = { ...next.QPP };
+    checks += 1;
+    if (typeof spreadNext.getRequestDateFactor !== 'function') {
+        fail('spread(QPP).getRequestDateFactor', 'lost by object spread');
+    }
+    checks += 1;
+    if (Object.keys(spreadLegacy).length !== Object.keys(spreadNext).length) {
+        fail('spread(QPP) key count', `${Object.keys(spreadLegacy).length} vs ${Object.keys(spreadNext).length}`);
+    }
+}
+{
+    // Test-suite mutation pattern: OAS.MONTHLY_PAYMENT_MAX = 1000 must stick AND be
+    // visible to subsequent method calls (legacy methods read this.X at call time).
+    const origL = legacy.OAS.MONTHLY_PAYMENT_MAX;
+    const origN = next.OAS.MONTHLY_PAYMENT_MAX;
+    legacy.OAS.MONTHLY_PAYMENT_MAX = 1000;
+    next.OAS.MONTHLY_PAYMENT_MAX = 1000;
+    checks += 1;
+    if (next.OAS.MONTHLY_PAYMENT_MAX !== 1000) fail('OAS.MONTHLY_PAYMENT_MAX = 1000', 'mutation not applied');
+    compareCall('OAS.getDeferredRequestAmount', [12, 1]);
+    legacy.OAS.MONTHLY_PAYMENT_MAX = origL;
+    next.OAS.MONTHLY_PAYMENT_MAX = origN;
+}
+{
+    // Mutation visible through nested objects and plan methods
+    const origL = legacy.CPP.MONTHLY_DELAY.BONUS;
+    const origN = next.CPP.MONTHLY_DELAY.BONUS;
+    legacy.CPP.MONTHLY_DELAY.BONUS = 0.01;
+    next.CPP.MONTHLY_DELAY.BONUS = 0.01;
+    compareCall('CPP.getRequestDateFactor', [new Date('1960-01-01'), new Date('2027-01-01')]);
+    legacy.CPP.MONTHLY_DELAY.BONUS = origL;
+    next.CPP.MONTHLY_DELAY.BONUS = origN;
+}
+{
+    // getTaxRates returns fresh mutable copies (legacy structuredClone semantics):
+    // mutating a returned rate must not corrupt the source table.
+    const l0 = legacy.getTaxRates('QC')[0];
+    const n0 = next.getTaxRates('QC')[0];
+    l0.RATE = 0.99;
+    n0.RATE = 0.99;
+    compareCall('getTaxRates', ['QC']);
+}
+
+{
+    // jest.spyOn pattern: replacing a method must affect internal calls (legacy methods
+    // dispatch through `this`), e.g. kronos-fna mocks OAS.getMinimumRequestAge.
+    const origL = legacy.OAS.getMinimumRequestAge;
+    const origN = next.OAS.getMinimumRequestAge;
+    legacy.OAS.getMinimumRequestAge = () => 66;
+    next.OAS.getMinimumRequestAge = () => 66;
+    compareCall('OAS.getMinimumRequestDate', [new Date('1980-07-07'), 0]);
+    compareCall('OAS.getMonthlyOASAmount', [new Date('1980-07-07'), new Date('2047-07-07'), 0]);
+    legacy.OAS.getMinimumRequestAge = origL;
+    next.OAS.getMinimumRequestAge = origN;
 }
 
 function report() {

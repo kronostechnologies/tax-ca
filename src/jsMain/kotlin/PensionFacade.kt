@@ -1,5 +1,7 @@
-// JS compatibility facade for src/pension (see api-baseline.md). CPP/QPP share the
-// exported PublicPensionPlan class; old-age-security has its own facade elsewhere.
+// JS compatibility facade for src/pension (see api-baseline.md). CPP, QPP,
+// MONEY_PURCHASE and SPP are plain JS objects (real consumers spread and mutate them);
+// old-age-security has its own facade elsewhere. Methods re-read the object's CURRENT
+// property values on every call, exactly like the legacy `this.X` reads did.
 
 @file:OptIn(ExperimentalJsExport::class)
 @file:Suppress("ClassName", "PropertyName", "NON_EXPORTABLE_TYPE")
@@ -7,156 +9,197 @@
 import com.equisoft.taxca.interop.pairsToJsArray
 import com.equisoft.taxca.interop.toLocalDateUtc
 import com.equisoft.taxca.interop.yearMapToJsObject
+import com.equisoft.taxca.pension.ContributionRates
 import com.equisoft.taxca.pension.Cpp
+import com.equisoft.taxca.pension.DeathBenefit
+import com.equisoft.taxca.pension.FlatBenefit
+import com.equisoft.taxca.pension.MaxPension
 import com.equisoft.taxca.pension.MoneyPurchase
-import com.equisoft.taxca.pension.PublicPensionPlan as CommonPublicPensionPlan
+import com.equisoft.taxca.pension.MonthlyDelay
+import com.equisoft.taxca.pension.PensionableEarnings
+import com.equisoft.taxca.pension.PublicPensionPlan
 import com.equisoft.taxca.pension.Qpp
 import com.equisoft.taxca.pension.Spp
+import com.equisoft.taxca.pension.SurvivorRate
 import kotlin.js.Date
 
-@JsExport
-class PensionableEarnings internal constructor(
-    val BASIC_EXEMPTION: Double,
-    val YMPE: Double,
-    val YMPE_AVG_5: Double,
-    val YAMPE: Double,
-    val YAMPE_AVG_5: Double,
-)
+// Rebuilds the common data class from the plain JS object's current property values so
+// consumer mutations (e.g. `CPP.MONTHLY_DELAY.BONUS = x`) affect computations.
+// `precision` is not part of the legacy runtime shape (the legacy source hardcoded the
+// rounding per plan: CPP rounds to 3 digits, QPP to 2), so it is passed separately.
+private fun planFromJs(o: dynamic, precision: Int): PublicPensionPlan {
+    val refsJs = o.INDEXATION_RATE_REFERENCES
+    val refsCount: Int = refsJs.length
+    val refs = mutableListOf<Pair<Int, Double>>()
+    for (i in 0 until refsCount) {
+        val year: Double = refsJs[i][0]
+        val rate: Double = refsJs[i][1]
+        refs.add(Pair(year.toInt(), rate))
+    }
 
-@JsExport
-class ContributionRates internal constructor(
-    val BASE: Double,
-    val ENHANCEMENT_STEP_2: Double,
-)
+    val maxIncomeKeys = js("Object").keys(o.MAX_INCOME)
+    val maxIncomeKeysCount: Int = maxIncomeKeys.length
+    val maxIncome = mutableMapOf<Int, Double>()
+    for (i in 0 until maxIncomeKeysCount) {
+        val year: String = maxIncomeKeys[i]
+        maxIncome[year.toInt()] = o.MAX_INCOME[year]
+    }
 
-@JsExport
-class DeathBenefit internal constructor(
-    val RATE: Double,
-)
-
-@JsExport
-class FlatBenefit internal constructor(
-    val ORPHAN: Double,
-    val DISABILITY: Double,
-    val UNDER_45: Double,
-    val UNDER_45_WITH_CHILD: Double,
-    val UNDER_45_DISABLED: Double,
-    val FROM_45_TO_64: Double,
-    val OVER_64_WITHOUT_PENSION: Double,
-)
-
-@JsExport
-class MaxPension internal constructor(
-    val RETIREMENT: Double,
-    val COMBINED_RETIREMENT_SURVIVOR: Double,
-    val DEATH_BENEFIT: Double,
-)
-
-@JsExport
-class MonthlyDelay internal constructor(
-    val BONUS: Double,
-    val PENALTY: Double,
-)
-
-@JsExport
-class SurvivorRate internal constructor(
-    val OVER_64: Double,
-    val UNDER_65: Double,
-)
-
-@JsExport
-class PublicPensionPlan internal constructor(
-    internal val plan: CommonPublicPensionPlan,
-) {
-    val PENSIONABLE_EARNINGS: PensionableEarnings = PensionableEarnings(
-        BASIC_EXEMPTION = plan.pensionableEarnings.basicExemption,
-        YMPE = plan.pensionableEarnings.ympe,
-        YMPE_AVG_5 = plan.pensionableEarnings.ympeAvg5,
-        YAMPE = plan.pensionableEarnings.yampe,
-        YAMPE_AVG_5 = plan.pensionableEarnings.yampeAvg5,
+    return PublicPensionPlan(
+        pensionableEarnings = PensionableEarnings(
+            basicExemption = o.PENSIONABLE_EARNINGS.BASIC_EXEMPTION,
+            ympe = o.PENSIONABLE_EARNINGS.YMPE,
+            ympeAvg5 = o.PENSIONABLE_EARNINGS.YMPE_AVG_5,
+            yampe = o.PENSIONABLE_EARNINGS.YAMPE,
+            yampeAvg5 = o.PENSIONABLE_EARNINGS.YAMPE_AVG_5,
+        ),
+        contributionRates = ContributionRates(
+            base = o.CONTRIBUTION_RATES.BASE,
+            enhancementStep2 = o.CONTRIBUTION_RATES.ENHANCEMENT_STEP_2,
+        ),
+        deathBenefit = DeathBenefit(rate = o.DEATH_BENEFIT.RATE),
+        defaultReferenceAge = o.DEFAULT_REFERENCE_AGE,
+        flatBenefit = FlatBenefit(
+            orphan = o.FLAT_BENEFIT.ORPHAN,
+            disability = o.FLAT_BENEFIT.DISABILITY,
+            under45 = o.FLAT_BENEFIT.UNDER_45,
+            under45WithChild = o.FLAT_BENEFIT.UNDER_45_WITH_CHILD,
+            under45Disabled = o.FLAT_BENEFIT.UNDER_45_DISABLED,
+            from45To64 = o.FLAT_BENEFIT.FROM_45_TO_64,
+            over64WithoutPension = o.FLAT_BENEFIT.OVER_64_WITHOUT_PENSION,
+        ),
+        indexationRateReferences = refs,
+        maxPension = MaxPension(
+            retirement = o.MAX_PENSION.RETIREMENT,
+            combinedRetirementSurvivor = o.MAX_PENSION.COMBINED_RETIREMENT_SURVIVOR,
+            deathBenefit = o.MAX_PENSION.DEATH_BENEFIT,
+        ),
+        maxIncome = maxIncome,
+        maxRequestAge = o.MAX_REQUEST_AGE,
+        minRequestAge = o.MIN_REQUEST_AGE,
+        monthlyDelay = MonthlyDelay(
+            bonus = o.MONTHLY_DELAY.BONUS,
+            penalty = o.MONTHLY_DELAY.PENALTY,
+        ),
+        replacementFactor = o.REPLACEMENT_FACTOR,
+        survivorRates = SurvivorRate(
+            over64 = o.SURVIVOR_RATES.OVER_64,
+            under65 = o.SURVIVOR_RATES.UNDER_65,
+        ),
+        yearsToFullPension = o.YEARS_TO_FULL_PENSION,
+        averageIndexationRatePrecision = precision,
     )
-    val CONTRIBUTION_RATES: ContributionRates = ContributionRates(
-        BASE = plan.contributionRates.base,
-        ENHANCEMENT_STEP_2 = plan.contributionRates.enhancementStep2,
-    )
-    val DEATH_BENEFIT: DeathBenefit = DeathBenefit(RATE = plan.deathBenefit.rate)
-    val DEFAULT_REFERENCE_AGE: Int = plan.defaultReferenceAge
-    val FLAT_BENEFIT: FlatBenefit = FlatBenefit(
-        ORPHAN = plan.flatBenefit.orphan,
-        DISABILITY = plan.flatBenefit.disability,
-        UNDER_45 = plan.flatBenefit.under45,
-        UNDER_45_WITH_CHILD = plan.flatBenefit.under45WithChild,
-        UNDER_45_DISABLED = plan.flatBenefit.under45Disabled,
-        FROM_45_TO_64 = plan.flatBenefit.from45To64,
-        OVER_64_WITHOUT_PENSION = plan.flatBenefit.over64WithoutPension,
-    )
-    val INDEXATION_RATE_REFERENCES: Array<Array<Double>> = pairsToJsArray(plan.indexationRateReferences)
-    val MAX_INCOME: dynamic = yearMapToJsObject(plan.maxIncome)
-    val MAX_PENSION: MaxPension = MaxPension(
-        RETIREMENT = plan.maxPension.retirement,
-        COMBINED_RETIREMENT_SURVIVOR = plan.maxPension.combinedRetirementSurvivor,
-        DEATH_BENEFIT = plan.maxPension.deathBenefit,
-    )
-    val MAX_REQUEST_AGE: Int = plan.maxRequestAge
-    val MIN_REQUEST_AGE: Int = plan.minRequestAge
-    val MONTHLY_DELAY: MonthlyDelay = MonthlyDelay(
-        BONUS = plan.monthlyDelay.bonus,
-        PENALTY = plan.monthlyDelay.penalty,
-    )
-    val REPLACEMENT_FACTOR: Double = plan.replacementFactor
-    val SURVIVOR_RATES: SurvivorRate = SurvivorRate(
-        OVER_64 = plan.survivorRates.over64,
-        UNDER_65 = plan.survivorRates.under65,
-    )
-    val YEARS_TO_FULL_PENSION: Double = plan.yearsToFullPension
+}
 
-    fun getRequestDateFactor(birthDate: Date, requestDate: Date, customReferenceDate: Date? = null): Double =
-        plan.getRequestDateFactor(
+// Property order matches the legacy build (build/legacy-dist/pension/*.js): data
+// properties first, then the two methods.
+private fun buildPlanJs(plan: PublicPensionPlan, precision: Int): dynamic {
+    val obj = js("{}")
+
+    val pensionableEarnings = js("{}")
+    pensionableEarnings.BASIC_EXEMPTION = plan.pensionableEarnings.basicExemption
+    pensionableEarnings.YMPE = plan.pensionableEarnings.ympe
+    pensionableEarnings.YMPE_AVG_5 = plan.pensionableEarnings.ympeAvg5
+    pensionableEarnings.YAMPE = plan.pensionableEarnings.yampe
+    pensionableEarnings.YAMPE_AVG_5 = plan.pensionableEarnings.yampeAvg5
+    obj.PENSIONABLE_EARNINGS = pensionableEarnings
+
+    val contributionRates = js("{}")
+    contributionRates.BASE = plan.contributionRates.base
+    contributionRates.ENHANCEMENT_STEP_2 = plan.contributionRates.enhancementStep2
+    obj.CONTRIBUTION_RATES = contributionRates
+
+    val deathBenefit = js("{}")
+    deathBenefit.RATE = plan.deathBenefit.rate
+    obj.DEATH_BENEFIT = deathBenefit
+
+    obj.DEFAULT_REFERENCE_AGE = plan.defaultReferenceAge
+
+    val flatBenefit = js("{}")
+    flatBenefit.ORPHAN = plan.flatBenefit.orphan
+    flatBenefit.DISABILITY = plan.flatBenefit.disability
+    flatBenefit.UNDER_45 = plan.flatBenefit.under45
+    flatBenefit.UNDER_45_WITH_CHILD = plan.flatBenefit.under45WithChild
+    flatBenefit.UNDER_45_DISABLED = plan.flatBenefit.under45Disabled
+    flatBenefit.FROM_45_TO_64 = plan.flatBenefit.from45To64
+    flatBenefit.OVER_64_WITHOUT_PENSION = plan.flatBenefit.over64WithoutPension
+    obj.FLAT_BENEFIT = flatBenefit
+
+    obj.INDEXATION_RATE_REFERENCES = pairsToJsArray(plan.indexationRateReferences)
+    obj.MAX_INCOME = yearMapToJsObject(plan.maxIncome)
+
+    val maxPension = js("{}")
+    maxPension.RETIREMENT = plan.maxPension.retirement
+    maxPension.COMBINED_RETIREMENT_SURVIVOR = plan.maxPension.combinedRetirementSurvivor
+    maxPension.DEATH_BENEFIT = plan.maxPension.deathBenefit
+    obj.MAX_PENSION = maxPension
+
+    obj.MAX_REQUEST_AGE = plan.maxRequestAge
+    obj.MIN_REQUEST_AGE = plan.minRequestAge
+
+    val monthlyDelay = js("{}")
+    monthlyDelay.BONUS = plan.monthlyDelay.bonus
+    monthlyDelay.PENALTY = plan.monthlyDelay.penalty
+    obj.MONTHLY_DELAY = monthlyDelay
+
+    obj.REPLACEMENT_FACTOR = plan.replacementFactor
+
+    val survivorRates = js("{}")
+    survivorRates.OVER_64 = plan.survivorRates.over64
+    survivorRates.UNDER_65 = plan.survivorRates.under65
+    obj.SURVIVOR_RATES = survivorRates
+
+    obj.YEARS_TO_FULL_PENSION = plan.yearsToFullPension
+
+    obj.getRequestDateFactor = { birthDate: Date, requestDate: Date, customReferenceDate: Date? ->
+        planFromJs(obj, precision).getRequestDateFactor(
             birthDate.toLocalDateUtc(),
             requestDate.toLocalDateUtc(),
             customReferenceDate?.toLocalDateUtc(),
         )
+    }
+    obj.getAverageIndexationRate = {
+        planFromJs(obj, precision).getAverageIndexationRate()
+    }
 
-    fun getAverageIndexationRate(): Double = plan.getAverageIndexationRate()
+    return obj
 }
 
 @JsExport
-val CPP: PublicPensionPlan = PublicPensionPlan(Cpp)
+val CPP: dynamic = buildPlanJs(Cpp, Cpp.averageIndexationRatePrecision)
 
 @JsExport
-val QPP: PublicPensionPlan = PublicPensionPlan(Qpp)
+val QPP: dynamic = buildPlanJs(Qpp, Qpp.averageIndexationRatePrecision)
 
 @JsExport
 fun getPublicPensionRequestDateFactor(
-    plan: PublicPensionPlan,
+    plan: dynamic,
     birthDate: Date,
     requestDate: Date,
     customReferenceDate: Date? = null,
 ): Double = com.equisoft.taxca.pension.getPublicPensionRequestDateFactor(
-    plan.plan,
+    // The average-indexation precision is irrelevant to the factor computation.
+    planFromJs(plan, 0),
     birthDate.toLocalDateUtc(),
     requestDate.toLocalDateUtc(),
     customReferenceDate?.toLocalDateUtc(),
 )
 
-@JsExport
-class MoneyPurchasePensionPlan internal constructor(
-    val MAX_CONTRIBUTION: Double,
-)
+private fun buildMoneyPurchaseJs(): dynamic {
+    val obj = js("{}")
+    obj.MAX_CONTRIBUTION = MoneyPurchase.maxContribution
+    return obj
+}
 
 @JsExport
-val MONEY_PURCHASE: MoneyPurchasePensionPlan = MoneyPurchasePensionPlan(
-    MAX_CONTRIBUTION = MoneyPurchase.maxContribution,
-)
+val MONEY_PURCHASE: dynamic = buildMoneyPurchaseJs()
+
+private fun buildSppJs(): dynamic {
+    val obj = js("{}")
+    obj.MAX_BRIDGE_BENEFIT_AGE = Spp.maxBridgeBenefitAge
+    obj.MIN_AGE = Spp.minAge
+    return obj
+}
 
 @JsExport
-class SupplementalPensionPlan internal constructor(
-    val MAX_BRIDGE_BENEFIT_AGE: Int,
-    val MIN_AGE: Int,
-)
-
-@JsExport
-val SPP: SupplementalPensionPlan = SupplementalPensionPlan(
-    MAX_BRIDGE_BENEFIT_AGE = Spp.maxBridgeBenefitAge,
-    MIN_AGE = Spp.minAge,
-)
+val SPP: dynamic = buildSppJs()

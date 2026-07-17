@@ -15,12 +15,11 @@ fun clamp(num: Double, min: Double, max: Double): Double = commonClamp(num, min,
 @JsExport
 fun roundToPrecision(value: Double, precision: Int = 0): Double = commonRoundToPrecision(value, precision)
 
-@JsExport
-class DefinedBenefitPensionPlan internal constructor(
-    val MAX_CONTRIBUTION: Double,
-)
+private fun buildDefinedBenefit(): dynamic {
+    val obj = js("{}")
+    obj.MAX_CONTRIBUTION = DefinedBenefit.maxContribution
+    return obj
+}
 
 @JsExport
-val DEFINED_BENEFIT: DefinedBenefitPensionPlan = DefinedBenefitPensionPlan(
-    MAX_CONTRIBUTION = DefinedBenefit.maxContribution,
-)
+val DEFINED_BENEFIT: dynamic = buildDefinedBenefit()
