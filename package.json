@@ -24,8 +24,13 @@
     "canada",
     "data"
   ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "./gradlew assembleNpmDist",
+    "build:legacy": "tsc -p tsconfig.legacy.json",
+    "compat": "tsc -p ts-compat && node ts-compat/parity.cjs && node ts-compat/deep-parity.cjs && NODE_ENV=test jest --config=ts-compat/jest.config.cjs",
     "eslint": "eq-eslint ./src ./tests/",
     "eslint:ci": "yarn eslint",
     "prepublishOnly": "rm -rf dist/ && yarn build",

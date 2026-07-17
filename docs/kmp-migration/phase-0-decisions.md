@@ -54,13 +54,15 @@ functions currently take `java.time.LocalDate`. `jvmMain` ships `java.time` over
 
 ### D4 — Maven coordinates and registry
 Proposed: `com.equisoft:tax-ca` (or `com.equisoft.taxca:tax-ca`), published to the same
-internal registry financial-api already pulls from. **Owner: platform/infra. Blocks: Phase 4.**
+internal registry financial-api already pulls from. **Owner: platform/infra.**
+Status (Phase 4): coordinates `com.equisoft:tax-ca` implemented; publishing is wired in
+CI behind the `MAVEN_REPOSITORY_URL` repository variable + username/password secrets —
+inert until infra provides values. `publishToMavenLocal` verified.
 
 ### D5 — fna-engine deep imports (18 files import `@equisoft/tax-ca/dist/misc/code-types`)
-Options: (a) ship a `dist/misc/code-types` re-export shim in the new package;
-(b) codemod fna-engine to root imports at cutover. Recommendation: **(b)** — mechanical,
-18 lines, removes a private-path dependency; do (a) only if release schedules can't align.
-**Owner: fna-engine maintainers. Blocks: Phase 5 only.**
+**RESOLVED (Phase 4): option (a), shim.** The `assembleNpmDist` Gradle task ships
+`dist/misc/code-types.{js,d.ts}` re-exports, verified by an npm-pack install test.
+fna-engine needs no changes at cutover; the codemod can happen later at leisure.
 
 ### D6 — Release/versioning coordination
 Published versioning is CalVer (`2026.9.1`), so there is no semver protection. The first

@@ -1,10 +1,10 @@
 // Runtime parity gate: the Kotlin/JS build must produce bit-identical outputs to the
 // legacy TypeScript build (dist/). Exits non-zero on the first mismatch.
-// Usage: yarn build && ./gradlew jsNodeProductionLibraryDistribution && node ts-compat/parity.cjs
+// Usage: yarn build:legacy && yarn build && node ts-compat/parity.cjs
 
 const assert = require('node:assert');
-const legacy = require('../dist');
-const next = require('../build/dist/js/productionLibrary/tax-ca.js');
+const legacy = require('../build/legacy-dist');
+const next = require('../dist');
 
 let checks = 0;
 

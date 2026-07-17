@@ -6,12 +6,12 @@
 // 2. Exercises every exported function (including object methods) over input grids and
 //    compares outputs — including thrown errors — between the two builds.
 //
-// Usage: yarn build && ./gradlew jsNodeProductionLibraryDistribution && node ts-compat/deep-parity.cjs
+// Usage: yarn build:legacy && yarn build && node ts-compat/deep-parity.cjs
 
 process.env.NODE_ENV = 'test'; // freeze both packages' now() to 2020-01-01T12:00:00Z
 
-const legacy = require('../dist');
-const next = require('../build/dist/js/productionLibrary/tax-ca.js');
+const legacy = require('../build/legacy-dist');
+const next = require('../dist');
 
 let checks = 0;
 const failures = [];

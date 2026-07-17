@@ -47,7 +47,7 @@ import {
     TAX_BRACKETS,
     TFSA,
     TuitionFees,
-} from '../build/dist/js/productionLibrary/tax-ca';
+} from '../dist';
 
 // misc / code types
 const province: ProvinceCode = 'QC';

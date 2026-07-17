@@ -4,7 +4,7 @@
 // a spec is remapped to the built bundle (all legacy modules re-export at the package
 // root, so named imports resolve); test fixtures keep resolving to their real files.
 //
-// Usage: ./gradlew jsNodeProductionLibraryDistribution && yarn jest --config=ts-compat/jest.config.cjs
+// Usage: yarn build && yarn jest --config=ts-compat/jest.config.cjs
 
 const config = {
     rootDir: './../',
@@ -25,10 +25,10 @@ const config = {
             + 'non-registered-savings-plan|registered-retirement-income-fund|savings-grant|income-level|'
             + 'canada-education-savings-grant|canada-learning-bond|'
             + 'british-columbia-training-and-education-savings-grant)$']:
-            '<rootDir>/build/dist/js/productionLibrary/tax-ca.js',
+            '<rootDir>/dist/index.js',
     },
 
-    transformIgnorePatterns: ['/node_modules/', '/build/'],
+    transformIgnorePatterns: ['/node_modules/', '/build/', '/dist/'],
     transform: {
         '^.+\\.[tj]s$': ['@swc/jest', {
             jsc: {

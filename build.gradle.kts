@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "2.3.21"
+    `maven-publish`
 }
 
 group = "com.equisoft"
@@ -85,5 +86,61 @@ tasks.named("jsNodeProductionLibraryDistribution") {
             content = content.replace(from, into)
         }
         dts.writeText(content + "\n" + file("dts/overlay.d.ts").readText())
+    }
+}
+
+// Assemble the npm payload into dist/: the shipped @equisoft/tax-ca package keeps its
+// root package.json identity (name, license, README) and the existing CI publish flow;
+// only dist/ contents switch from tsc output to the Kotlin/JS build.
+val assembleNpmDist by tasks.registering(Copy::class) {
+    dependsOn("jsNodeProductionLibraryDistribution")
+    from(layout.buildDirectory.dir("dist/js/productionLibrary")) {
+        exclude("package.json") // root package.json is the package identity
+    }
+    into(layout.projectDirectory.dir("dist"))
+    doLast {
+        val dist = layout.projectDirectory.dir("dist").asFile
+        dist.resolve("index.js").writeText("module.exports = require('./tax-ca.js');\n")
+        dist.resolve("index.d.ts").writeText("export * from './tax-ca';\n")
+        // Deep-import shim: fna-engine imports @equisoft/tax-ca/dist/misc/code-types
+        // (18 call sites) — keep that path alive (decision D5).
+        val misc = dist.resolve("misc").apply { mkdirs() }
+        misc.resolve("code-types.js").writeText("module.exports = require('../index.js');\n")
+        misc.resolve("code-types.d.ts").writeText(
+            "export { PROVINCIAL_CODES, FEDERAL_CODE } from '../index';\n" +
+                "export type { ProvinceCode, FederalCode, FederalName, ProvinceName, ByProvince, ByJurisdiction } from '../index';\n",
+        )
+    }
+}
+
+publishing {
+    publications.withType<MavenPublication>().configureEach {
+        pom {
+            name.set("tax-ca")
+            description.set("Canadian tax data and calculation functions.")
+            url.set("https://github.com/kronostechnologies/tax-ca")
+            licenses {
+                license {
+                    name.set("LGPL-3.0-only")
+                    url.set("https://www.gnu.org/licenses/lgpl-3.0.html")
+                }
+            }
+        }
+    }
+    repositories {
+        // Registry coordinates are decision D4 (docs/kmp-migration/phase-0-decisions.md);
+        // CI provides the environment. Absent env vars = local-only publishing
+        // (publishToMavenLocal still works).
+        val repositoryUrl = System.getenv("MAVEN_REPOSITORY_URL")
+        if (repositoryUrl != null) {
+            maven {
+                name = "internal"
+                url = uri(repositoryUrl)
+                credentials {
+                    username = System.getenv("MAVEN_REPOSITORY_USERNAME")
+                    password = System.getenv("MAVEN_REPOSITORY_PASSWORD")
+                }
+            }
+        }
     }
 }
