@@ -117,6 +117,24 @@ data class OldAgeSecurity(
         }
     }
 
+    // --- Max-bound request-date validation, ported from financial-api
+    // (infrastructure/taxca/constants/pension/OldAgeSecurity.kt); additive, not part of
+    // the legacy npm API. The legacy validateRequestDate only checks the minimum bound. ---
+
+    fun getMaximumRequestAge(yearsOutsideCanada: Int): Int {
+        val effectiveResidencyStart = ageOfMajority + yearsOutsideCanada
+        val maxAgeForResidency = effectiveResidencyStart + maxResidency
+
+        return max(maxAgeForResidency, maxAge)
+    }
+
+    fun getMaximumRequestDate(birthDate: LocalDate, yearsOutsideCanada: Int = 0): LocalDate =
+        addYearsToDate(birthDate, getMaximumRequestAge(yearsOutsideCanada))
+
+    fun isRequestDateValid(birthDate: LocalDate, requestDate: LocalDate, yearsOutsideCanada: Int = 0): Boolean =
+        requestDate >= getMinimumRequestDate(birthDate, yearsOutsideCanada) &&
+            requestDate <= getMaximumRequestDate(birthDate, yearsOutsideCanada)
+
     fun getResidencyYearsAtRequest(
         birthDate: LocalDate,
         requestDate: LocalDate,

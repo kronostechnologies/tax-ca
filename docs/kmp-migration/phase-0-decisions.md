@@ -91,7 +91,8 @@ layer already abstracts the constant names, so both consumers are insulated.
 
 ## Checklist to exit Phase 0
 
-- [ ] D1 ruled by domain owner (the only true blocker)
+- [ ] D1 ruled by domain owner (only blocks the behavior fix, not the port — the KMP
+      library currently reproduces tax-ca's legacy OAS behavior verbatim)
 - [x] D2/D3 acknowledged by financial-api team — signed off 2026-07-16 by Jean-Simon
       Garneau (financial-api). Cutover steps captured in a standalone plan to be run
       inside financial-api: `financial-api/docs/tax-ca-kmp-cutover-plan.md`

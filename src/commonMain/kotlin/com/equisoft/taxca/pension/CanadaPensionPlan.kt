@@ -11,6 +11,12 @@ Revised
 
 package com.equisoft.taxca.pension
 
+import com.equisoft.taxca.utils.roundToPrecision
+import kotlin.math.max
+import kotlin.math.min
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.monthsUntil
+
 val Cpp: PublicPensionPlan = PublicPensionPlan(
     pensionableEarnings = PensionableEarnings(
         basicExemption = 3500.0,
@@ -146,3 +152,49 @@ val Cpp: PublicPensionPlan = PublicPensionPlan(
     // The legacy source rounds the CPP average indexation rate to 3 digits.
     averageIndexationRatePrecision = 3,
 )
+
+// --- CPP contribution coverage factor ---
+// Ported from financial-api (infrastructure/taxca/constants/pension/CanadaPensionPlan.kt)
+// as part of the KMP unification; not part of the legacy npm API.
+
+private const val MONTHS_AT_MAJORITY: Int = 216 // 18 yo
+private const val CONTRIBUTION_MAX_AGE_IN_MONTHS: Int = 840 // 70 yo
+private val CPP_START_DATE: LocalDate = LocalDate(1966, 1, 1) // Start of the Canada Pension Plan
+private const val DROP_OUT_RATIO: Double = 0.17
+private const val MIN_DENOMINATOR_MONTHS: Int = 120
+private const val MONTHS_IN_YEAR: Int = 12
+// Mirrors financial-api's BigDecimal scale-10 division; the jvmMain overload reproduces
+// the exact BigDecimal pipeline for consumers that compare BigDecimal values.
+private const val COVERAGE_PRECISION: Int = 10
+
+fun calculateCppContributionCoverageFactor(
+    birthDate: LocalDate,
+    pensionStartDate: LocalDate,
+    contributionYears: Int?,
+): Double {
+    if (contributionYears == null) {
+        return 1.0
+    }
+
+    val monthsToContributionStartDate = max(
+        MONTHS_AT_MAJORITY,
+        birthDate.monthsUntil(CPP_START_DATE),
+    )
+    val monthsToContributionEndDate = min(
+        CONTRIBUTION_MAX_AGE_IN_MONTHS,
+        birthDate.monthsUntil(pensionStartDate),
+    )
+    val contributionLength = (monthsToContributionEndDate - monthsToContributionStartDate).toDouble()
+
+    // apply a 17% drop-out rate to represent months in life where no contributions are made
+    // (studies, unemployment, etc.)
+    val generalDropOutDenominator = min(
+        DROP_OUT_RATIO * contributionLength,
+        contributionLength - MIN_DENOMINATOR_MONTHS,
+    )
+    val maxContributionMonths = contributionLength - generalDropOutDenominator
+
+    val contributoryMonths = (contributionYears * MONTHS_IN_YEAR).toDouble()
+
+    return roundToPrecision(min(contributoryMonths, maxContributionMonths) / maxContributionMonths, COVERAGE_PRECISION)
+}
