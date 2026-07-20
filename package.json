@@ -46,6 +46,7 @@
     "@types/node": "24.13.3",
     "@typescript-eslint/eslint-plugin": "8.63.0",
     "@typescript-eslint/parser": "8.63.0",
+    "@typescript/native": "npm:typescript@7.0.2",
     "eslint": "8.57.1",
     "eslint-import-resolver-node": "0.4.0",
     "eslint-import-resolver-typescript": "4.4.5",
@@ -54,7 +55,7 @@
     "jest-junit": "17.0.0",
     "jest-util": "30.4.1",
     "ts-jest": "29.4.11",
-    "typescript": "7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "yargs": "18.0.0"
   },
   "resolutions": {
