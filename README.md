@@ -4,21 +4,85 @@
 
 The `tax-ca` library contains up-to-date provincial and federal tax data and calculation functions.
 
-We built it so that we would have a single source of truth for taxes data across all of our applications.  The initial version is derived from code from the `fna-engine` and `kronos-fna` repositories.
+We built it so that we would have a single source of truth for taxes data across all of our applications.
 
-As we develop and update `tax-ca`, we will try to make it as application-agnostic as possible.
+The library is implemented in **Kotlin Multiplatform**: a single code base (`src/commonMain`) holds all data and logic, and two artifacts are published from it —
 
-## Installation
+| Ecosystem | Artifact | Consumers |
+|---|---|---|
+| npm | `@equisoft/tax-ca` | TypeScript/JavaScript applications (fna-engine, kronos-fna, ...) |
+| Maven | `com.equisoft:tax-ca` | JVM/Kotlin services (financial-api, ...) |
 
-Using `npm` : 
-```
-npm install @equisoft/tax-ca --save
-```
+Both artifacts share the same version number, so one yearly data revision reaches every consumer in a single release.
 
-Using `yarn` :
+## Installation & usage — npm (TypeScript / JavaScript)
+
 ```
 yarn add @equisoft/tax-ca
+# or: npm install @equisoft/tax-ca --save
 ```
+
+All modules are exported flat at the package root, with full TypeScript declarations:
+
+```typescript
+import { CPP, OAS, TAX_BRACKETS, getEffectiveRate, ProvinceCode } from '@equisoft/tax-ca';
+
+console.log('OAS maximum age:', OAS.MAX_AGE); // 70
+console.log('QC first bracket rate:', TAX_BRACKETS.QC.RATES[0].RATE);
+
+const province: ProvinceCode = 'QC';
+const rate = getEffectiveRate(province, 100_000, 0.02, 10);
+```
+
+The npm package is a drop-in continuation of the historical TypeScript library: the
+export names, object shapes, function signatures, and numeric results are identical
+(enforced by the compatibility gates in `ts-compat/` — see below).
+
+## Installation & usage — Maven (Kotlin / JVM)
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation("com.equisoft:tax-ca:<version>")
+}
+```
+
+The JVM API is idiomatic Kotlin — camelCase data classes in `com.equisoft.taxca.*`:
+
+```kotlin
+import com.equisoft.taxca.pension.Cpp
+import com.equisoft.taxca.pension.Oas
+import com.equisoft.taxca.taxes.TaxBrackets
+
+println("OAS maximum age: ${Oas.maxAge}")            // 70
+println("CPP base rate: ${Cpp.contributionRates.base}")
+```
+
+For services that work in `BigDecimal` and `java.time` (e.g. financial-api), the
+`com.equisoft.taxca.jvm` package provides the boundary layer:
+
+```kotlin
+import com.equisoft.taxca.jvm.toDecimal
+import com.equisoft.taxca.jvm.getRequestDateFactor
+import java.time.LocalDate
+
+// Exact decimal literals: BigDecimal("0.0595"), not binary noise
+val baseRate = Cpp.contributionRates.base.toDecimal()
+
+// java.time overloads for all date-taking functions
+val factor = Cpp.getRequestDateFactor(LocalDate.of(1960, 1, 1), LocalDate.of(2026, 1, 1))
+```
+
+Numbers are stored as `Double` in common code (required for bit-for-bit parity with the
+historical JavaScript package); `toDecimal()` converts with `BigDecimal.valueOf`
+(string-round-trip) semantics so constants come back as exact decimal literals, and
+functions with precision-sensitive arithmetic also ship a BigDecimal-exact JVM variant
+(e.g. `calculateCppContributionCoverageFactorDecimal`).
+
+> Registry note: Maven publishing activates once the `MAVEN_REPOSITORY_URL` repository
+> variable and credentials are configured in CI. Until then,
+> `./gradlew publishToMavenLocal -Papplication.version=<version>` publishes locally —
+> see [docs/kmp-migration/testing-in-consumers.md](docs/kmp-migration/testing-in-consumers.md).
 
 ## Versions
 
@@ -26,88 +90,61 @@ The `major` portion of the library version is named according to the year of the
 
 Updates at the `patch` level are reserved for bug fixes, non-breaking changes and minor improvements.
 
-We suggest you lock the library dependency to the `minor` version and execute exhaustive testing before migrating to a new version to avoid unintentional regression.
-
-```javascript
-  "dependencies": {
-    "@equisoft/tax-ca": "^2018.0.4",
-  },
-```
-
-
-## Usage
-
-To use the library, we recommend you start by going through the **Modules** list (see below) to locate the data set or function you are looking for.
-
-Once you know where your target data or function is located, simply import the module then access it directly in the code.
-
-```javascript
-import { PENSION } from '@equisoft/tax-ca';
-
-const { OAS, CPP } = PENSION;
-
-console.log("OAS maximum age: ", OAS.MAX_AGE); // 70
-```
-
+We suggest you lock the library dependency to the `minor` version and execute exhaustive testing before migrating to a new version to avoid unintentional regression. The npm and Maven artifacts of a given version are built from the same commit and always carry the same data.
 
 ## Modules
 
-### `INVESTMENTS`
-
-Data relating to registered investments accounts.
+Data and functions live in `src/commonMain/kotlin/com/equisoft/taxca/`:
 
 ```
-INVESTMENTS
-  |--LifeIncomeFund
-  |--RegisteredRetirementIncomeFund
-  |--RegisteredRetirementSavingsPlan
-  |--TaxFreeSavingsAccount
+investments   LifeIncomeFund, LockedInRetirementAccount, NonRegisteredSavingsPlan,
+              RegisteredRetirementIncomeFund, RegisteredRetirementSavingsPlan,
+              TaxFreeSavingsAccount, resp/ (RESP grants: CESG, CLB, QESI, BCTESG...)
+pension       CanadaPensionPlan, QuebecPensionPlan, OldAgeSecurity, PublicPensionPlan,
+              DefinedBenefit/MoneyPurchase/Supplemental pension plans
+taxes         IncomeTax (all federal/provincial brackets), DividendCredit,
+              EmploymentInsurance, QuebecParentalInsurancePlan
+misc          CodeTypes (jurisdictions), ConsumerPriceIndex, IpfStats, LifeExpectancy,
+              PppIncreaseFactor
+utils         date, math, collections helpers
 ```
 
-### `PENSION`
-
-Data relating to federal and provincial pension plans.
-
-```
-PENSION
-  |--CanadaPensionPlan
-  |--OldAgeSecurity
-  |--PublicPensionPlan
-  |--QuebecPensionPlan
-  |--SupplementalPensionPlan
-```
-
-### `TAXES`
-
-Data relating to federal and provincial income taxes and social charges.
-
-```
-TAXES
-  |--DividendCredit
-  |--EmploymentInsurance
-  |--IncomeTax
-  |--QuebecParentalInsurancePlan
-```
-
-### `MISC`
-
-Complementary data useful in a tax calculation context.
-
-```
-MISC
-  |--ConsumerPriceIndex
-  |--IPFStats
-  |--LifeExpectancy
-```
-
+Each data file keeps a `Sources` / `Revised` header documenting where the values come
+from and when they were last updated.
 
 ## Development
 
 This library is maintained by the _Equisoft/plan_ product team in Quebec City, QC, Canada.
 
-We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull requests to the repository. 
+We strongly value [inner source](https://en.wikipedia.org/wiki/Inner_source) practices within Equisoft and encourage contributors external to the FNA team to submit issues (including feature requests) and pull requests to the repository.
+
+Build and test everything (JVM + JS targets):
+
+```
+./gradlew build          # compile all targets, run the test suite on JVM and Node
+yarn build               # assemble the npm package into dist/
+yarn compat              # npm compatibility gates (see below)
+```
+
+Yearly data revisions follow the workflow in [src/README.md](src/README.md) — including
+regenerating the golden corpus so the review diff shows exactly which values changed.
+
+## Documentation map
+
+Focused READMEs live next to what they document:
+
+| Where | What |
+|---|---|
+| [src/README.md](src/README.md) | Architecture (source sets), commonMain conventions, **yearly data revision workflow** |
+| [src/jsMain/README.md](src/jsMain/README.md) | The npm compatibility facade: plain-object rules, mutation/spyOn semantics, adding an export |
+| [src/jvmMain/README.md](src/jvmMain/README.md) | **The numeric policy (Double vs BigDecimal)**, `toDecimal()`, BigDecimal-exact variants, java.time overloads |
+| [ts-compat/README.md](ts-compat/README.md) | **The golden corpus**: what it is, the trust chain, when and how to re-record |
+| [dts/README.md](dts/README.md) | The TypeScript declaration overlay and patch mechanism |
+| [docs/kmp-migration/README.md](docs/kmp-migration/README.md) | Migration history, decisions (D1–D6), validation summary, open items |
 
 ## Release
 
 Versions of this package are built by Github Actions.
-All you need to do is create a new tag and release using the Github Interface.
+All you need to do is create a new tag and release using the Github Interface. The
+pipeline publishes the npm package and, once the registry is configured, the Maven
+artifact from the same build.
