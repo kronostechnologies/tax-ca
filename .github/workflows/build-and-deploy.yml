@@ -165,6 +165,21 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+      - name: Pack npm tarball (for local consumer testing)
+        env:
+          VERSION: ${{ needs.setup.outputs.version }}
+        run: |
+          contents="$(jq ".version = \"${VERSION}\"" ./package.json)" && echo "${contents}" > ./package.json
+          yarn pack -o tax-ca-kmp.tgz
+
+      - name: Store npm tarball
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: npm-package
+          path: tax-ca-kmp.tgz
+          retention-days: 14
+          if-no-files-found: error
+
   publish:
     name: Publish to npm
     environment: npm-deployment
