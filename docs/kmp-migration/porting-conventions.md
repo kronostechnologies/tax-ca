@@ -1,5 +1,11 @@
 # Phase 2 porting conventions (tax-ca TS → Kotlin Multiplatform)
 
+> **HISTORICAL DOCUMENT** — the port is complete and the legacy TypeScript sources were
+> removed from the repo on 2026-07-17 (the parity baseline is now the golden corpus in
+> `ts-compat/golden.json`). The facade recipes below remain the reference for adding new
+> exports; references to `src/**/*.ts` and `build/legacy-dist` describe the state during
+> the migration.
+
 Follow these recipes exactly. They were established by the walking skeleton
 (`utils/math`, `DEFINED_BENEFIT`) and validated by the parity gate. When in doubt, look
 at the existing files listed under "Reference examples".

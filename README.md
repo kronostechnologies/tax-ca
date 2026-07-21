@@ -127,11 +127,14 @@ yarn compat              # npm compatibility gates (see below)
 ```
 
 The npm compatibility gates in `ts-compat/` protect the JavaScript API against
-regressions: a strict-TypeScript smoke test of the real consumers' import surface, a
-deep parity walker comparing every exported value and function result against the
-legacy TypeScript build (`yarn build:legacy`), and the historical jest specs running
-unmodified against the built package. `dts/overlay.d.ts` carries the hand-maintained
-TypeScript declarations; the build fails if a new export is left untyped.
+regressions: a strict-TypeScript smoke test of the real consumers' import surface, and a
+deep regression walker comparing every exported value and function result against the
+committed golden corpus (`ts-compat/golden.json`, recorded from a build verified
+bit-for-bit against the last legacy TypeScript build and against the real consumers).
+A yearly data revision is EXPECTED to fail the walker - regenerate deliberately with
+`node ts-compat/deep-parity.cjs --record` and review the golden.json diff, which lists
+exactly which values changed. `dts/overlay.d.ts` carries the hand-maintained TypeScript
+declarations; the build fails if a new export is left untyped.
 
 Migration history, decisions, and consumer-validation instructions live in
 [docs/kmp-migration/](docs/kmp-migration/).

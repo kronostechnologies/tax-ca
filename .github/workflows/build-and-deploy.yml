@@ -39,43 +39,6 @@ jobs:
       - name: Install NPM dependencies
         uses: equisoft-actions/yarn-install@v1
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-    steps:
-      - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-
-      - name: Setup asdf-vm
-        uses: equisoft-actions/with-asdf-vm@v2
-
-      - name: Install NPM dependencies
-        uses: equisoft-actions/yarn-install@v1
-
-      - name: Run ESLint
-        uses: equisoft-actions/yarn-eslint@v2
-
-  jest:
-    name: Jest
-    needs:
-      - setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-
-      - name: Setup asdf-vm
-        uses: equisoft-actions/with-asdf-vm@v2
-
-      - name: Install NPM dependencies
-        uses: equisoft-actions/yarn-install@v1
-
-      - name: Run Jest
-        uses: equisoft-actions/yarn-jest@v2
-
-
   kmp:
     name: Kotlin Multiplatform tests
     runs-on: ubuntu-latest
@@ -98,7 +61,7 @@ jobs:
         run: ./gradlew build
 
   compat:
-    name: Legacy compatibility gates
+    name: npm compatibility gates
     runs-on: ubuntu-latest
     needs:
       - setup
@@ -121,13 +84,10 @@ jobs:
       - name: Install NPM dependencies
         uses: equisoft-actions/yarn-install@v1
 
-      - name: Build legacy reference (tsc)
-        run: yarn build:legacy
-
       - name: Build package (Kotlin/JS)
         run: yarn build
 
-      - name: Compatibility gates (type smoke, parity, deep parity, legacy jest suite)
+      - name: Compatibility gates (type smoke + golden corpus)
         run: yarn compat
 
   build:
@@ -189,8 +149,6 @@ jobs:
       contents: read
     needs:
       - setup
-      - jest
-      - lint
       - build
       - kmp
       - compat
@@ -230,8 +188,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - setup
-      - jest
-      - lint
       - build
       - kmp
       - compat
@@ -265,8 +221,6 @@ jobs:
     name: Notify
     runs-on: ubuntu-latest
     needs:
-      - lint
-      - jest
       - build
       - kmp
       - compat

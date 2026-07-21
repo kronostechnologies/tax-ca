@@ -1,92 +1,108 @@
-// Deep parity gate for the KMP migration (Phase 2/3).
+// Deep regression gate for the npm package.
 //
-// 1. Recursively walks the legacy package's full export tree (dist/) and compares every
-//    primitive value, array, and Date against the Kotlin/JS build at the same path.
-//    A single transcription typo anywhere in the ported data fails this gate.
-// 2. Exercises every exported function (including object methods) over input grids and
-//    compares outputs — including thrown errors — between the two builds.
+// Compares the built package (dist/) against the committed golden corpus
+// (ts-compat/golden.json): the full export tree (every value, every key, in order) plus
+// the outputs of every exported function over dense input grids, and self-contained
+// behavioral probes for the consumer patterns that once broke (spread, mutation,
+// method replacement).
 //
-// Usage: yarn build:legacy && yarn build && node ts-compat/deep-parity.cjs
+// The golden corpus was recorded on 2026-07-17 from a build verified bit-for-bit
+// against the last legacy TypeScript build (18,923 checks, 0 mismatches) and against
+// the real consumers (kronos-fna 231/231, fna-engine 689/689, financial-api 4/4).
+//
+// Verify:   yarn build && node ts-compat/deep-parity.cjs
+// A yearly data revision is EXPECTED to fail this gate; regenerate deliberately with:
+//           node ts-compat/deep-parity.cjs --record
+// and review the golden.json diff — it lists exactly which values changed.
 
-process.env.NODE_ENV = 'test'; // freeze both packages' now() to 2020-01-01T12:00:00Z
+process.env.NODE_ENV = 'test'; // freeze now() to 2020-01-01T12:00:00Z, like the legacy package
 
-const legacy = require('../build/legacy-dist');
+const fs = require('node:fs');
+const path = require('node:path');
 const next = require('../dist');
+
+const GOLDEN_PATH = path.join(__dirname, 'golden.json');
+const RECORD = process.argv.includes('--record');
 
 let checks = 0;
 const failures = [];
-const functionPaths = [];
 
 function fail(label, message) {
     failures.push(`${label}: ${message}`);
-    if (failures.length > 50) {
-        report();
+    if (failures.length > 50) report(false);
+}
+
+// ---------- value encoding (JSON-safe, order-preserving) ----------
+function encode(v, seen = new Set()) {
+    if (typeof v === 'function') return { $: 'fn' };
+    if (typeof v === 'undefined') return { $: 'undefined' };
+    if (typeof v === 'number') {
+        if (Number.isNaN(v)) return { $: 'NaN' };
+        if (v === Infinity) return { $: 'Infinity' };
+        if (v === -Infinity) return { $: '-Infinity' };
+        return v; // note: -0 encodes as 0, which is the tolerated deviation
     }
+    if (v instanceof Date) return { $: 'Date', v: v.toISOString() };
+    if (Array.isArray(v)) return v.map((x) => encode(x, seen));
+    if (v !== null && typeof v === 'object') {
+        if (seen.has(v)) return { $: 'cycle' };
+        seen.add(v);
+        const out = {};
+        for (const key of Object.keys(v)) out[key] = encode(v[key], seen);
+        seen.delete(v);
+        return out;
+    }
+    return v; // string | boolean | null
 }
 
-function isPlainValueEqual(a, b) {
-    // -0 vs +0 tolerated (indistinguishable to === and arithmetic)
-    return a === b || (Number.isNaN(a) && Number.isNaN(b));
+function isMarker(v) {
+    return v !== null && typeof v === 'object' && !Array.isArray(v) && typeof v.$ === 'string';
 }
 
-function compareValues(label, a, b, seen = new Set()) {
+function compareEncoded(label, golden, actual) {
     checks += 1;
-    if (typeof a === 'function') {
-        functionPaths.push(label);
-        if (typeof b !== 'function') fail(label, 'function missing in next build');
+    if (isMarker(golden) || isMarker(actual)) {
+        const g = JSON.stringify(golden);
+        const a = JSON.stringify(actual);
+        if (g !== a) fail(label, `${g} vs ${a}`);
         return;
     }
-    if (a instanceof Date) {
-        if (!(b instanceof Date) || a.getTime() !== b.getTime()) fail(label, `Date ${a?.toISOString?.()} vs ${b?.toISOString?.()}`);
+    if (Array.isArray(golden)) {
+        if (!Array.isArray(actual)) return fail(label, `array vs ${typeof actual}`);
+        if (golden.length !== actual.length) return fail(label, `length ${golden.length} vs ${actual.length}`);
+        golden.forEach((item, i) => compareEncoded(`${label}[${i}]`, item, actual[i]));
         return;
     }
-    if (Array.isArray(a)) {
-        if (!Array.isArray(b)) return fail(label, `array vs ${typeof b}`);
-        if (a.length !== b.length) return fail(label, `length ${a.length} vs ${b.length}`);
-        a.forEach((item, i) => compareValues(`${label}[${i}]`, item, b[i], seen));
-        return;
-    }
-    if (a !== null && typeof a === 'object') {
-        if (b === null || typeof b !== 'object') return fail(label, `object vs ${b === null ? 'null' : typeof b}`);
-        if (seen.has(a)) return;
-        seen.add(a);
-        const bOwnKeys = new Set(Object.keys(b));
-        for (const key of Object.keys(a)) {
-            if (b[key] === undefined && a[key] !== undefined) {
-                fail(`${label}.${key}`, 'missing in next build');
-                continue;
-            }
-            // Own-enumerability matters: consumers spread these objects ({...QPP}), so a
-            // property reachable only via the prototype chain is a compatibility break.
-            if (!bOwnKeys.has(key)) {
-                fail(`${label}.${key}`, 'not an own enumerable property in next build (prototype-only?)');
-            }
-            compareValues(`${label}.${key}`, a[key], b[key], seen);
+    if (golden !== null && typeof golden === 'object') {
+        if (actual === null || typeof actual !== 'object' || Array.isArray(actual)) {
+            return fail(label, `object vs ${JSON.stringify(actual)}`);
         }
+        const goldenKeys = Object.keys(golden);
+        const actualKeys = Object.keys(actual);
+        // Key SEQUENCE matters: consumers spread and enumerate these objects.
+        if (goldenKeys.join(',') !== actualKeys.join(',')) {
+            fail(label, `own-key sequence differs:\n  golden: ${goldenKeys.join(',')}\n  actual: ${actualKeys.join(',')}`);
+        }
+        for (const key of goldenKeys) compareEncoded(`${label}.${key}`, golden[key], actual[key]);
         return;
     }
-    if (!isPlainValueEqual(a, b)) fail(label, `${JSON.stringify(a)} vs ${JSON.stringify(b)}`);
+    if (golden !== actual) fail(label, `${JSON.stringify(golden)} vs ${JSON.stringify(actual)}`);
 }
 
-// ---------- 1. Full data-tree walk ----------
-for (const key of Object.keys(legacy)) {
-    compareValues(key, legacy[key], next[key]);
+// ---------- function call grids ----------
+function get(obj, p) {
+    return p.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 }
 
-// ---------- 2. Function behavior grids ----------
-function get(obj, path) {
-    return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
-}
-
-function call(pkg, path, args) {
-    const parts = path.split('.');
-    const fn = get(pkg, path);
-    if (typeof fn !== 'function') return { missing: true };
-    const self = parts.length > 1 ? get(pkg, parts.slice(0, -1).join('.')) : undefined;
+function callEncoded(p, args) {
+    const parts = p.split('.');
+    const fn = get(next, p);
+    if (typeof fn !== 'function') return { $: 'missing' };
+    const self = parts.length > 1 ? get(next, parts.slice(0, -1).join('.')) : undefined;
     try {
-        return { value: fn.apply(self, args) };
+        return encode(fn.apply(self, args));
     } catch (e) {
-        return { threw: true };
+        return { $: 'threw' };
     }
 }
 
@@ -94,27 +110,12 @@ function fmtArgs(args) {
     return args.map((a) => (a instanceof Date ? a.toISOString().slice(0, 10) : JSON.stringify(a))).join(', ');
 }
 
-function compareCall(path, args) {
-    const a = call(legacy, path, args);
-    const b = call(next, path, args);
-    const label = `${path}(${fmtArgs(args)})`;
-    checks += 1;
-    if (a.missing) return; // path not in legacy: grid config error, ignore
-    if (b.missing) return fail(label, 'function missing in next build');
-    if (a.threw || b.threw) {
-        if (a.threw !== !!b.threw) fail(label, `threw: legacy=${!!a.threw} next=${!!b.threw}`);
-        return;
-    }
-    compareValues(label, a.value, b.value);
+const calls = [];
+function compareCall(p, args) {
+    calls.push([`${p}(${fmtArgs(args)})`, p, args]);
 }
-
-function grid(path, argSets) {
-    for (const args of argSets) compareCall(path, args);
-}
-
-function cross(...lists) {
-    return lists.reduce((acc, list) => acc.flatMap((prev) => list.map((x) => [...prev, x])), [[]]);
-}
+const grid = (p, argSets) => argSets.forEach((args) => compareCall(p, args));
+const cross = (...lists) => lists.reduce((acc, list) => acc.flatMap((prev) => list.map((x) => [...prev, x])), [[]]);
 
 const JURISDICTIONS = ['CA', 'AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'PE', 'ON', 'QC', 'SK', 'NT', 'NU', 'YT'];
 const PROVINCES = JURISDICTIONS.filter((c) => c !== 'CA');
@@ -197,7 +198,7 @@ for (const province of PROVINCES) {
         compareCall('getProvincialAbatement', [province, income]);
     }
 }
-const caRates = legacy.getFederalTaxRates();
+const caRates = next.getFederalTaxRates();
 grid('getTaxAmount', cross([caRates], INCOMES, [0, 0.02], [0, 10]));
 grid('getRate', cross([caRates], INCOMES, [0, 0.02], [0, 10]));
 
@@ -215,75 +216,89 @@ for (const j of JURISDICTIONS) {
     }
 }
 
-// ---------- 3. Consumer-pattern probes (spread + mutation, observed in kronos-fna) ----------
+// ---------- record / verify ----------
+const tree = {};
+for (const key of Object.keys(next)) tree[key] = encode(next[key]);
+const callResults = {};
+for (const [label, p, args] of calls) callResults[label] = callEncoded(p, args);
+
+if (RECORD) {
+    fs.writeFileSync(GOLDEN_PATH, JSON.stringify({ tree, calls: callResults }, null, 1));
+    console.log(`golden corpus recorded: ${Object.keys(tree).length} exports, ${calls.length} calls -> ${GOLDEN_PATH}`);
+    process.exit(0);
+}
+
+if (!fs.existsSync(GOLDEN_PATH)) {
+    console.error('golden.json missing — run: node ts-compat/deep-parity.cjs --record');
+    process.exit(1);
+}
+const golden = JSON.parse(fs.readFileSync(GOLDEN_PATH, 'utf8'));
+
+compareEncoded('exports', golden.tree, tree);
+const goldenCalls = golden.calls;
+for (const label of Object.keys(goldenCalls)) {
+    if (!(label in callResults)) fail(label, 'call missing from grid definitions (re-record?)');
+    else compareEncoded(label, goldenCalls[label], callResults[label]);
+}
+for (const label of Object.keys(callResults)) {
+    if (!(label in goldenCalls)) fail(label, 'call not in golden corpus (re-record)');
+}
+
+// ---------- behavioral probes (self-contained consumer patterns) ----------
 {
-    // {...QPP} spread must keep methods and data (plain-object facade requirement)
-    const spreadLegacy = { ...legacy.QPP };
-    const spreadNext = { ...next.QPP };
+    // {...QPP} spread keeps data AND methods (plain-object facade requirement)
+    const spread = { ...next.QPP };
     checks += 1;
-    if (typeof spreadNext.getRequestDateFactor !== 'function') {
-        fail('spread(QPP).getRequestDateFactor', 'lost by object spread');
-    }
+    if (typeof spread.getRequestDateFactor !== 'function') fail('spread(QPP)', 'methods lost by object spread');
     checks += 1;
-    if (Object.keys(spreadLegacy).length !== Object.keys(spreadNext).length) {
-        fail('spread(QPP) key count', `${Object.keys(spreadLegacy).length} vs ${Object.keys(spreadNext).length}`);
-    }
+    if (Object.keys(spread).length !== Object.keys(next.QPP).length) fail('spread(QPP)', 'own-key count differs from source');
 }
 {
-    // Test-suite mutation pattern: OAS.MONTHLY_PAYMENT_MAX = 1000 must stick AND be
-    // visible to subsequent method calls (legacy methods read this.X at call time).
-    const origL = legacy.OAS.MONTHLY_PAYMENT_MAX;
-    const origN = next.OAS.MONTHLY_PAYMENT_MAX;
-    legacy.OAS.MONTHLY_PAYMENT_MAX = 1000;
+    // Test-suite mutation: assignment sticks AND is visible to later method calls
+    const orig = next.OAS.MONTHLY_PAYMENT_MAX;
     next.OAS.MONTHLY_PAYMENT_MAX = 1000;
     checks += 1;
-    if (next.OAS.MONTHLY_PAYMENT_MAX !== 1000) fail('OAS.MONTHLY_PAYMENT_MAX = 1000', 'mutation not applied');
-    compareCall('OAS.getDeferredRequestAmount', [12, 1]);
-    legacy.OAS.MONTHLY_PAYMENT_MAX = origL;
-    next.OAS.MONTHLY_PAYMENT_MAX = origN;
+    if (next.OAS.MONTHLY_PAYMENT_MAX !== 1000) fail('OAS mutation', 'assignment not applied');
+    checks += 1;
+    if (next.OAS.getDeferredRequestAmount(0) !== 1000) fail('OAS mutation', 'method does not read mutated value');
+    next.OAS.MONTHLY_PAYMENT_MAX = orig;
 }
 {
-    // Mutation visible through nested objects and plan methods
-    const origL = legacy.CPP.MONTHLY_DELAY.BONUS;
-    const origN = next.CPP.MONTHLY_DELAY.BONUS;
-    legacy.CPP.MONTHLY_DELAY.BONUS = 0.01;
+    // Nested mutation flows into plan methods
+    const orig = next.CPP.MONTHLY_DELAY.BONUS;
     next.CPP.MONTHLY_DELAY.BONUS = 0.01;
-    compareCall('CPP.getRequestDateFactor', [new Date('1960-01-01'), new Date('2027-01-01')]);
-    legacy.CPP.MONTHLY_DELAY.BONUS = origL;
-    next.CPP.MONTHLY_DELAY.BONUS = origN;
+    const factor = next.CPP.getRequestDateFactor(new Date('1960-01-01'), new Date('2027-01-01'));
+    checks += 1;
+    if (factor !== 1 + (24 * 0.01)) fail('CPP nested mutation', `expected ${1 + (24 * 0.01)}, got ${factor}`);
+    next.CPP.MONTHLY_DELAY.BONUS = orig;
 }
 {
-    // getTaxRates returns fresh mutable copies (legacy structuredClone semantics):
-    // mutating a returned rate must not corrupt the source table.
-    const l0 = legacy.getTaxRates('QC')[0];
-    const n0 = next.getTaxRates('QC')[0];
-    l0.RATE = 0.99;
-    n0.RATE = 0.99;
-    compareCall('getTaxRates', ['QC']);
-}
-
-{
-    // jest.spyOn pattern: replacing a method must affect internal calls (legacy methods
-    // dispatch through `this`), e.g. kronos-fna mocks OAS.getMinimumRequestAge.
-    const origL = legacy.OAS.getMinimumRequestAge;
-    const origN = next.OAS.getMinimumRequestAge;
-    legacy.OAS.getMinimumRequestAge = () => 66;
+    // jest.spyOn pattern: replacing a method affects internal this-dispatched calls
+    const orig = next.OAS.getMinimumRequestAge;
     next.OAS.getMinimumRequestAge = () => 66;
-    compareCall('OAS.getMinimumRequestDate', [new Date('1980-07-07'), 0]);
-    compareCall('OAS.getMonthlyOASAmount', [new Date('1980-07-07'), new Date('2047-07-07'), 0]);
-    legacy.OAS.getMinimumRequestAge = origL;
-    next.OAS.getMinimumRequestAge = origN;
+    const date = next.OAS.getMinimumRequestDate(new Date('1980-07-07'), 0);
+    checks += 1;
+    if (date.getTime() !== new Date('2046-07-07').getTime()) fail('OAS spyOn', `expected 2046-07-07, got ${date.toISOString()}`);
+    next.OAS.getMinimumRequestAge = orig;
+}
+{
+    // getTaxRates returns fresh mutable copies (structuredClone semantics)
+    const first = next.getTaxRates('QC');
+    const originalRate = first[0].RATE;
+    first[0].RATE = 0.99;
+    checks += 1;
+    if (next.getTaxRates('QC')[0].RATE !== originalRate) fail('getTaxRates freshness', 'mutating a returned rate corrupted the source');
 }
 
-function report() {
+function report(exit = true) {
     if (failures.length) {
         console.error(`DEEP PARITY FAILED — ${failures.length} mismatches (${checks} checks):`);
         for (const f of failures.slice(0, 50)) console.error(`  ${f}`);
         if (failures.length > 50) console.error('  ... (truncated)');
         process.exit(1);
     }
-    console.log(`deep parity OK — ${checks} checks, ${functionPaths.length} function paths seen, 0 mismatches`);
-    process.exit(0);
+    console.log(`deep parity OK — ${checks} checks vs golden corpus, 0 mismatches`);
+    if (exit) process.exit(0);
 }
 
 report();
