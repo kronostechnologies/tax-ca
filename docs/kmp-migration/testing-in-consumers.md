@@ -8,8 +8,18 @@ messages) — these instructions let anyone reproduce that.
 ## Getting the npm package
 
 **Option A — download from CI (no JDK needed):** every CI run of the branch/PR uploads
-an `npm-package` artifact containing `tax-ca-kmp.tgz` (GitHub → Actions → the run →
-Artifacts). Unzip it to get the tarball.
+an `npm-package` artifact containing `tax-ca-kmp.tgz`.
+
+GitHub Actions always wraps artifacts in a `.zip` for download — the tarball is INSIDE
+it. Don't point yarn at the `.zip`; unwrap first:
+
+```bash
+# easiest: gh CLI downloads AND extracts in one step
+gh run download <run-id> -n npm-package        # yields tax-ca-kmp.tgz in cwd
+
+# or from the web UI (Actions -> the run -> Artifacts -> npm-package):
+unzip npm-package.zip                          # yields tax-ca-kmp.tgz
+```
 
 **Option B — build locally (needs JDK 17+; Gradle comes via the wrapper):**
 
