@@ -21,6 +21,14 @@ gh run download <run-id> -n npm-package        # yields tax-ca-kmp.tgz in cwd
 unzip npm-package.zip                          # yields tax-ca-kmp.tgz
 ```
 
+macOS note: Safari/Archive Utility may auto-extract BOTH layers, leaving you with an
+unpacked `package/` folder (package.json, dist/, ...) instead of a tarball. That folder
+is directly installable — point yarn at it instead of a tgz:
+
+```bash
+yarn add @equisoft/tax-ca@file:/path/to/package
+```
+
 **Option B — build locally (needs JDK 17+; Gradle comes via the wrapper):**
 
 ```bash
