@@ -20,6 +20,7 @@
         "devDependencies": [
           "/*.js",
           "test/**/*",
+          "tests/**/*",
           "**/*.test.{js,jsx,ts,tsx}",
           "**/*.spec.{js,jsx,ts,tsx}"
         ]
@@ -28,7 +29,7 @@
   },
   "overrides": [
     {
-      "files": ["test/**/*"],
+      "files": ["test/**/*", "tests/**/*"],
       "rules": {
         "import/no-unresolved": [
           "error",
