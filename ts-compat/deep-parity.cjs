@@ -16,6 +16,10 @@
 // and review the golden.json diff — it lists exactly which values changed.
 
 process.env.NODE_ENV = 'test'; // freeze now() to 2020-01-01T12:00:00Z, like the legacy package
+// Pin the timezone BEFORE any Date is constructed: legacy resetTime() returns
+// local-midnight Dates by design, so its recorded outputs are timezone-dependent.
+// Pinning makes the corpus deterministic on any machine (dev in ET, CI in UTC).
+process.env.TZ = 'America/Toronto';
 
 const fs = require('node:fs');
 const path = require('node:path');
