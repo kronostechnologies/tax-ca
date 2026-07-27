@@ -20,3 +20,5 @@ dist/
 !**/.yarn/releases
 !**/.yarn/plugins
 !**/.yarn/sdks
+
+.kotlin
