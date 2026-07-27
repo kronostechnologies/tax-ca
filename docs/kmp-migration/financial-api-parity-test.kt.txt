@@ -1,0 +1,200 @@
+package com.equisoft.financialapi.infrastructure.taxca
+
+// TEMPORARY (tax-ca KMP local validation): compares the com.equisoft:tax-ca Maven
+// artifact (published to mavenLocal from the tax-ca kmp-migration branch) against this
+// repo's duplicated constants and logic, field by field. This is the Maven-side
+// equivalent of the npm parity gates. To be deleted (or adapted into the cutover) once
+// financial-api consumes the artifact for real.
+
+import com.equisoft.financialapi.infrastructure.taxca.constants.investments.RegisteredRetirementSavingsPlan
+import com.equisoft.financialapi.infrastructure.taxca.constants.investments.TaxFreeSavingsAccount
+import com.equisoft.financialapi.infrastructure.taxca.constants.misc.IQPFStatistics
+import com.equisoft.financialapi.infrastructure.taxca.constants.misc.IncreaseFactors
+import com.equisoft.financialapi.infrastructure.taxca.constants.misc.LifeExpectancy
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.CanadaPensionPlan
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.DefinedBenefitPensionPlan
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.MoneyPurchasePensionPlan
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.OldAgeSecurity
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.PensionableEarnings
+import com.equisoft.financialapi.infrastructure.taxca.constants.pension.QuebecPensionPlan
+import com.equisoft.financialapi.infrastructure.taxca.constants.taxes.QuebecParentalInsurancePlan
+import com.equisoft.taxca.jvm.calculateCppContributionCoverageFactorDecimal
+import com.equisoft.taxca.jvm.getMinimumRequestDate
+import com.equisoft.taxca.jvm.getMonthlyOASAmount
+import com.equisoft.taxca.jvm.getRequestDateFactor
+import com.equisoft.taxca.jvm.getRequestDateMonthsDeferred
+import com.equisoft.taxca.jvm.getResidencyYearsAtRequest
+import com.equisoft.taxca.jvm.isRequestDateValid
+import com.equisoft.taxca.jvm.toDecimal
+import com.equisoft.taxca.misc.Ipf
+import com.equisoft.taxca.misc.LifeExpectancy as KmpLifeExpectancy
+import com.equisoft.taxca.misc.PppIncreaseFactor
+import com.equisoft.taxca.pension.Cpp
+import com.equisoft.taxca.pension.DefinedBenefit
+import com.equisoft.taxca.pension.MoneyPurchase
+import com.equisoft.taxca.pension.Oas
+import com.equisoft.taxca.pension.Qpp
+import com.equisoft.taxca.taxes.Qpip
+import com.equisoft.taxca.investments.Rrsp
+import com.equisoft.taxca.investments.Tfsa
+import java.math.BigDecimal
+import java.time.LocalDate
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+
+class TaxCaKmpParityTest {
+    private fun assertSameValue(expected: BigDecimal, actual: BigDecimal, label: String) {
+        assertEquals(0, expected.compareTo(actual), "$label: $expected vs $actual")
+    }
+
+    @Test
+    fun `constants match the duplicated financial-api values`() {
+        // QPP / CPP
+        assertSameValue(QuebecPensionPlan.MAX_PENSION.RETIREMENT, Qpp.maxPension.retirement.toDecimal(), "QPP retirement")
+        assertSameValue(CanadaPensionPlan.MAX_PENSION.RETIREMENT, Cpp.maxPension.retirement.toDecimal(), "CPP retirement")
+        assertSameValue(QuebecPensionPlan.MONTHLY_DELAY.BONUS, Qpp.monthlyDelay.bonus.toDecimal(), "QPP bonus")
+        assertSameValue(QuebecPensionPlan.MONTHLY_DELAY.PENALTY, Qpp.monthlyDelay.penalty.toDecimal(), "QPP penalty")
+        assertSameValue(QuebecPensionPlan.CONTRIBUTION_RATES.BASE, Qpp.contributionRates.base.toDecimal(), "QPP base rate")
+        assertSameValue(CanadaPensionPlan.CONTRIBUTION_RATES.BASE, Cpp.contributionRates.base.toDecimal(), "CPP base rate")
+        assertSameValue(
+            CanadaPensionPlan.CONTRIBUTION_RATES.ENHANCEMENT_STEP_TWO,
+            Cpp.contributionRates.enhancementStep2.toDecimal(),
+            "CPP enhancement",
+        )
+        assertSameValue(QuebecPensionPlan.REPLACEMENT_FACTOR, Qpp.replacementFactor.toDecimal(), "QPP replacement")
+        assertSameValue(QuebecPensionPlan.YEARS_TO_FULL_PENSION, Qpp.yearsToFullPension.toDecimal(), "QPP years to full")
+        assertEquals(QuebecPensionPlan.DEFAULT_REFERENCE_AGE, Qpp.defaultReferenceAge)
+        assertEquals(QuebecPensionPlan.MIN_REQUEST_AGE, Qpp.minRequestAge)
+        assertEquals(QuebecPensionPlan.MAX_REQUEST_AGE, Qpp.maxRequestAge)
+        assertEquals(CanadaPensionPlan.MAX_REQUEST_AGE, Cpp.maxRequestAge)
+
+        // Shared pensionable earnings
+        assertSameValue(PensionableEarnings.BASIC_EXEMPTION, Cpp.pensionableEarnings.basicExemption.toDecimal(), "basic exemption")
+        assertSameValue(PensionableEarnings.YMPE, Cpp.pensionableEarnings.ympe.toDecimal(), "YMPE")
+        assertSameValue(PensionableEarnings.YMPE_AVG_5, Cpp.pensionableEarnings.ympeAvg5.toDecimal(), "YMPE avg5")
+        assertSameValue(PensionableEarnings.YAMPE, Cpp.pensionableEarnings.yampe.toDecimal(), "YAMPE")
+        assertSameValue(PensionableEarnings.YAMPE_AVG_5, Cpp.pensionableEarnings.yampeAvg5.toDecimal(), "YAMPE avg5")
+
+        // OAS
+        assertEquals(OldAgeSecurity.MAX_AGE, Oas.maxAge)
+        assertEquals(OldAgeSecurity.MIN_AGE, Oas.minAge)
+        assertEquals(OldAgeSecurity.AGE_OF_MAJORITY, Oas.ageOfMajority)
+        assertEquals(OldAgeSecurity.MIN_RESIDENCY_REQUIRED, Oas.minResidency)
+        assertEquals(OldAgeSecurity.MAX_RESIDENCY_REQUIRED, Oas.maxResidency)
+        assertEquals(OldAgeSecurity.INCREASE_AGE, Oas.increase.age)
+        assertSameValue(OldAgeSecurity.INCREASE_RATE, Oas.increase.rate.toDecimal(), "OAS increase rate")
+        assertSameValue(OldAgeSecurity.MONTHLY_PAYMENT_MAX, Oas.monthlyPaymentMax.toDecimal(), "OAS monthly max")
+        assertSameValue(OldAgeSecurity.MONTHLY_DELAY_BONUS, Oas.monthlyDelayBonus.toDecimal(), "OAS delay bonus")
+
+        // Contribution ceilings
+        assertSameValue(TaxFreeSavingsAccount.MAX_CONTRIBUTION, Tfsa.maxContribution.toDecimal(), "TFSA")
+        assertSameValue(RegisteredRetirementSavingsPlan.MAX_CONTRIBUTION, Rrsp.maxContribution.toDecimal(), "RRSP")
+        assertSameValue(MoneyPurchasePensionPlan.MAX_CONTRIBUTION, MoneyPurchase.maxContribution.toDecimal(), "MP")
+        assertSameValue(DefinedBenefitPensionPlan.MAX_CONTRIBUTION, DefinedBenefit.maxContribution.toDecimal(), "DB")
+
+        // IQPF statistics (note financial-api's BURROWING_RATE typo -> borrowingRate)
+        assertSameValue(IQPFStatistics.INFLATION, Ipf.inflation.toDecimal(), "inflation")
+        assertSameValue(IQPFStatistics.BURROWING_RATE, Ipf.borrowingRate.toDecimal(), "borrowing rate")
+        assertSameValue(IQPFStatistics.RETURN_RATES.SHORT_TERM, Ipf.returnRates.shortTerm.toDecimal(), "short term")
+        assertSameValue(IQPFStatistics.RETURN_RATES.FIXED_INCOME, Ipf.returnRates.fixedIncome.toDecimal(), "fixed income")
+        assertSameValue(IQPFStatistics.RETURN_RATES.CANADIAN_EQUITY, Ipf.returnRates.canadianEquities.toDecimal(), "cdn equities")
+        assertSameValue(IQPFStatistics.RETURN_RATES.US_EQUITY, Ipf.returnRates.usEquities.toDecimal(), "us equities")
+        assertSameValue(
+            IQPFStatistics.RETURN_RATES.FOREIGN_DEVELOPED_MARKET_EQUITIES,
+            Ipf.returnRates.foreignDevelopedMarketEquities.toDecimal(),
+            "foreign equities",
+        )
+        assertSameValue(
+            IQPFStatistics.RETURN_RATES.EMERGING_MARKET_EQUITIES,
+            Ipf.returnRates.emergingMarketEquities.toDecimal(),
+            "emerging equities",
+        )
+
+        // QPIP
+        assertSameValue(QuebecParentalInsurancePlan.MAX_INSURABLE_EARNINGS, Qpip.maxInsurableEarnings.toDecimal(), "QPIP max")
+        assertSameValue(
+            QuebecParentalInsurancePlan.PREMIUM_RATES.SELF_EMPLOYED,
+            Qpip.premiumRates.selfEmployed.toDecimal(),
+            "QPIP self-employed",
+        )
+        assertSameValue(QuebecParentalInsurancePlan.PREMIUM_RATES.SALARIED, Qpip.premiumRates.salaried.toDecimal(), "QPIP salaried")
+
+        // PPP increase factors (financial-api FIRST..SEVENTH_YEAR)
+        assertSameValue(IncreaseFactors.FIRST_YEAR, PppIncreaseFactor.firstYear.toDecimal(), "increase factor Y1")
+        assertSameValue(IncreaseFactors.SEVENTH_YEAR, PppIncreaseFactor.seventhYear.toDecimal(), "increase factor Y7")
+
+        // Life expectancy tables
+        assertEquals(LifeExpectancy.MALE, KmpLifeExpectancy.male, "male life expectancy table")
+        assertEquals(LifeExpectancy.FEMALE, KmpLifeExpectancy.female, "female life expectancy table")
+    }
+
+    @Test
+    fun `request date factors match over a grid`() {
+        val births = listOf(LocalDate.of(1955, 2, 28), LocalDate.of(1960, 1, 1), LocalDate.of(1963, 7, 15))
+        for (birth in births) {
+            for (age in 58..75) {
+                val request = birth.plusYears(age.toLong())
+                val theirsCpp = CanadaPensionPlan.calculateRequestDateFactor(birth, request, null)
+                val oursCpp = Cpp.getRequestDateFactor(birth, request)
+                assertEquals(theirsCpp.toDouble(), oursCpp, 1e-9, "CPP factor birth=$birth age=$age")
+
+                val theirsQpp = QuebecPensionPlan.calculateRequestDateFactor(birth, request, null)
+                val oursQpp = Qpp.getRequestDateFactor(birth, request)
+                assertEquals(theirsQpp.toDouble(), oursQpp, 1e-9, "QPP factor birth=$birth age=$age")
+            }
+        }
+    }
+
+    @Test
+    fun `CPP contribution coverage factor matches exactly`() {
+        val birth = LocalDate.of(1960, 1, 1)
+        for (years in listOf(null, 1, 10, 25, 39, 40, 50)) {
+            for (request in listOf(LocalDate.of(2025, 1, 1), LocalDate.of(2030, 1, 1))) {
+                val theirs = CanadaPensionPlan.calculateContributionCoverageFactor(birth, request, years)
+                val ours = calculateCppContributionCoverageFactorDecimal(birth, request, years)
+                assertSameValue(theirs, ours, "CCF years=$years request=$request")
+            }
+        }
+    }
+
+    @Test
+    fun `OAS functions match (excluding the D1 age-75 divergence)`() {
+        val birth = LocalDate.of(1960, 7, 15)
+        for (yearsOutside in listOf(0, 5, 12, 30)) {
+            assertEquals(
+                OldAgeSecurity.getMinimumRequestAge(yearsOutside),
+                Oas.getMinimumRequestAge(yearsOutside),
+                "min request age yearsOutside=$yearsOutside",
+            )
+            assertEquals(
+                OldAgeSecurity.getMinimumRequestDate(birth, yearsOutside),
+                Oas.getMinimumRequestDate(birth, yearsOutside),
+                "min request date yearsOutside=$yearsOutside",
+            )
+            // Compare only below the age-75 increase boundary: the increase behavior is
+            // the known D1 divergence pending the domain ruling.
+            for (age in 65..74) {
+                val request = birth.plusYears(age.toLong())
+                if (!OldAgeSecurity.isRequestDateValid(birth, request, yearsOutside)) continue
+                assertTrue(Oas.isRequestDateValid(birth, request, yearsOutside), "valid age=$age yearsOutside=$yearsOutside")
+                assertEquals(
+                    OldAgeSecurity.getResidencyYearsAtRequest(birth, request, yearsOutside),
+                    Oas.getResidencyYearsAtRequest(birth, request, yearsOutside),
+                    "residency years age=$age yearsOutside=$yearsOutside",
+                )
+                assertEquals(
+                    OldAgeSecurity.getRequestDateMonthsDeferred(birth, request, yearsOutside),
+                    Oas.getRequestDateMonthsDeferred(birth, request, yearsOutside).toLong(),
+                    "months deferred age=$age yearsOutside=$yearsOutside",
+                )
+                assertEquals(
+                    OldAgeSecurity.getMonthlyOASAmount(birth, request, yearsOutside).toDouble(),
+                    Oas.getMonthlyOASAmount(birth, request, yearsOutside),
+                    1e-6,
+                    "monthly OAS age=$age yearsOutside=$yearsOutside",
+                )
+            }
+        }
+    }
+}
