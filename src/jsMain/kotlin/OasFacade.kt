@@ -88,7 +88,8 @@ private fun buildOasJs(): dynamic {
         val maximumAgeDeferredDate = addYearsToDate(birthDate, obj.MAX_AGE as Int)
         val maxDeferredDate =
             if (maximumAgeDeferredDate.getTime() <= requestDate.getTime()) maximumAgeDeferredDate else requestDate
-        kotlin.math.abs(getMonthsDiff(maxDeferredDate, minRequestDate))
+        // Aucune fenêtre de report si l'admissibilité survient après 70 ans : plancher à 0.
+        kotlin.math.max(getMonthsDiff(minRequestDate, maxDeferredDate), 0)
     }
     obj.isFullResidencyAtMinOASAge = { birthDate: Date, yearsOutsideCanadaAtRequest: Int ->
         val minRequestDate = addYearsToDate(birthDate, obj.MIN_AGE as Int)

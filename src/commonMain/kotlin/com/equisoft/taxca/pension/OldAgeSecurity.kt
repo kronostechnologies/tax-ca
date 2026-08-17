@@ -14,7 +14,6 @@ import com.equisoft.taxca.utils.addYearsToDate
 import com.equisoft.taxca.utils.clamp
 import com.equisoft.taxca.utils.getAge
 import com.equisoft.taxca.utils.getMonthsDiff
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlinx.datetime.LocalDate
@@ -156,7 +155,10 @@ data class OldAgeSecurity(
         val minRequestDate = getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest)
         val maximumAgeDeferredDate = addYearsToDate(birthDate, maxAge)
         val maxDeferredDate = minOf(maximumAgeDeferredDate, requestDate)
-        return abs(getMonthsDiff(maxDeferredDate, minRequestDate))
+        // Un report volontaire n'est possible que si l'admissibilité (minRequestDate)
+        // survient avant l'âge maximal de report (70 ans). Si le prestataire ne devient
+        // admissible qu'après 70 ans, il n'y a aucune fenêtre de report : plancher à 0.
+        return max(getMonthsDiff(minRequestDate, maxDeferredDate), 0)
     }
 
     fun isFullResidencyAtMinOASAge(birthDate: LocalDate, yearsOutsideCanadaAtRequest: Int): Boolean {
