@@ -409,6 +409,18 @@ class GetRequestDateMonthsDeferredTest {
 
         assertEquals(24, result) // 70 - 68 = 2 years = 24 months
     }
+
+    @Test
+    fun shouldReturn0WhenEligibilityIsReachedOnlyAfterMaxDeferralAge() {
+        val birthDate = LocalDate(1980, 1, 1)
+        val requestDate = LocalDate(2054, 1, 1) // 74th birthday, minimum is 74 with 46 years outside
+
+        // No voluntary-deferral window exists between 65 and 70: the participant is not
+        // eligible until 74, so months deferred must be 0 (not abs(-48) = 48).
+        val result = Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 46)
+
+        assertEquals(0, result)
+    }
 }
 
 class IsFullResidencyAtMinOasAgeTest {
@@ -592,6 +604,19 @@ class GetMonthlyOasAmountTest {
 
             assertEquals(expected, result, "getMonthlyOASAmount($birthDate, $requestDate, $yearsOutsideCanadaBeforeOas)")
         }
+    }
+
+    @Test
+    fun shouldNotBonifyPartialAmountWhenEligibilityIsReachedOnlyAfterMaxDeferralAge() {
+        val birthDate = LocalDate(1980, 1, 1)
+        val requestDate = LocalDate(2054, 1, 1) // 74th birthday, eligible at 74 with 46 years outside
+
+        val result = Oas.getMonthlyOASAmount(birthDate, requestDate, 46)
+
+        // residency = 74 - 18 - 46 = 10 years, ratio = 10/40 = 0.25
+        // The participant was never eligible during the 65-70 deferral window, so the
+        // partial amount must NOT be bonified: 0.25 * MONTHLY_MAX (no delay bonus).
+        assertEquals(Oas.monthlyPaymentMax * 0.25, result)
     }
 
     @Test
