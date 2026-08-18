@@ -28,7 +28,7 @@ kotlin {
         }
         commonMain {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
             }
         }
         commonTest {
