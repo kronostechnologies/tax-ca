@@ -5,7 +5,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html (delay bonus)
 
 Revised
-    2026-06-30
+    2026-10-05
 */
 
 package com.equisoft.taxca.pension
@@ -231,13 +231,13 @@ val Oas: OldAgeSecurity = OldAgeSecurity(
     increase = OasIncrease(
         age = 75,
         rate = 0.1,
-        repaymentMax = 161088.0,
+        repaymentMax = 161320.00,
     ),
-    monthlyPaymentMax = 751.97,
+    monthlyPaymentMax = 762.50,
     monthlyDelayBonus = 0.006,
     repayment = Repayment(
-        max = 155109.0,
-        min = 95323.0,
+        max = 155320.00,
+        min = 95323.00,
         ratio = 0.15,
     ),
 )
