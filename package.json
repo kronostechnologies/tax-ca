@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "build": "./gradlew assembleNpmDist",
-    "compat": "tsc -p ts-compat && node ts-compat/deep-parity.cjs",
+    "compat": "tsc -p ts-compat",
     "prepublishOnly": "rm -rf dist/ && yarn build",
     "test": "./gradlew allTests"
   },

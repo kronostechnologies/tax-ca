@@ -27,8 +27,8 @@ Eligibility test also differs (financial-api: after 75th birthday; tax-ca: age >
 The audit's assessment is that financial-api is correct and tax-ca has a bug.
 **Consequence either way:** if financial-api is right, fixing this *changes numeric
 output* for fna-engine/kronos-fna — the change must be its own release (or a flagged
-line in the KMP release notes) and the golden-parity corpus must encode the ruled
-behavior, not blind old-output equality.
+line in the KMP release notes) and its expected behavior must be covered by the Kotlin
+tests, rather than preserving old-output equality.
 **Owner: domain/actuarial owner of OAS logic. Blocks: Phase 2 port of OAS.**
 
 ### D2 — Number representation across platforms

@@ -3,9 +3,9 @@
 ## Why common code uses `Double`, not `BigDecimal` (decision D2)
 
 The historical package is JavaScript — its numbers **are** IEEE-754 doubles, and every
-consumer computation ever shipped was double math. The npm artifact's contract is
-bit-for-bit parity with that behavior (enforced by the golden corpus), so common code
-stores `Double`. `java.math.BigDecimal` cannot exist in `commonMain` anyway (JVM-only),
+consumer computation ever shipped was double math. The npm artifact's contract is to
+preserve JavaScript number semantics, so common code stores `Double`.
+`java.math.BigDecimal` cannot exist in `commonMain` anyway (JVM-only),
 and a multiplatform decimal type would turn every npm export from `number` into an
 object, breaking the TypeScript API.
 

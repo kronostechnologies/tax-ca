@@ -61,7 +61,7 @@ jobs:
         run: ./gradlew build
 
   compat:
-    name: npm compatibility gates
+    name: npm TypeScript declarations
     runs-on: ubuntu-latest
     needs:
       - setup
@@ -87,7 +87,7 @@ jobs:
       - name: Build package (Kotlin/JS)
         run: yarn build
 
-      - name: Compatibility gates (type smoke + golden corpus)
+      - name: TypeScript consumer-surface check
         run: yarn compat
 
   build:

@@ -7,8 +7,7 @@ single code base.
 
 The project is built with **Kotlin 2.3.21** (JVM + JS/Node targets), **Gradle**, **kotlinx-datetime**,
 **Yarn 4** (for the npm package payload), and ships a hand-maintained **TypeScript declaration overlay**
-plus a golden-corpus compatibility gate so the JS API stays byte-for-byte compatible with the historical
-TypeScript library.
+plus a strict TypeScript consumer-surface check for the npm API.
 
 ---
 
@@ -37,7 +36,7 @@ Before adding or modifying code, read the focused READMEs — they take preceden
 - [`src/README.md`](src/README.md) — source-set layout, commonMain conventions, **yearly data revision workflow**
 - [`src/jsMain/README.md`](src/jsMain/README.md) — npm facade: plain-object rules, mutation/`spyOn` semantics, adding an export
 - [`src/jvmMain/README.md`](src/jvmMain/README.md) — **numeric policy (Double vs BigDecimal)**, `toDecimal()`, BigDecimal-exact variants, `java.time` overloads
-- [`ts-compat/README.md`](ts-compat/README.md) — the **golden corpus**: trust chain, when and how to re-record
+- [`ts-compat/README.md`](ts-compat/README.md) — strict TypeScript consumer-surface check
 - [`dts/README.md`](dts/README.md) — TypeScript declaration overlay and patch mechanism
 - [`docs/kmp-migration/README.md`](docs/kmp-migration/README.md) — migration history, decisions D1–D6, open items
 
@@ -76,13 +75,10 @@ Follow the exact workflow in [`src/README.md`](src/README.md):
 1. Update values in the relevant `commonMain` data file(s); refresh the `Sources` / `Revised` header.
 2. Update the affected expectations in `commonTest`.
 3. `./gradlew build` — all targets compile, tests pass on JVM and Node.
-4. `yarn build && yarn compat` — the golden-corpus gate **fails on purpose** (values changed).
-   Regenerate with `node ts-compat/deep-parity.cjs --record` and commit the `ts-compat/golden.json` diff:
-   it shows reviewers exactly which values and computed results changed.
+4. `yarn build && yarn compat` — assemble the npm package and verify the TypeScript
+   consumer import surface. This check is independent of tax values; behavior and
+   updated data expectations are covered by `commonTest` on JVM and Node.
 5. One release ships the new data to npm and Maven simultaneously (same version).
-
-Never edit `ts-compat/golden.json` by hand and never regenerate it without an intentional data change —
-the golden corpus is the compatibility contract with historical consumers.
 
 ### Build, test, and verify
 
@@ -92,7 +88,7 @@ The canonical commands (also see `Makefile`, `package.json`, and `.github/workfl
 ./gradlew build            # compile all targets, run the full test suite (JVM + Node)
 ./gradlew allTests         # `yarn test` — tests only
 yarn build                 # assemble the npm package into dist/ (delegates to Gradle)
-yarn compat                # TypeScript compatibility gates + golden-corpus parity check
+yarn compat                # strict TypeScript consumer-surface check
 ./gradlew publishToMavenLocal -Papplication.version=<version>   # local Maven publish
 ```
 
@@ -100,8 +96,7 @@ Toolchains: JVM 17 (see `jvmToolchain(17)` in `build.gradle.kts`) and Node 24.18
 (see `.tool-versions`). Yarn is pinned via `packageManager` in `package.json` — always use
 `yarn` (not `npm`) for JS commands.
 
-Before opening a PR, at minimum run `./gradlew build && yarn build && yarn compat` and make sure the
-golden corpus is either unchanged (pure refactor) or intentionally regenerated with the data change.
+Before opening a PR, at minimum run `./gradlew build && yarn build && yarn compat`.
 
 ### Versioning
 

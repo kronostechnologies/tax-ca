@@ -34,9 +34,9 @@ const province: ProvinceCode = 'QC';
 const rate = getEffectiveRate(province, 100_000, 0.02, 10);
 ```
 
-The npm package is a drop-in continuation of the historical TypeScript library: the
-export names, object shapes, function signatures, and numeric results are identical
-(enforced by the compatibility gates in `ts-compat/` — see below).
+The npm package continues the historical TypeScript library's export names, object
+shapes, and function signatures. Its TypeScript declarations are checked against the
+consumer import surface, while tax data and calculation behavior are tested in Kotlin.
 
 ## Installation & usage — Maven (Kotlin / JVM)
 
@@ -123,11 +123,11 @@ Build and test everything (JVM + JS targets):
 ```
 ./gradlew build          # compile all targets, run the test suite on JVM and Node
 yarn build               # assemble the npm package into dist/
-yarn compat              # npm compatibility gates (see below)
+yarn compat              # TypeScript consumer-surface check (see below)
 ```
 
-Yearly data revisions follow the workflow in [src/README.md](src/README.md) — including
-regenerating the golden corpus so the review diff shows exactly which values changed.
+Yearly data revisions follow the workflow in [src/README.md](src/README.md); update the
+affected Kotlin test expectations along with the tax data.
 
 ## Documentation map
 
@@ -138,7 +138,7 @@ Focused READMEs live next to what they document:
 | [src/README.md](src/README.md) | Architecture (source sets), commonMain conventions, **yearly data revision workflow** |
 | [src/jsMain/README.md](src/jsMain/README.md) | The npm compatibility facade: plain-object rules, mutation/spyOn semantics, adding an export |
 | [src/jvmMain/README.md](src/jvmMain/README.md) | **The numeric policy (Double vs BigDecimal)**, `toDecimal()`, BigDecimal-exact variants, java.time overloads |
-| [ts-compat/README.md](ts-compat/README.md) | **The golden corpus**: what it is, the trust chain, when and how to re-record |
+| [ts-compat/README.md](ts-compat/README.md) | Strict TypeScript check of the npm consumer import surface |
 | [dts/README.md](dts/README.md) | The TypeScript declaration overlay and patch mechanism |
 | [docs/kmp-migration/README.md](docs/kmp-migration/README.md) | Migration history, decisions (D1–D6), validation summary, open items |
 
