@@ -16,8 +16,9 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
 
 ## Validation summary (as of 2026-07-17)
 
-- Golden corpus recorded from a build verified against the final legacy build
-  (18,923 checks, 0 mismatches) — see `ts-compat/README.md`.
+- During migration, the golden corpus recorded from a build verified against the final
+  legacy build (18,923 checks, 0 mismatches); this migration-only snapshot was removed
+  after cutover so future tax-data revisions are not compared to frozen values.
 - Real consumers: kronos-fna **231/231**, fna-engine **689/689** (incl. the 18
   `dist/misc/code-types` deep imports via the shipped shim), financial-api **4/4**.
 - 230 historical jest specs passed unmodified against the built package before their
@@ -26,8 +27,7 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
 ## Still open
 
 - **D1** — OAS age-75 increase behavior: tax-ca (ported verbatim) vs financial-api
-  differ; needs a domain ruling, then a deliberate, release-noted change + golden
-  re-record.
+  differ; needs a domain ruling, then a deliberate, release-noted change.
 - **D4** — Maven registry values (`MAVEN_REPOSITORY_URL` + credentials) to activate the
   CI `publish-maven` job.
 - Org-wide GitHub code search for `"@equisoft/tax-ca"` to rule out unknown consumers

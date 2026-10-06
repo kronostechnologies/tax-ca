@@ -50,10 +50,10 @@ Functions:
 `getEffectiveRate`, `getFederalBasicPersonalAmount`, `getMonthsDiff`, `getRate`,
 `getTotalMaxMarginalRate`
 
-Everything else in the package is currently unconsumed by these two projects, but the
-compatibility gates (existing jest suite + golden parity corpus) still cover the full
-surface in `api-baseline.md`; this list is the "cannot break under any circumstance"
-core.
+Everything else in the package is currently unconsumed by these two projects. During
+the KMP migration, the legacy Jest suite, golden parity corpus, and real consumer suites
+were used to verify the full surface. The migration-only parity snapshot has since been
+removed; current logic-level regression coverage lives in `src/commonTest`.
 
 ## Follow-ups
 

@@ -1,13 +1,14 @@
 # Phase 2 porting conventions (tax-ca TS → Kotlin Multiplatform)
 
 > **HISTORICAL DOCUMENT** — the port is complete and the legacy TypeScript sources were
-> removed from the repo on 2026-07-17 (the parity baseline is now the golden corpus in
-> `ts-compat/golden.json`). The facade recipes below remain the reference for adding new
+> removed from the repo on 2026-07-17. The parity corpus used to verify the migration has
+> since been retired. The facade recipes below remain the reference for adding new
 > exports; references to `src/**/*.ts` and `build/legacy-dist` describe the state during
 > the migration.
 
 Follow these recipes exactly. They were established by the walking skeleton
-(`utils/math`, `DEFINED_BENEFIT`) and validated by the parity gate. When in doubt, look
+(`utils/math`, `DEFINED_BENEFIT`) and validated against the legacy implementation during
+the migration. When in doubt, look
 at the existing files listed under "Reference examples".
 
 ## Layout
@@ -45,8 +46,8 @@ comment verbatim at the top of each ported data file.
   Always go through `roundToPrecision` (already JS-faithful) or `floor(x + 0.5)`.
 - `Math.trunc(a / b)` on positives/negatives = Kotlin `Int` division (truncates toward
   zero) — a comment noting this is enough.
-- Preserve computation order and rounding call sites exactly; the parity gate compares
-  against the legacy JS build bit-for-bit.
+- Preserve computation order and rounding call sites exactly; this was validated
+  against the legacy JS build during the migration.
 
 ## JS facade (compatibility layer)
 

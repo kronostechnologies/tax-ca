@@ -1,5 +1,5 @@
 // Shared helpers for the JS compatibility facade: convert common Kotlin structures to
-// the exact plain-JS shapes the legacy package exposed (verified by ts-compat/parity.cjs).
+// the exact plain-JS shapes the legacy package exposed.
 
 package com.equisoft.taxca.interop
 

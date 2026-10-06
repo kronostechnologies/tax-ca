@@ -15,8 +15,8 @@ cannot see. These are now hard rules:
    `js("{}")`), never `@JsExport` class instances. Consumers spread them (`{ ...QPP }`)
    and mutate them in tests (`OAS.MONTHLY_PAYMENT_MAX = 1000`); Kotlin class instances
    keep properties on the prototype as read-only getters and break both *silently*.
-2. **Property order matches the legacy build** — consumers enumerate keys; the golden
-   corpus asserts the exact own-key sequence.
+2. **Property order matches the legacy build** — consumers enumerate keys, so preserve
+   the established property order when changing facade objects.
 3. **Methods re-read the object's current property values on every call** (rebuild the
    common data class from the JS object, e.g. `Oas.copy(monthlyPaymentMax = o.MONTHLY_PAYMENT_MAX ...)`)
    so consumer mutations affect computations, like legacy `this.X` reads did.
@@ -39,5 +39,5 @@ cannot see. These are now hard rules:
 2. Type it: entry in `dtsConstTypes`/`dtsLinePatches` in `build.gradle.kts` + interface
    in `dts/overlay.d.ts` ([../../dts/README.md](../../dts/README.md)). An untyped `any`
    export fails the build on purpose.
-3. Re-record the golden corpus ([../../ts-compat/README.md](../../ts-compat/README.md))
-   and, if consumers will import it, add it to `ts-compat/smoke.ts`.
+3. Add consumer-facing usage to `ts-compat/smoke.ts` and run the strict declaration
+   check ([../../ts-compat/README.md](../../ts-compat/README.md)).

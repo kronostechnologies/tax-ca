@@ -1,7 +1,7 @@
-// Type-level compatibility gate: the built package's declarations must support every
+// Type-level compatibility check: the built package's declarations must support every
 // import and usage pattern of the real consumers (fna-engine, kronos-fna — see
 // docs/kmp-migration/consumers.md), under strict TypeScript. Checked with `tsc --noEmit`;
-// runtime parity is covered by parity.cjs / deep-parity.cjs / jest.config.cjs.
+// tax calculation behavior is covered by the Kotlin commonTest suite on JVM and Node.
 
 import {
     Beneficiary,

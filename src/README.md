@@ -31,8 +31,8 @@ One Kotlin Multiplatform code base produces both published artifacts (npm
    `Sources` / `Revised` header.
 2. Update the affected expectations in `commonTest`.
 3. `./gradlew build` — all targets compile, tests pass on JVM and Node.
-4. `yarn build && yarn compat` — the golden-corpus gate **fails on purpose** (values
-   changed). Regenerate with `node ts-compat/deep-parity.cjs --record` and commit the
-   `ts-compat/golden.json` diff: it shows reviewers exactly which values and computed
-   results changed. See [../ts-compat/README.md](../ts-compat/README.md).
+4. `yarn build && yarn compat` — assemble the npm package and check that its TypeScript
+   declarations still support the consumer import surface. This check is independent
+   of tax values. Behavior and updated data expectations are covered by `commonTest`
+   on JVM and Node. See [../ts-compat/README.md](../ts-compat/README.md).
 5. One release ships the new data to npm and Maven simultaneously (same version).
