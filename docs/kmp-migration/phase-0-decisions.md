@@ -53,11 +53,10 @@ functions currently take `java.time.LocalDate`. `jvmMain` ships `java.time` over
 **Owner: financial-api team preference (kotlinx vs java.time as primary). Blocks: Phase 2.**
 
 ### D4 — Maven coordinates and registry
-Proposed: `com.equisoft:tax-ca` (or `com.equisoft.taxca:tax-ca`), published to the same
-internal registry financial-api already pulls from. **Owner: platform/infra.**
-Status (Phase 4): coordinates `com.equisoft:tax-ca` implemented; publishing is wired in
-CI behind the `MAVEN_REPOSITORY_URL` repository variable + username/password secrets —
-inert until infra provides values. `publishToMavenLocal` verified.
+Coordinates: `com.equisoft:tax-ca`, published to GitHub Packages at
+`https://maven.pkg.github.com/kronostechnologies/tax-ca`. CI publishes with its
+`GITHUB_TOKEN`; consumers need a GitHub token with read access to the package.
+`publishToMavenLocal` is available for local verification.
 
 ### D5 — fna-engine deep imports (18 files import `@equisoft/tax-ca/dist/misc/code-types`)
 **RESOLVED (Phase 4): option (a), shim.** The `assembleNpmDist` Gradle task ships
@@ -98,6 +97,6 @@ layer already abstracts the constant names, so both consumers are insulated.
 - [x] D2/D3 acknowledged by financial-api team — signed off 2026-07-16 by Jean-Simon
       Garneau (financial-api). Cutover steps captured in a standalone plan to be run
       inside financial-api: `financial-api/docs/tax-ca-kmp-cutover-plan.md`
-- [ ] D4 coordinates + registry confirmed
+- [x] D4 coordinates + registry confirmed — GitHub Packages selected
 - [ ] Org-wide GitHub code search for `"@equisoft/tax-ca"` (rule out unknown consumers; `gh` not installed locally)
 - [ ] Proposed rulings table approved

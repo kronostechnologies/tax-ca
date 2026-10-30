@@ -48,11 +48,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Setup JDK
-        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
-        with:
-          distribution: temurin
-          java-version: 17
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v2
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5
@@ -71,12 +68,6 @@ jobs:
 
       - name: Setup asdf-vm
         uses: equisoft-actions/with-asdf-vm@v2
-
-      - name: Setup JDK
-        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
-        with:
-          distribution: temurin
-          java-version: 17
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5
@@ -101,12 +92,6 @@ jobs:
 
       - name: Setup asdf-vm
         uses: equisoft-actions/with-asdf-vm@v2
-
-      - name: Setup JDK
-        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
-        with:
-          distribution: temurin
-          java-version: 17
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5
@@ -186,36 +171,36 @@ jobs:
   publish-maven:
     name: Publish to Maven
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     needs:
       - setup
       - build
       - kmp
       - compat
 
-    # Registry coordinates are migration decision D4: configure the MAVEN_REPOSITORY_URL
-    # repository variable (plus MAVEN_REPOSITORY_USERNAME/PASSWORD secrets) to activate.
-    if: ${{ needs.setup.outputs.publishable == 'true' && vars.MAVEN_REPOSITORY_URL != '' }}
+    if: ${{ needs.setup.outputs.publishable == 'true' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Setup JDK
-        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
-        with:
-          distribution: temurin
-          java-version: 17
+      - name: Setup asdf-vm
+        uses: equisoft-actions/with-asdf-vm@v2
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5
 
       - name: Publish
-        env:
-          MAVEN_REPOSITORY_URL: ${{ vars.MAVEN_REPOSITORY_URL }}
-          MAVEN_REPOSITORY_USERNAME: ${{ secrets.MAVEN_REPOSITORY_USERNAME }}
-          MAVEN_REPOSITORY_PASSWORD: ${{ secrets.MAVEN_REPOSITORY_PASSWORD }}
-          VERSION: ${{ needs.setup.outputs.version }}
-        run: ./gradlew publish "-Papplication.version=${VERSION}"
+        shell: bash
+        run: |
+          ./gradlew publish \
+            -Papplication.version=${{ needs.setup.outputs.version }} \
+            -Pgpr.user=${{ secrets.GPR_USER }} \
+            -Pgpr.key=${{ secrets.GPR_KEY }} \
+            -Pgpr.write.user=${{ secrets.GPR_USER }} \
+            -Pgpr.write.key=${{ secrets.GPR_KEY }}
 
   notify:
     name: Notify

@@ -114,5 +114,5 @@ Expected: 4/4. Revert with `git checkout -- api/build.gradle.kts` and delete the
   tax-ca (migration decision D1, pending domain ruling); the parity test compares only
   below that boundary.
 - The npm package freezes `now()` to 2020-01-01 under `NODE_ENV=test`, same as legacy.
-- Once the Maven registry is configured (decision D4), branch snapshots can be published
-  centrally and step 1 of the financial-api flow disappears.
+- Branch snapshots can be published to GitHub Packages (decision D4), so step 1 of the
+  financial-api flow can use the Maven artifact directly.
