@@ -54,8 +54,9 @@ functions currently take `java.time.LocalDate`. `jvmMain` ships `java.time` over
 
 ### D4 — Maven coordinates and registry
 Coordinates: `com.equisoft:tax-ca`, published to GitHub Packages at
-`https://maven.pkg.github.com/kronostechnologies/tax-ca`. CI publishes with its
-`GITHUB_TOKEN`; consumers need a GitHub token with read access to the package.
+`https://maven.pkg.github.com/kronostechnologies/tax-ca`. CI publishes with the
+`GPR_USER` and `GPR_KEY` secrets; the token must have package-write access.
+Consumers need a GitHub token with read access to the package.
 `publishToMavenLocal` is available for local verification.
 
 ### D5 — fna-engine deep imports (18 files import `@equisoft/tax-ca/dist/misc/code-types`)
