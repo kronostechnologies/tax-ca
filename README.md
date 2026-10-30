@@ -79,8 +79,9 @@ historical JavaScript package); `toDecimal()` converts with `BigDecimal.valueOf`
 functions with precision-sensitive arithmetic also ship a BigDecimal-exact JVM variant
 (e.g. `calculateCppContributionCoverageFactorDecimal`).
 
-> Registry note: Maven publishing activates once the `MAVEN_REPOSITORY_URL` repository
-> variable and credentials are configured in CI. Until then,
+> Maven releases are published to GitHub Packages at
+> `https://maven.pkg.github.com/kronostechnologies/tax-ca`. Consumers need a GitHub
+> token with read access to the package. For local publishing,
 > `./gradlew publishToMavenLocal -Papplication.version=<version>` publishes locally —
 > see [docs/kmp-migration/testing-in-consumers.md](docs/kmp-migration/testing-in-consumers.md).
 
@@ -144,7 +145,7 @@ Focused READMEs live next to what they document:
 
 ## Release
 
-Versions of this package are built by Github Actions.
+Versions of this package are built by GitHub Actions.
 All you need to do is create a new tag and release using the Github Interface. The
-pipeline publishes the npm package and, once the registry is configured, the Maven
-artifact from the same build.
+pipeline publishes the npm package and the Maven artifact to GitHub Packages from the
+same build.
