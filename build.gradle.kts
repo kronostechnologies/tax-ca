@@ -1,3 +1,5 @@
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+
 plugins {
     kotlin("multiplatform") version "2.3.21"
     `maven-publish`
@@ -158,6 +160,9 @@ val assembleNpmDist by tasks.registering(Copy::class) {
 }
 
 publishing {
+    publications.named<MavenPublication>("jvm") {
+        artifactId = "tax-ca"
+    }
     publications.withType<MavenPublication>().configureEach {
         pom {
             name.set("tax-ca")
@@ -182,5 +187,11 @@ publishing {
                     ?: System.getenv("GPR_KEY")
             }
         }
+    }
+}
+
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    onlyIf("Only the JVM artifact is published to Maven") {
+        publication.name == "jvm"
     }
 }

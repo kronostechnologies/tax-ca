@@ -108,5 +108,6 @@ Before opening a PR, at minimum run `./gradlew build && yarn build && yarn compa
 ### Publishing
 
 Releases are cut via GitHub Actions from a tag/release created in the GitHub UI. The workflow publishes
-both the npm package and the Maven artifact to GitHub Packages from the same build. See
-`.github/workflows/build-and-deploy.yml`.
+the npm package to npm and only the JVM Maven artifact to GitHub Packages from the same build.
+The JVM publication uses `com.equisoft:tax-ca`; multiplatform root and JS Maven publishing tasks
+are skipped, including for `publishToMavenLocal`. See `.github/workflows/build-and-deploy.yml`.
