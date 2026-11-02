@@ -28,8 +28,6 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
 
 - **D1** — OAS age-75 increase behavior: tax-ca (ported verbatim) vs financial-api
   differ; needs a domain ruling, then a deliberate, release-noted change.
-- **D4** — Maven registry values (`MAVEN_REPOSITORY_URL` + credentials) to activate the
-  CI `publish-maven` job.
 - Org-wide GitHub code search for `"@equisoft/tax-ca"` to rule out unknown consumers
   before rollout.
 - financial-api cutover: `financial-api/docs/tax-ca-kmp-cutover-plan.md`.

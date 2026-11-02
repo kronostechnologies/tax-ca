@@ -172,18 +172,14 @@ publishing {
         }
     }
     repositories {
-        // Registry coordinates are decision D4 (docs/kmp-migration/phase-0-decisions.md);
-        // CI provides the environment. Absent env vars = local-only publishing
-        // (publishToMavenLocal still works).
-        val repositoryUrl = System.getenv("MAVEN_REPOSITORY_URL")
-        if (repositoryUrl != null) {
-            maven {
-                name = "internal"
-                url = uri(repositoryUrl)
-                credentials {
-                    username = System.getenv("MAVEN_REPOSITORY_USERNAME")
-                    password = System.getenv("MAVEN_REPOSITORY_PASSWORD")
-                }
+        maven {
+            name = "equisoft-tax-ca"
+            url = uri("https://maven.pkg.github.com/kronostechnologies/tax-ca")
+            credentials {
+                username = project.findProperty("gpr.write.user")?.toString()
+                    ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.write.key")?.toString()
+                    ?: System.getenv("GPR_KEY")
             }
         }
     }

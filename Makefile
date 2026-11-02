@@ -8,6 +8,7 @@ all: setup check compile test
 setup:
 	@asdf plugin update nodejs || (asdf plugin add nodejs && ~/.asdf/plugins/nodejs/bin/import-release-team-keyring)
 	@asdf plugin update yarn || asdf plugin add yarn
+	@asdf plugin update java || asdf plugin add java
 	@asdf install
 	@yarn --cwd "$(BASE_DIR)"
 
