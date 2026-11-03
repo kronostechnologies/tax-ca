@@ -195,3 +195,9 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
         publication.name == "jvm"
     }
 }
+
+tasks.register("publishTaxCa") {
+    group = "publishing"
+    description = "Publishes the JVM tax-ca artifact to GitHub Packages."
+    dependsOn("publishJvmPublicationToEquisoft-tax-caRepository")
+}
