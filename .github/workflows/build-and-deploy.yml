@@ -195,7 +195,7 @@ jobs:
       - name: Publish
         shell: bash
         run: |
-          ./gradlew publish \
+          ./gradlew publishTaxCa \
             -Papplication.version=${{ needs.setup.outputs.version }} \
             -Pgpr.user=${{ secrets.GPR_USER }} \
             -Pgpr.key=${{ secrets.GPR_KEY }} \

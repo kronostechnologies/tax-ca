@@ -81,7 +81,10 @@ functions with precision-sensitive arithmetic also ship a BigDecimal-exact JVM v
 
 > Maven releases are published to GitHub Packages at
 > `https://maven.pkg.github.com/kronostechnologies/tax-ca`. Consumers need a GitHub
-> token with read access to the package. For local publishing,
+> token with read access to the package. Only the JVM artifact is published, under
+> `com.equisoft:tax-ca`; no multiplatform root or JS Maven artifact is published.
+> The JS build is published separately to npm as `@equisoft/tax-ca`.
+> For local publishing,
 > `./gradlew publishToMavenLocal -Papplication.version=<version>` publishes locally —
 > see [docs/kmp-migration/testing-in-consumers.md](docs/kmp-migration/testing-in-consumers.md).
 
