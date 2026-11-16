@@ -20,6 +20,35 @@ class OasFacadeTest {
     }
 
     @Test
+    fun shouldApplyAgeIncreaseOneCompleteMonthAfterBirthdayForFullAndPartialResidency() {
+        val birthDate = Date("1980-12-31T12:00:00Z")
+        val requestDates = listOf(
+            Date("2055-12-30T12:00:00Z") to 1.0,
+            Date("2055-12-31T12:00:00Z") to 1.0,
+            Date("2056-01-01T00:00:00Z") to 1.0,
+            Date("2056-01-30T12:00:00Z") to 1.0,
+            Date("2056-01-31T00:00:00Z") to 1.1,
+        )
+
+        for ((requestDate, increaseFactor) in requestDates) {
+            for (yearsOutsideCanada in listOf(0, 27)) {
+                val baseAmount = if (yearsOutsideCanada == 0) {
+                    OAS.getDeferredRequestAmount(60) as Double
+                } else {
+                    val residencyYears =
+                        OAS.getResidencyYearsAtRequest(birthDate, requestDate, yearsOutsideCanada) as Int
+                    (OAS.MONTHLY_PAYMENT_MAX as Double) * (residencyYears.toDouble() / (OAS.MAX_RESIDENCY as Int))
+                }
+
+                val result = OAS.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanada) as Double
+
+                assertEquals(baseAmount * increaseFactor, result)
+                assertEquals("1980-12-31T12:00:00.000Z", birthDate.toISOString())
+            }
+        }
+    }
+
+    @Test
     fun deferredMonthsReturnsZeroBeforeMinimumRequestDate() {
         val birthDate = Date("1980-01-01T00:00:00Z")
 
@@ -61,6 +90,30 @@ class OasFacadeTest {
         } finally {
             OAS.MIN_AGE = originalMinAge
             OAS.MAX_AGE = originalMaxAge
+        }
+    }
+
+    @Test
+    fun shouldReadCurrentIncreasePropertiesAndDispatchThroughObject() {
+        val originalAge = OAS.INCREASE.AGE as Int
+        val originalRate = OAS.INCREASE.RATE as Double
+        val originalDeferredRequestAmount = OAS.getDeferredRequestAmount
+        try {
+            OAS.INCREASE.AGE = 74
+            OAS.INCREASE.RATE = 0.2
+            OAS.getDeferredRequestAmount = { _: Int, _: Double? -> 1000.0 }
+
+            val result = OAS.getMonthlyOASAmount(
+                Date("1980-01-31T12:00:00Z"),
+                Date("2054-03-01T00:00:00Z"),
+                0,
+            ) as Double
+
+            assertEquals(1200.0, result)
+        } finally {
+            OAS.INCREASE.AGE = originalAge
+            OAS.INCREASE.RATE = originalRate
+            OAS.getDeferredRequestAmount = originalDeferredRequestAmount
         }
     }
 }

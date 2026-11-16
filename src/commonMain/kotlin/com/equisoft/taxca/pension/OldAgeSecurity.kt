@@ -5,7 +5,7 @@ Sources
     https://www.canada.ca/en/services/benefits/publicpensions/cpp/old-age-security/benefit-amount.html (delay bonus)
 
 Revised
-    2026-10-05
+    2026-11-16
 */
 
 package com.equisoft.taxca.pension
@@ -31,8 +31,7 @@ data class OasIncrease(
 )
 
 // Functions that depended on the wall clock in the legacy code take an explicit
-// `today`; the JS facade supplies now(). D1 (age-75 increase on the full-residency
-// path) is ported verbatim pending the domain ruling — see phase-0-decisions.md.
+// `today`; the JS facade supplies now().
 data class OldAgeSecurity(
     val increase: OasIncrease,
     val maxAge: Int,
@@ -176,11 +175,13 @@ data class OldAgeSecurity(
             return 0.0
         }
 
+        val increaseDate = addYearsToDate(birthDate, increase.age)
+        val increaseFromAge = if (getMonthsDiff(increaseDate, requestDate) > 0) 1 + increase.rate else 1.0
         val monthsDeferred = getRequestDateMonthsDeferred(birthDate, requestDate, yearsOutsideCanadaAtRequest)
 
         val isFullResidency = isFullResidencyAtMinOASAge(birthDate, yearsOutsideCanadaAtRequest)
         if (isFullResidency) {
-            return getDeferredRequestAmount(monthsDeferred)
+            return getDeferredRequestAmount(monthsDeferred) * increaseFromAge
         }
 
         // PSV partielle
@@ -204,8 +205,6 @@ data class OldAgeSecurity(
 
         val deferredResidenceRequestAmount = monthlyPaymentMax * ratioAtRequestDate
         val ageAtRequest = getAge(birthDate, requestDate)
-
-        val increaseFromAge = if (getAge(birthDate, requestDate) > increase.age) 1 + increase.rate else 1.0
 
         val amount = if (ageAtRequest > maxAge) {
             deferredResidenceRequestAmount

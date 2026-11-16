@@ -24,10 +24,15 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
 - 230 historical jest specs passed unmodified against the built package before their
   removal; all 14 suites live on in `src/commonTest`.
 
+## Resolved behavior changes
+
+- **D1 (2026-11-16)** — The 10% OAS increase now applies to both full- and
+  partial-residency amounts once one complete month has elapsed after the 75th
+  birthday, matching financial-api. This intentionally
+  changes legacy npm output; see [phase-0-decisions.md](phase-0-decisions.md).
+
 ## Still open
 
-- **D1** — OAS age-75 increase behavior: tax-ca (ported verbatim) vs financial-api
-  differ; needs a domain ruling, then a deliberate, release-noted change.
 - Org-wide GitHub code search for `"@equisoft/tax-ca"` to rule out unknown consumers
   before rollout.
 - financial-api cutover: `financial-api/docs/tax-ca-kmp-cutover-plan.md`.
