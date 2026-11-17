@@ -104,7 +104,6 @@ private fun buildOasJs(): dynamic {
         if (!oasFromJs(obj).isRequestDateValid(birthDate.toLocalDateUtc(), requestDate.toLocalDateUtc(), years)) {
             return@monthlyAmount 0.0
         }
-        obj.validateRequestDate(requestDate, birthDate, years)
 
         val monthsDeferred = obj.getRequestDateMonthsDeferred(birthDate, requestDate, years) as Int
 
