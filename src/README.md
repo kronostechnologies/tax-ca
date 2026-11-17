@@ -25,6 +25,13 @@ One Kotlin Multiplatform code base produces both published artifacts (npm
   its average indexation rate to 3 digits but QPP to 2; JS `setUTCFullYear` overflows
   Feb 29 to Mar 1). Do not "fix" them without a ruling — numeric output is contractual.
 
+## OAS request dates
+
+`OldAgeSecurity.getMonthlyOASAmount` (npm: `OAS.getMonthlyOASAmount`) returns zero
+when the request date falls outside the inclusive, residency-adjusted minimum and
+maximum request dates. The standalone validation and deferral helpers retain
+their existing behavior.
+
 ## Yearly data revision workflow
 
 1. Update the values in the relevant `commonMain` data file(s); refresh the

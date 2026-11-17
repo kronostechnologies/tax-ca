@@ -179,7 +179,9 @@ data class OldAgeSecurity(
         requestDate: LocalDate,
         yearsOutsideCanadaAtRequest: Int = 0,
     ): Double {
-        validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest)
+        if (!isRequestDateValid(birthDate, requestDate, yearsOutsideCanadaAtRequest)) {
+            return 0.0
+        }
 
         val monthsDeferred = getRequestDateMonthsDeferred(birthDate, requestDate, yearsOutsideCanadaAtRequest)
 

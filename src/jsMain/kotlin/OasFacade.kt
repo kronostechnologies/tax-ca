@@ -100,8 +100,11 @@ private fun buildOasJs(): dynamic {
     obj.getDeferredRequestAmount = { monthsDeferred: Int, ratio: Double? ->
         oasFromJs(obj).getDeferredRequestAmount(monthsDeferred, ratio ?: 1.0)
     }
-    obj.getMonthlyOASAmount = { birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: Int? ->
+    obj.getMonthlyOASAmount = monthlyAmount@{ birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: Int? ->
         val years = yearsOutsideCanadaAtRequest ?: 0
+        if (!oasFromJs(obj).isRequestDateValid(birthDate.toLocalDateUtc(), requestDate.toLocalDateUtc(), years)) {
+            return@monthlyAmount 0.0
+        }
         obj.validateRequestDate(requestDate, birthDate, years)
 
         val monthsDeferred = obj.getRequestDateMonthsDeferred(birthDate, requestDate, years) as Int
