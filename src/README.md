@@ -29,8 +29,9 @@ One Kotlin Multiplatform code base produces both published artifacts (npm
 
 `OldAgeSecurity.getMonthlyOASAmount` (npm: `OAS.getMonthlyOASAmount`) returns zero
 when the request date falls outside the inclusive, residency-adjusted minimum and
-maximum request dates. The standalone validation and deferral helpers retain
-their existing behavior.
+maximum request dates. `getRequestDateMonthsDeferred` returns zero for dates before
+the minimum instead of validating them. The standalone `validateRequestDate`
+helper still throws for dates below the minimum.
 
 ## Yearly data revision workflow
 

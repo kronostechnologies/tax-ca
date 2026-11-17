@@ -150,8 +150,6 @@ data class OldAgeSecurity(
         requestDate: LocalDate,
         yearsOutsideCanadaAtRequest: Int = 0,
     ): Int {
-        validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest)
-
         val minRequestDate = getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest)
         val maximumAgeDeferredDate = addYearsToDate(birthDate, maxAge)
         val maxDeferredDate = minOf(maximumAgeDeferredDate, requestDate)

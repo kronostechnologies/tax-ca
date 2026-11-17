@@ -391,13 +391,19 @@ class GetRequestDateMonthsDeferredTest {
     }
 
     @Test
-    fun shouldThrowWhenRequestDateIsBeforeMinimum() {
+    fun shouldReturn0WhenRequestDateIsBeforeMinimum() {
         val birthDate = LocalDate(1980, 1, 1)
         val requestDate = LocalDate(2044, 1, 1) // 64th birthday
 
-        assertFailsWith<IllegalArgumentException> {
-            Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 0)
-        }
+        assertEquals(0, Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 0))
+    }
+
+    @Test
+    fun shouldReturn0WhenRequestDateIsBeforeResidencyAdjustedMinimum() {
+        val birthDate = LocalDate(1980, 1, 1)
+        val requestDate = LocalDate(2047, 12, 31)
+
+        assertEquals(0, Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 40))
     }
 
     @Test

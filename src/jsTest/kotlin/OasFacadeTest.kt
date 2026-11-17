@@ -5,6 +5,14 @@ import kotlin.test.assertTrue
 
 class OasFacadeTest {
     @Test
+    fun deferredMonthsReturnsZeroBeforeMinimumRequestDate() {
+        val birthDate = Date("1980-01-01T00:00:00Z")
+
+        assertEquals(0, OAS.getRequestDateMonthsDeferred(birthDate, Date("2044-01-01T00:00:00Z"), 0) as Int)
+        assertEquals(0, OAS.getRequestDateMonthsDeferred(birthDate, Date("2047-12-31T00:00:00Z"), 40) as Int)
+    }
+
+    @Test
     fun monthlyAmountRespectsInclusiveResidencyAdjustedBounds() {
         val birthDate = Date("1980-01-15T00:00:00Z")
         data class Case(val yearsOutside: Int, val minYear: Int, val maxYear: Int)

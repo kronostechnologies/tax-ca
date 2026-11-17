@@ -83,7 +83,6 @@ private fun buildOasJs(): dynamic {
     }
     obj.getRequestDateMonthsDeferred = { birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: Int? ->
         val years = yearsOutsideCanadaAtRequest ?: 0
-        obj.validateRequestDate(requestDate, birthDate, years)
         val minRequestDate = obj.getMinimumRequestDate(birthDate, years) as Date
         val maximumAgeDeferredDate = addYearsToDate(birthDate, obj.MAX_AGE as Int)
         val maxDeferredDate =
