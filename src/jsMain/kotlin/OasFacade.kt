@@ -66,13 +66,11 @@ private fun buildOasJs(): dynamic {
         addYearsToDate(birthDate, obj.getMinimumRequestAge(yearsOutsideCanadaAtRequest ?: 0) as Int)
     }
     obj.validateRequestDate = { requestDate: Date, birthDate: Date, yearsOutsideCanadaAtRequest: Int ->
-        // Faithful to the legacy implementation, which compares LOCAL-time-reset dates
-        // (resetTime) while every other date computation uses UTC fields. Dispatched
-        // through the object like the legacy `this.getMinimumRequestDate` read.
-        val minRequestDate: Date = obj.getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest)
-        if (resetTime(requestDate).getTime() < resetTime(minRequestDate).getTime()) {
-            throw IllegalArgumentException("Invalid request date")
-        }
+        oasFromJs(obj).validateRequestDate(
+            requestDate.toLocalDateUtc(),
+            birthDate.toLocalDateUtc(),
+            yearsOutsideCanadaAtRequest,
+        )
     }
     obj.getResidencyYearsAtRequest = { birthDate: Date, requestDate: Date, yearsOutsideCanadaAtRequest: Int ->
         oasFromJs(obj).getResidencyYearsAtRequest(

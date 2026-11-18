@@ -305,6 +305,18 @@ class ValidateRequestDateTest {
 
         Oas.validateRequestDate(requestDate, birthDate, 40)
     }
+
+    @Test
+    fun shouldAcceptMaximumRequestDateButRejectTheNextDay() {
+        val birthDate = LocalDate(1980, 1, 15)
+
+        for ((yearsOutsideCanada, maxYear) in listOf(0 to 2050, 40 to 2078)) {
+            Oas.validateRequestDate(LocalDate(maxYear, 1, 15), birthDate, yearsOutsideCanada)
+            assertFailsWith<IllegalArgumentException> {
+                Oas.validateRequestDate(LocalDate(maxYear, 1, 16), birthDate, yearsOutsideCanada)
+            }
+        }
+    }
 }
 
 class GetResidencyYearsAtRequestTest {

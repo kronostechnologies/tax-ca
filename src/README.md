@@ -31,7 +31,7 @@ One Kotlin Multiplatform code base produces both published artifacts (npm
 when the request date falls outside the inclusive, residency-adjusted minimum and
 maximum request dates. `getRequestDateMonthsDeferred` returns zero for dates before
 the minimum instead of validating them. The standalone `validateRequestDate`
-helper still throws for dates below the minimum.
+helper throws for dates outside the same inclusive, residency-adjusted interval.
 
 ## Yearly data revision workflow
 

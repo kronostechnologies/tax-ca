@@ -1,9 +1,24 @@
 import kotlin.js.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class OasFacadeTest {
+    @Test
+    fun validateRequestDateEnforcesBothInclusiveResidencyAdjustedBounds() {
+        val birthDate = Date("1980-01-15T00:00:00Z")
+
+        assertFailsWith<IllegalArgumentException> {
+            OAS.validateRequestDate(Date("2048-01-14T23:59:59Z"), birthDate, 40)
+        }
+        OAS.validateRequestDate(Date("2048-01-15T00:00:00Z"), birthDate, 40)
+        OAS.validateRequestDate(Date("2078-01-15T23:59:59Z"), birthDate, 40)
+        assertFailsWith<IllegalArgumentException> {
+            OAS.validateRequestDate(Date("2078-01-16T00:00:00Z"), birthDate, 40)
+        }
+    }
+
     @Test
     fun deferredMonthsReturnsZeroBeforeMinimumRequestDate() {
         val birthDate = Date("1980-01-01T00:00:00Z")
