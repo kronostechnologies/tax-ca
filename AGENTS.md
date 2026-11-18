@@ -92,7 +92,7 @@ yarn compat                # strict TypeScript consumer-surface check
 ./gradlew publishToMavenLocal -Papplication.version=<version>   # local Maven publish
 ```
 
-Toolchains: JVM 17 (see `jvmToolchain(17)` in `build.gradle.kts`) and Node 24.18.0
+Toolchains: JVM 17 (see `jvmToolchain(17)` in `build.gradle.kts`) and Node 26.13.0
 (see `.tool-versions`). Yarn is pinned via `packageManager` in `package.json` — always use
 `yarn` (not `npm`) for JS commands.
 
