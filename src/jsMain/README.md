@@ -31,7 +31,8 @@ cannot see. These are now hard rules:
    `TAX_BRACKETS`) must read the exported object's *current* state, not a snapshot.
 6. **JS `Date` converts at the boundary** via `toLocalDateUtc()` (UTC fields, like the
    legacy code); `now()` keeps the legacy `NODE_ENV === 'test'` frozen-clock hook;
-   `resetTime`/`validateRequestDate` keep their legacy *local-time* semantics.
+   `resetTime` keeps its legacy *local-time* semantics. `OAS.validateRequestDate`
+   uses UTC dates and the same bounds as `OAS.getMonthlyOASAmount`.
 
 ## Adding a new export
 

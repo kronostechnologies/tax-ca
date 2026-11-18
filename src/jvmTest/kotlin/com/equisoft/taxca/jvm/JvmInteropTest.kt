@@ -37,6 +37,16 @@ class JavaTimeOverloadsTest {
         assertTrue(!Oas.isRequestDateValid(LocalDate.of(1960, 1, 1), LocalDate.of(2024, 1, 1)))
         assertEquals(12, Oas.getRequestDateMonthsDeferred(LocalDate.of(1960, 1, 1), LocalDate.of(2026, 1, 1)))
     }
+
+    @Test
+    fun oasMonthlyAmountReturnsZeroOutsideRequestInterval() {
+        val birthDate = LocalDate.of(1960, 1, 15)
+
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2025, 1, 14)))
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2030, 1, 16)))
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2028, 1, 14), 40))
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2058, 1, 16), 40))
+    }
 }
 
 class ContributionCoverageFactorTest {

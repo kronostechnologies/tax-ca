@@ -110,15 +110,10 @@ data class OldAgeSecurity(
         addYearsToDate(birthDate, getMinimumRequestAge(yearsOutsideCanadaAtRequest))
 
     fun validateRequestDate(requestDate: LocalDate, birthDate: LocalDate, yearsOutsideCanadaAtRequest: Int) {
-        val minRequestDate = getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest)
-        if (requestDate < minRequestDate) {
+        if (!isRequestDateValid(birthDate, requestDate, yearsOutsideCanadaAtRequest)) {
             throw IllegalArgumentException("Invalid request date")
         }
     }
-
-    // --- Max-bound request-date validation, ported from financial-api
-    // (infrastructure/taxca/constants/pension/OldAgeSecurity.kt); additive, not part of
-    // the legacy npm API. The legacy validateRequestDate only checks the minimum bound. ---
 
     fun getMaximumRequestAge(yearsOutsideCanada: Int): Int {
         val effectiveResidencyStart = ageOfMajority + yearsOutsideCanada
@@ -150,8 +145,6 @@ data class OldAgeSecurity(
         requestDate: LocalDate,
         yearsOutsideCanadaAtRequest: Int = 0,
     ): Int {
-        validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest)
-
         val minRequestDate = getMinimumRequestDate(birthDate, yearsOutsideCanadaAtRequest)
         val maximumAgeDeferredDate = addYearsToDate(birthDate, maxAge)
         val maxDeferredDate = minOf(maximumAgeDeferredDate, requestDate)
@@ -179,7 +172,9 @@ data class OldAgeSecurity(
         requestDate: LocalDate,
         yearsOutsideCanadaAtRequest: Int = 0,
     ): Double {
-        validateRequestDate(requestDate, birthDate, yearsOutsideCanadaAtRequest)
+        if (!isRequestDateValid(birthDate, requestDate, yearsOutsideCanadaAtRequest)) {
+            return 0.0
+        }
 
         val monthsDeferred = getRequestDateMonthsDeferred(birthDate, requestDate, yearsOutsideCanadaAtRequest)
 

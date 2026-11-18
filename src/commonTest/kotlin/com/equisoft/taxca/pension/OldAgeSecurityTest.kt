@@ -305,6 +305,18 @@ class ValidateRequestDateTest {
 
         Oas.validateRequestDate(requestDate, birthDate, 40)
     }
+
+    @Test
+    fun shouldAcceptMaximumRequestDateButRejectTheNextDay() {
+        val birthDate = LocalDate(1980, 1, 15)
+
+        for ((yearsOutsideCanada, maxYear) in listOf(0 to 2050, 40 to 2078)) {
+            Oas.validateRequestDate(LocalDate(maxYear, 1, 15), birthDate, yearsOutsideCanada)
+            assertFailsWith<IllegalArgumentException> {
+                Oas.validateRequestDate(LocalDate(maxYear, 1, 16), birthDate, yearsOutsideCanada)
+            }
+        }
+    }
 }
 
 class GetResidencyYearsAtRequestTest {
@@ -391,13 +403,19 @@ class GetRequestDateMonthsDeferredTest {
     }
 
     @Test
-    fun shouldThrowWhenRequestDateIsBeforeMinimum() {
+    fun shouldReturn0WhenRequestDateIsBeforeMinimum() {
         val birthDate = LocalDate(1980, 1, 1)
         val requestDate = LocalDate(2044, 1, 1) // 64th birthday
 
-        assertFailsWith<IllegalArgumentException> {
-            Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 0)
-        }
+        assertEquals(0, Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 0))
+    }
+
+    @Test
+    fun shouldReturn0WhenRequestDateIsBeforeResidencyAdjustedMinimum() {
+        val birthDate = LocalDate(1980, 1, 1)
+        val requestDate = LocalDate(2047, 12, 31)
+
+        assertEquals(0, Oas.getRequestDateMonthsDeferred(birthDate, requestDate, 40))
     }
 
     @Test
@@ -503,6 +521,23 @@ class GetDeferredRequestAmountTest {
 
 class GetMonthlyOasAmountTest {
     @Test
+    fun shouldRespectInclusiveResidencyAdjustedBounds() {
+        val birthDate = LocalDate(1980, 1, 15)
+        data class Case(val yearsOutside: Int, val minYear: Int, val maxYear: Int)
+
+        for ((yearsOutside, minYear, maxYear) in listOf(
+            Case(0, 2045, 2050),
+            Case(10, 2045, 2050),
+            Case(40, 2048, 2078),
+        )) {
+            assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate(minYear, 1, 14), yearsOutside))
+            assertTrue(Oas.getMonthlyOASAmount(birthDate, LocalDate(minYear, 1, 15), yearsOutside) > 0.0)
+            assertTrue(Oas.getMonthlyOASAmount(birthDate, LocalDate(maxYear, 1, 15), yearsOutside) > 0.0)
+            assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate(maxYear, 1, 16), yearsOutside))
+        }
+    }
+
+    @Test
     fun shouldReturnFullPaymentAtMinimumAgeWithFullResidency() {
         val birthDate = LocalDate(1980, 1, 1)
         val requestDate = LocalDate(2045, 1, 1) // 65th birthday
@@ -523,13 +558,11 @@ class GetMonthlyOasAmountTest {
     }
 
     @Test
-    fun shouldThrowWhenRequestDateIsBeforeMinimum() {
+    fun shouldReturnZeroWhenRequestDateIsBeforeMinimum() {
         val birthDate = LocalDate(1980, 1, 1)
         val requestDate = LocalDate(2044, 1, 1) // 64th birthday
 
-        assertFailsWith<IllegalArgumentException> {
-            Oas.getMonthlyOASAmount(birthDate, requestDate, 0)
-        }
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, requestDate, 0))
     }
 
     @Test
