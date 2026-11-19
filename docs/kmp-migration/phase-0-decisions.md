@@ -15,25 +15,8 @@ Inputs: [api-baseline.md](api-baseline.md), [consumers.md](consumers.md), [recon
 3. **financial-api has logic that tax-ca lacks** and that must be ported into the
    unified library or financial-api regresses: CPP contribution coverage factor (+5
    private constants), OAS max-request-age validation.
-4. **One genuine behavioral conflict** (OAS age-75 increase) was resolved on
-   2026-11-16 — see D1. Everything else is mechanically resolvable.
 
 ## Blocking decisions
-
-### D1 — OAS age-75 increase (resolved 2026-11-16)
-Legacy tax-ca applied the 10% increase at 75 only on the partial-residency path
-(`old-age-security.ts:157`); financial-api applies it on the full-residency path too.
-Eligibility tests also differed (financial-api: one complete month after the 75th
-birthday; tax-ca: age > 75).
-**Ruling:** apply the 10% increase to both residency paths once one complete month
-has elapsed after the 75th birthday (January 20 birthday → February 20 increase),
-using `getMonthsDiff(increaseDate, requestDate) > 0` as in financial-api.
-Existing request-date validation and deferral calculations are unchanged.
-**Consequence:** this *changes numeric output* for fna-engine/kronos-fna — the change
-must be its own release (or a flagged
-line in the KMP release notes) and its expected behavior must be covered by the Kotlin
-tests, rather than preserving old-output equality.
-The common Kotlin implementation and npm facade both implement this ruling.
 
 ### D2 — Number representation across platforms
 Proposal (unchanged from plan, sharpened by the audit):
@@ -97,7 +80,6 @@ layer already abstracts the constant names, so both consumers are insulated.
 
 ## Checklist to exit Phase 0
 
-- [x] D1 resolved 2026-11-16: increase after one complete month for both residency paths.
 - [x] D2/D3 acknowledged by financial-api team — signed off 2026-07-16 by Jean-Simon
       Garneau (financial-api). Cutover steps captured in a standalone plan to be run
       inside financial-api: `financial-api/docs/tax-ca-kmp-cutover-plan.md`

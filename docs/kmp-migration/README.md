@@ -6,8 +6,8 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
 
 | Document | What it holds |
 |---|---|
-| [phase-0-decisions.md](phase-0-decisions.md) | The decision memo: D1–D6 with rulings and status. **D2 (Double/BigDecimal) and D5 (deep-import shim) are the ones people ask about.** |
-| [reconciliation-audit.md](reconciliation-audit.md) | Field-by-field audit of financial-api's duplicated constants vs tax-ca: 0 value mismatches, 13 renames, 3 logic deltas (incl. the D1 OAS divergence). |
+| [phase-0-decisions.md](phase-0-decisions.md) | The decision memo: D2–D6 with rulings and status. **D2 (Double/BigDecimal) and D5 (deep-import shim) are the ones people ask about.** |
+| [reconciliation-audit.md](reconciliation-audit.md) | Field-by-field audit of financial-api's duplicated constants vs tax-ca: 0 value mismatches, 13 renames, 2 remaining logic deltas. |
 | [consumers.md](consumers.md) | npm consumer inventory (fna-engine, kronos-fna): imports, deep-import usage, CalVer notes. |
 | [api-baseline.md](api-baseline.md) | Frozen declaration files of the last legacy TypeScript build — the npm API contract the facade reproduces. |
 | [porting-conventions.md](porting-conventions.md) | The TS→Kotlin porting recipes (historical, but the facade rules remain current — see `src/jsMain/README.md`). |
@@ -23,13 +23,6 @@ Kotlin constants in financial-api and kept the npm package a verified drop-in.
   `dist/misc/code-types` deep imports via the shipped shim), financial-api **4/4**.
 - 230 historical jest specs passed unmodified against the built package before their
   removal; all 14 suites live on in `src/commonTest`.
-
-## Resolved behavior changes
-
-- **D1 (2026-11-16)** — The 10% OAS increase now applies to both full- and
-  partial-residency amounts once one complete month has elapsed after the 75th
-  birthday, matching financial-api. This intentionally
-  changes legacy npm output; see [phase-0-decisions.md](phase-0-decisions.md).
 
 ## Still open
 
