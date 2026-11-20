@@ -29,11 +29,11 @@ One Kotlin Multiplatform code base produces both published artifacts (npm
 
 `OldAgeSecurity.getMonthlyOASAmount` (npm: `OAS.getMonthlyOASAmount`) returns zero
 when the request date falls outside the inclusive, residency-adjusted minimum and
-maximum request dates; the maximum allows at least through one year after the age-75
-increase date. The 10% age increase starts in the calendar month after the 75th
-birthday. `getRequestDateMonthsDeferred` returns zero for dates before the minimum
-instead of validating them. The standalone `validateRequestDate` helper throws for
-dates outside the same inclusive, residency-adjusted interval.
+maximum request dates. The 10% age increase applies after one complete month has
+elapsed since the 75th birthday. `getRequestDateMonthsDeferred` returns zero for
+dates before the minimum instead of validating them. The standalone
+`validateRequestDate` helper throws for dates outside the same inclusive,
+residency-adjusted interval.
 
 ## Yearly data revision workflow
 

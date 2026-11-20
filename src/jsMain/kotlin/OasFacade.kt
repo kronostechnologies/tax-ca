@@ -104,13 +104,8 @@ private fun buildOasJs(): dynamic {
         }
 
         val increaseDate = addYearsToDate(birthDate, obj.INCREASE.AGE as Int)
-        val increaseLocalDate = increaseDate.toLocalDateUtc()
-        val requestLocalDate = requestDate.toLocalDateUtc()
-        val isAfterIncreaseMonth = requestLocalDate.year > increaseLocalDate.year ||
-            (requestLocalDate.year == increaseLocalDate.year &&
-                requestLocalDate.month.ordinal > increaseLocalDate.month.ordinal)
         val increaseFromAge =
-            if (isAfterIncreaseMonth) 1 + obj.INCREASE.RATE as Double else 1.0
+            if (getMonthsDiff(increaseDate, requestDate) > 0) 1 + obj.INCREASE.RATE as Double else 1.0
         val monthsDeferred = obj.getRequestDateMonthsDeferred(birthDate, requestDate, years) as Int
 
         val isFullResidency = obj.isFullResidencyAtMinOASAge(birthDate, years) as Boolean

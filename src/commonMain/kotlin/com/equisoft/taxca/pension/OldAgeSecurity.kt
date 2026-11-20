@@ -118,7 +118,7 @@ data class OldAgeSecurity(
         val effectiveResidencyStart = ageOfMajority + yearsOutsideCanada
         val maxAgeForResidency = effectiveResidencyStart + maxResidency
 
-        return max(max(maxAgeForResidency, maxAge), increase.age + 1)
+        return max(maxAgeForResidency, maxAge)
     }
 
     fun getMaximumRequestDate(birthDate: LocalDate, yearsOutsideCanada: Int = 0): LocalDate =
@@ -176,9 +176,7 @@ data class OldAgeSecurity(
         }
 
         val increaseDate = addYearsToDate(birthDate, increase.age)
-        val isAfterIncreaseMonth = requestDate.year > increaseDate.year ||
-            (requestDate.year == increaseDate.year && requestDate.month.ordinal > increaseDate.month.ordinal)
-        val increaseFromAge = if (isAfterIncreaseMonth) 1 + increase.rate else 1.0
+        val increaseFromAge = if (getMonthsDiff(increaseDate, requestDate) > 0) 1 + increase.rate else 1.0
         val monthsDeferred = getRequestDateMonthsDeferred(birthDate, requestDate, yearsOutsideCanadaAtRequest)
 
         val isFullResidency = isFullResidencyAtMinOASAge(birthDate, yearsOutsideCanadaAtRequest)
