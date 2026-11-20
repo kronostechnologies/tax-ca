@@ -538,6 +538,51 @@ class GetMonthlyOasAmountTest {
     }
 
     @Test
+    fun shouldApplyAgeIncreaseAfterOneCompleteMonthSince75thBirthday() {
+        val birthDate = LocalDate(1980, 1, 20)
+        val requestDates = listOf(
+            LocalDate(2055, 1, 20) to 1.0,
+            LocalDate(2055, 2, 1) to 1.0,
+            LocalDate(2055, 2, 19) to 1.0,
+            LocalDate(2055, 2, 20) to 1.1,
+            LocalDate(2055, 2, 28) to 1.1,
+        )
+
+        for ((requestDate, increaseFactor) in requestDates) {
+            val yearsOutsideCanada = 27
+            val residencyYears = Oas.getResidencyYearsAtRequest(birthDate, requestDate, yearsOutsideCanada)
+            val baseAmount = Oas.monthlyPaymentMax * residencyYears / Oas.maxResidency
+
+            val result = Oas.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanada)
+
+            assertEquals(baseAmount * increaseFactor, result, "$requestDate, $yearsOutsideCanada years outside Canada")
+        }
+    }
+
+    @Test
+    fun shouldApplyAgeIncreaseAfterOneCompleteMonthForPartialResidency() {
+        val cases = listOf(
+            LocalDate(1980, 1, 20) to LocalDate(2055, 2, 20),
+            LocalDate(1980, 1, 31) to LocalDate(2055, 3, 1),
+            LocalDate(1980, 12, 31) to LocalDate(2056, 2, 1),
+        )
+
+        for ((birthDate, requestDate) in cases) {
+            val yearsOutsideCanada = 27
+            val residencyYears = Oas.getResidencyYearsAtRequest(birthDate, requestDate, yearsOutsideCanada)
+            val baseAmount = Oas.monthlyPaymentMax * residencyYears / Oas.maxResidency
+
+            val result = Oas.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanada)
+
+            assertEquals(
+                baseAmount * (1 + Oas.increase.rate),
+                result,
+                "$birthDate, $requestDate, $yearsOutsideCanada years outside Canada",
+            )
+        }
+    }
+
+    @Test
     fun shouldReturnFullPaymentAtMinimumAgeWithFullResidency() {
         val birthDate = LocalDate(1980, 1, 1)
         val requestDate = LocalDate(2045, 1, 1) // 65th birthday

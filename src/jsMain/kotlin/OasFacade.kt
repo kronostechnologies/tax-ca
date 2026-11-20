@@ -103,13 +103,16 @@ private fun buildOasJs(): dynamic {
             return@monthlyAmount 0.0
         }
 
+        val increaseDate = addYearsToDate(birthDate, obj.INCREASE.AGE as Int)
+        val increaseFromAge =
+            if (getMonthsDiff(increaseDate, requestDate) > 0) 1 + obj.INCREASE.RATE as Double else 1.0
         val monthsDeferred = obj.getRequestDateMonthsDeferred(birthDate, requestDate, years) as Int
 
         val isFullResidency = obj.isFullResidencyAtMinOASAge(birthDate, years) as Boolean
         if (isFullResidency) {
-            obj.getDeferredRequestAmount(monthsDeferred, null) as Double
+            (obj.getDeferredRequestAmount(monthsDeferred, null) as Double) * increaseFromAge
         } else {
-            // PSV partielle — mirrors the legacy body, dispatching through the object
+            // PSV partielle — dispatching through the object
             val minRequestDate = obj.getMinimumRequestDate(birthDate, years) as Date
             val residencyYearsAtMinRequest =
                 obj.getResidencyYearsAtRequest(birthDate, minRequestDate, years) as Int
@@ -124,9 +127,6 @@ private fun buildOasJs(): dynamic {
 
             val deferredResidenceRequestAmount = obj.MONTHLY_PAYMENT_MAX as Double * ratioAtRequestDate
             val ageAtRequest = getAge(birthDate, requestDate)
-
-            val increaseFromAge =
-                if (getAge(birthDate, requestDate) > obj.INCREASE.AGE as Int) 1 + obj.INCREASE.RATE as Double else 1.0
 
             val amount = if (ageAtRequest > obj.MAX_AGE as Int) {
                 deferredResidenceRequestAmount

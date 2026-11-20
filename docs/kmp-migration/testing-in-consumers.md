@@ -110,9 +110,6 @@ Expected: 4/4. Revert with `git checkout -- api/build.gradle.kts` and delete the
 
 ## Known caveats
 
-- The OAS age-75 increase behavior intentionally differs between financial-api and
-  tax-ca (migration decision D1, pending domain ruling); the parity test compares only
-  below that boundary.
 - The npm package freezes `now()` to 2020-01-01 under `NODE_ENV=test`, same as legacy.
 - Branch snapshots can be published to GitHub Packages (decision D4), so step 1 of the
   financial-api flow can use the Maven artifact directly.

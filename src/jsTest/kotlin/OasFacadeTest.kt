@@ -20,6 +20,31 @@ class OasFacadeTest {
     }
 
     @Test
+    fun shouldApplyAgeIncreaseAfterOneCompleteMonthForPartialResidency() {
+        val birthDate = Date("1980-12-31T12:00:00Z")
+        val requestDates = listOf(
+            Date("2055-12-31T12:00:00Z") to 1.0,
+            Date("2056-01-01T00:00:00Z") to 1.0,
+            Date("2056-01-30T12:00:00Z") to 1.0,
+            Date("2056-01-31T00:00:00Z") to 1.1,
+            Date("2056-02-01T00:00:00Z") to 1.1,
+        )
+
+        for ((requestDate, increaseFactor) in requestDates) {
+            val yearsOutsideCanada = 27
+            val residencyYears =
+                OAS.getResidencyYearsAtRequest(birthDate, requestDate, yearsOutsideCanada) as Int
+            val baseAmount =
+                (OAS.MONTHLY_PAYMENT_MAX as Double) * (residencyYears.toDouble() / (OAS.MAX_RESIDENCY as Int))
+
+            val result = OAS.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanada) as Double
+
+            assertEquals(baseAmount * increaseFactor, result)
+            assertEquals("1980-12-31T12:00:00.000Z", birthDate.toISOString())
+        }
+    }
+
+    @Test
     fun deferredMonthsReturnsZeroBeforeMinimumRequestDate() {
         val birthDate = Date("1980-01-01T00:00:00Z")
 
@@ -61,6 +86,30 @@ class OasFacadeTest {
         } finally {
             OAS.MIN_AGE = originalMinAge
             OAS.MAX_AGE = originalMaxAge
+        }
+    }
+
+    @Test
+    fun shouldReadCurrentIncreasePropertiesAndDispatchThroughObject() {
+        val originalAge = OAS.INCREASE.AGE as Int
+        val originalRate = OAS.INCREASE.RATE as Double
+        val originalDeferredRequestAmount = OAS.getDeferredRequestAmount
+        try {
+            OAS.INCREASE.AGE = 69
+            OAS.INCREASE.RATE = 0.2
+            OAS.getDeferredRequestAmount = { _: Int, _: Double? -> 1000.0 }
+
+            val result = OAS.getMonthlyOASAmount(
+                Date("1980-01-31T12:00:00Z"),
+                Date("2049-03-01T00:00:00Z"),
+                20,
+            ) as Double
+
+            assertEquals(1200.0, result)
+        } finally {
+            OAS.INCREASE.AGE = originalAge
+            OAS.INCREASE.RATE = originalRate
+            OAS.getDeferredRequestAmount = originalDeferredRequestAmount
         }
     }
 }

@@ -159,7 +159,7 @@ class TaxCaKmpParityTest {
     }
 
     @Test
-    fun `OAS functions match (excluding the D1 age-75 divergence)`() {
+    fun `OAS functions match for ages 65 to 74`() {
         val birth = LocalDate.of(1960, 7, 15)
         for (yearsOutside in listOf(0, 5, 12, 30)) {
             assertEquals(
@@ -172,8 +172,6 @@ class TaxCaKmpParityTest {
                 Oas.getMinimumRequestDate(birth, yearsOutside),
                 "min request date yearsOutside=$yearsOutside",
             )
-            // Compare only below the age-75 increase boundary: the increase behavior is
-            // the known D1 divergence pending the domain ruling.
             for (age in 65..74) {
                 val request = birth.plusYears(age.toLong())
                 if (!OldAgeSecurity.isRequestDateValid(birth, request, yearsOutside)) continue
