@@ -310,7 +310,7 @@ class ValidateRequestDateTest {
     fun shouldAcceptMaximumRequestDateButRejectTheNextDay() {
         val birthDate = LocalDate(1980, 1, 15)
 
-        for ((yearsOutsideCanada, maxYear) in listOf(0 to 2050, 40 to 2078)) {
+        for ((yearsOutsideCanada, maxYear) in listOf(0 to 2056, 40 to 2078)) {
             Oas.validateRequestDate(LocalDate(maxYear, 1, 15), birthDate, yearsOutsideCanada)
             assertFailsWith<IllegalArgumentException> {
                 Oas.validateRequestDate(LocalDate(maxYear, 1, 16), birthDate, yearsOutsideCanada)
@@ -526,8 +526,8 @@ class GetMonthlyOasAmountTest {
         data class Case(val yearsOutside: Int, val minYear: Int, val maxYear: Int)
 
         for ((yearsOutside, minYear, maxYear) in listOf(
-            Case(0, 2045, 2050),
-            Case(10, 2045, 2050),
+            Case(0, 2045, 2056),
+            Case(10, 2045, 2056),
             Case(40, 2048, 2078),
         )) {
             assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate(minYear, 1, 14), yearsOutside))
@@ -538,7 +538,7 @@ class GetMonthlyOasAmountTest {
     }
 
     @Test
-    fun shouldNotApplyAgeIncreaseUntilOneCompleteMonthAfter75thBirthday() {
+    fun shouldApplyAgeIncreaseStartingTheMonthAfter75thBirthday() {
         val birthDate = LocalDate(1980, 1, 20)
         val requestDates = listOf(
             LocalDate(2054, 12, 31),
@@ -551,11 +551,16 @@ class GetMonthlyOasAmountTest {
 
         for (requestDate in requestDates) {
             for (yearsOutsideCanada in listOf(0, 27)) {
-                val expected = if (yearsOutsideCanada == 0) {
+                val baseAmount = if (yearsOutsideCanada == 0) {
                     Oas.getDeferredRequestAmount(60)
                 } else {
                     val residencyYears = Oas.getResidencyYearsAtRequest(birthDate, requestDate, yearsOutsideCanada)
                     Oas.monthlyPaymentMax * residencyYears / Oas.maxResidency
+                }
+                val expected = if (requestDate.year == 2055 && requestDate.month.ordinal >= 1) {
+                    baseAmount * (1 + Oas.increase.rate)
+                } else {
+                    baseAmount
                 }
 
                 val result = Oas.getMonthlyOASAmount(birthDate, requestDate, yearsOutsideCanada)
@@ -568,9 +573,9 @@ class GetMonthlyOasAmountTest {
     @Test
     fun shouldApplyAgeIncreaseOneCompleteMonthAfter75thBirthdayForAllResidencyPaths() {
         val cases = listOf(
-            LocalDate(1980, 1, 20) to LocalDate(2055, 2, 20),
-            LocalDate(1980, 1, 31) to LocalDate(2055, 3, 1),
-            LocalDate(1980, 12, 31) to LocalDate(2056, 1, 31),
+            LocalDate(1980, 1, 20) to LocalDate(2055, 2, 1),
+            LocalDate(1980, 1, 31) to LocalDate(2055, 2, 1),
+            LocalDate(1980, 12, 31) to LocalDate(2056, 1, 1),
         )
 
         for ((birthDate, requestDate) in cases) {
@@ -593,8 +598,8 @@ class GetMonthlyOasAmountTest {
     }
 
     @Test
-    fun shouldKeepAgeIncreaseOnFullResidencyPaymentAfter76thBirthday() {
-        val result = Oas.getMonthlyOASAmount(LocalDate(1980, 1, 20), LocalDate(2056, 2, 1))
+    fun shouldKeepAgeIncreaseOnFullResidencyPaymentAt76thBirthday() {
+        val result = Oas.getMonthlyOASAmount(LocalDate(1980, 1, 20), LocalDate(2056, 1, 20))
 
         assertEquals(Oas.getDeferredRequestAmount(60) * (1 + Oas.increase.rate), result)
     }

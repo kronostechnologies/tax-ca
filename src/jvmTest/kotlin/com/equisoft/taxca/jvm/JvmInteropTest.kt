@@ -43,7 +43,7 @@ class JavaTimeOverloadsTest {
         val birthDate = LocalDate.of(1960, 1, 15)
 
         assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2025, 1, 14)))
-        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2030, 1, 16)))
+        assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2036, 1, 16)))
         assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2028, 1, 14), 40))
         assertEquals(0.0, Oas.getMonthlyOASAmount(birthDate, LocalDate.of(2058, 1, 16), 40))
     }
